@@ -12,6 +12,7 @@
 
 class User < ActiveRecord::Base
   attr_accessible :name, :email
+  has_one :role
   
   
   validates :name,  presence: true, length: { maximum: 50 }
