@@ -8,6 +8,12 @@ describe User do
     it { should respond_to(:name) }
     it { should respond_to(:email) }
     it { should respond_to(:role) }
+    it { should respond_to(:invites) }
+    it { should respond_to(:attendances) }
+    it { should respond_to(:games) }
+    it { should respond_to(:personas) }
+    it { should respond_to(:friendships) }
+    
     
     describe "when name is not present" do
       before { @user.name = " " }

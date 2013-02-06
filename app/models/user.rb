@@ -13,6 +13,11 @@
 class User < ActiveRecord::Base
   attr_accessible :name, :email
   has_one :role
+  has_many :invites
+  has_many :attendances
+  has_many :games
+  has_many :personas
+  has_many :friendships
   
   
   validates :name,  presence: true, length: { maximum: 50 }
