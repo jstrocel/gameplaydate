@@ -78,6 +78,11 @@ describe User do
       it { should_not be_valid }
     end
     
+    describe "with a password that's too short" do
+       before { @user.password = @user.password_confirmation = "a" * 5 }
+       it { should be_invalid }
+     end
+    
     describe "return value of authenticate method" do
       before { @user.save }
       let(:found_user) { User.find_by_email(@user.email) }
