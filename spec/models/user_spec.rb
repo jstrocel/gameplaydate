@@ -15,8 +15,19 @@ describe User do
     it { should respond_to(:personas) }
     it { should respond_to(:friendships) }
     it { should respond_to(:password_digest) }
+    it { should respond_to(:password) }
+    it { should respond_to(:password_confirmation) }
     it { should respond_to(:authenticate) }
+    it { should respond_to(:remember_token) }
     it { should be_valid}
+    
+    describe "accessible attributes" do
+      it "should not allow access to admin" do
+        expect do
+          User.new(role: "admin")
+        end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+      end    
+    end
     
     describe "when name is not present" do
       before { @user.name = " " }
@@ -42,6 +53,32 @@ describe User do
       before { @user.password_confirmation = nil }
       it { should_not be_valid }
     end
+    
+    describe "with a password that's too short" do
+      before { @user.password = @user.password_confirmation = "a" * 5 }
+      it { should be_invalid }
+    end
+    
+    describe "return value of authenticate method" do
+      before { @user.save }
+      let(:found_user) { User.find_by_email(@user.email) }
+
+      describe "with valid password" do
+        it { should == found_user.authenticate(@user.password) }
+      end
+
+      describe "with invalid password" do
+        let(:user_for_invalid_password) { found_user.authenticate("invalid") }
+
+        it { should_not == user_for_invalid_password }
+        specify { user_for_invalid_password.should be_false }
+      end
+    end
+    
+    describe "remember token" do
+       before { @user.save }
+       its(:remember_token) { should_not be_blank }
+     end
 
     describe "when name is too long" do
       before { @user.name = "a" * 51 }
@@ -77,6 +114,27 @@ describe User do
 
       it { should_not be_valid }
     end
+    
+    describe "email address with mixed case" do
+      let(:mixed_case_email) { "Foo@ExAMPle.CoM" }
+
+      it "should be saved as all lower-case" do
+        @user.email = mixed_case_email
+        @user.save
+        @user.reload.email.should == mixed_case_email.downcase
+      end
+    end
+    
+    describe "email address in all caps" do
+      let(:mixed_case_email) { "FOO@EXAMPLE.COM" }
+
+      it "should be saved as all lower-case" do
+        @user.email = mixed_case_email
+        @user.save
+        @user.reload.email.should == mixed_case_email.downcase
+      end
+    end
+    
     
     describe "with a password that's too short" do
        before { @user.password = @user.password_confirmation = "a" * 5 }
