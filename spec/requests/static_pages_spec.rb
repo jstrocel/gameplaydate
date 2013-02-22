@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe "Static pages" do
+  
+  subject { page }
 
   describe "Home page" do
-
-    it "should have the content 'GamePlayDate'" do
-      visit '/static_pages/home'
-      page.should have_content('GamePlayDate')
-    end
+    before { visit root_path }
+    
+    it { should have_selector('h1',    text: 'GamePlayDate') }
   end
 end
