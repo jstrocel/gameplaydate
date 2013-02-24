@@ -12,20 +12,13 @@ describe "Authentication" do
   end
   
   describe "signin" do
-    before { visit signup_path }
-    
-    let(:submit) { "Create my account" }
+    before { visit signin_path }
     
     describe "with invalid information" do
       before { click_button "Sign in" }
 
       it { should have_selector('title', text: 'Sign in') }
       it { should have_selector('div.alert.alert-error', text: 'Invalid') }
-      
-      
-      it "should not create a user" do
-        expect { click_button submit }.not_to change(User, :count)
-      end
       
       describe "after visiting another page" do
           before { click_link "Home" }
@@ -54,8 +47,42 @@ describe "Authentication" do
         it { should have_link('Sign in') }
       end
     end
+  end
   
+  describe "authorization" do
+    describe "for non-signed-in users" do
+       let(:user) { FactoryGirl.create(:user) }
+       describe "when attempting to visit a protected page" do
+          before do
+             visit edit_user_path(user)
+             fill_in "Email",    with: user.email
+             fill_in "Password", with: user.password
+             click_button "Sign in"
+          end
+          describe "after signing in" do
+            it "should render the desired protected page" do
+              page.should have_selector('title', text: 'Edit user')
+            end
+            describe "when signing in again" do
+              
+               before do
+                  delete signout_path
+                  visit signin_path
+                  fill_in "Email",    with: user.email
+                  fill_in "Password", with: user.password
+                  click_button "Sign in"
+                end
+
+                it "should render the default (profile) page" do
+                  page.should have_selector('title', text: user.name) 
+                end
+            end  
+          end   
+       end   
+    end
   end  
+  
+  
     
  
 end 
