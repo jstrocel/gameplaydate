@@ -18,7 +18,12 @@ class User < ActiveRecord::Base
   has_many :attendances
   has_many :games
   has_many :personas
-  has_many :friendships
+  has_many :friendships, foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed
+  has_many :reverse_friendships, foreign_key: "followed_id",
+                                   class_name:  "Friendship",
+                                   dependent:   :destroy
+  has_many :followers, through: :reverse_friendships, source: :follower
   
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token
