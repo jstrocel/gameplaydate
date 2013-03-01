@@ -49,6 +49,8 @@ describe "Authentication" do
     end
   end
   
+ 
+  
   describe "authorization" do
     describe "for non-signed-in users" do
        let(:user) { FactoryGirl.create(:user) }

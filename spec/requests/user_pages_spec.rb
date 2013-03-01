@@ -70,6 +70,14 @@ describe "User pages" do
 
         it { should have_selector('title', text: user.name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        describe "add Steam ID" do
+           
+
+           pending "Steam ID should be filled"
+           pending "Steam ID should be confirmed"
+           pending "App should start importing games to owned_games table"
+
+         end
         it { should have_link('Sign out') }
       end
     end
@@ -110,6 +118,15 @@ describe "User pages" do
       it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
+      
+      describe "with valid Steam ID" do
+         
+
+         pending "Steam ID should be filled"
+         pending "Steam ID should be confirmed"
+         pending "App should start importing games to owned_games table"
+
+       end
     end
   end
  
