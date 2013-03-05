@@ -19,6 +19,10 @@ describe User do
     it { should respond_to(:password_confirmation) }
     it { should respond_to(:authenticate) }
     it { should respond_to(:remember_token) }
+    it { should respond_to(:steam_id) }
+    it { should respond_to(:xbla_id)}
+    it { should respond_to(:wow_id)}
+    it { should respond_to(:psn_id)}
     it { should be_valid}
     
     describe "accessible attributes" do
