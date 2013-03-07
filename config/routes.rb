@@ -1,15 +1,4 @@
 Gameplaydate::Application.routes.draw do
-  get "invites/index"
-
-  get "invites/show"
-
-  get "invites/new"
-
-  get "invites/create"
-
-  get "invites/update"
-
-  get "invites/destroy"
 
   resources :users
   resources :invites
