@@ -4,8 +4,8 @@ class CreateInvites < ActiveRecord::Migration
       t.integer :game_id
       t.integer :user_id
       t.integer :maximum_players
-      t.datetime :time
-
+      t.datetime :fromtime
+      t.datetime :totime
       t.timestamps
     end
   end
