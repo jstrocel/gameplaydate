@@ -1,3 +1,3 @@
 class Game < ActiveRecord::Base
-  belongs_to :invite
+  has_many :invites
 end
