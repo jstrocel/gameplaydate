@@ -1,4 +1,5 @@
 class Invitee < ActiveRecord::Base
+  attr_accessible :user_id, :invite_id, :user_name
   belongs_to :invite
   belongs_to :user
   

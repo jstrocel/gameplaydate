@@ -1,12 +1,12 @@
 class Invite < ActiveRecord::Base
-  attr_accessible :game_id, :game_name, :fromtime, :totime
+  attr_accessible :game_id, :game_name, :fromtime, :totime, :invitees_attributes, :game_attributes
   belongs_to :game
   belongs_to :user
   has_many :invitees, :dependent => :destroy
   validates :invitees, :presence => true
   validates :game_id, :user_id, :fromtime, :totime, :presence => true
-  accepts_nested_attributes_for :invitees, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true 
-  accepts_nested_attributes_for :game, :reject_if => lambda { |a| a[:content].blank? }
+  accepts_nested_attributes_for :invitees,  :allow_destroy => true 
+  accepts_nested_attributes_for :game
   
   def game_name
     game.try(:name)

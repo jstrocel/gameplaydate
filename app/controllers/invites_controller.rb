@@ -4,11 +4,6 @@ class InvitesController < ApplicationController
   
   def index
     @invites = current_user.invites.all
-    @invite = current_user.invites.build
-     3.times do
-            invitee = @invite.invitees.build
-          end
-   # @invite.invitee = Invitee.new
   end
 
   def show
@@ -17,18 +12,18 @@ class InvitesController < ApplicationController
 
   def new
     @invite = Invite.new()
-    3.times do
-          invitee = @invite.invitees.build
-        end
+    invitee = @invite.invitees.build
+    
   end
 
   def create
     @invite = current_user.invites.build(params[:invite])
+   invitee = @invite.invitees
       if @invite.save
         flash[:success] = "User invited!"
-        redirect_to invites_path
+        redirect_to @invite
       else
-        redirect_to invites_path
+        render :new
       end
   end
 

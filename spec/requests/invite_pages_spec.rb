@@ -7,7 +7,7 @@ describe "Invites" do
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
   
-  describe "Invites page" do
+  describe "Invites Index page" do
     before { visit invites_path }
 
     it { should have_selector('h1',    text: 'Invites') }
@@ -15,7 +15,7 @@ describe "Invites" do
   end
   
   describe "New Invite" do
-    before { visit invites_path }
+    before { visit new_invite_path }
     
     
      describe "with invalid information" do
@@ -25,7 +25,7 @@ describe "Invites" do
         
         describe "error messages" do
           before { click_button "Invite" }
-          it { should have_selector('title', text: 'Invites') }
+          it { should have_selector('title', text: 'New Invite') }
           it { should have_content('error') }
         end  
     end
@@ -34,8 +34,7 @@ describe "Invites" do
         let(:invite) { FactoryGirl.create(:invite) }
         before do
           fill_in "Game name", with: "World of Warcraft"
-          fill_in "Invitee",    with: "Tomodachi"
-          click_button "Invite"
+          fill_in "invite_invitees_attributes_0_user_name",    with: "Tomodachi"
         end
         
         it "should create an invite" do
@@ -43,6 +42,10 @@ describe "Invites" do
         end
         
       end
+      
+      describe "when users are not friends" do
+        pending "Should not be valid"
+      end  
     
   end  
 
