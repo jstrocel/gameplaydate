@@ -17,4 +17,12 @@ FactoryGirl.define do
  factory :invitee do
  end
  
+ factory :invite do
+   Invitees
+   Game 
+   User 
+   Fromtime
+   Totime 
+ end
+ 
 end

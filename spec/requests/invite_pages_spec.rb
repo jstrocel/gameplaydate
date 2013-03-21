@@ -40,13 +40,26 @@ describe "Invites" do
         it "should create an invite" do
           expect { click_button "Invite" }.to change(Invite, :count).by(1)
         end
+        it "should email all invitees" do
+          pending "email all the invitees"
+        end  
         
       end
       
       describe "when users are not friends" do
         pending "Should not be valid"
       end  
+      
+      describe "when destroying an invite" do
+       pending "Should delete an invite and all invitee entries"
+      end
+      
+      describe"when accepting an invite" do
+        pending "Should change invitee accepted Status to true"
+      end
     
   end  
+  
+  
 
 end

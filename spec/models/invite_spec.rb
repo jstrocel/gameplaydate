@@ -19,6 +19,7 @@ describe Invite do
   it { should respond_to (:user)}
   it { should respond_to (:game_id)}
   it { should respond_to (:game)}
+  it { should respond_to (:content)}
   it { should respond_to (:invite!)}
   it { should respond_to (:uninvite)}
   it { should respond_to (:invited?)}
