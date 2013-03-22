@@ -5,12 +5,7 @@ class UsersController < ApplicationController
   before_filter :admin_user,     only: :destroy
   
   def index
-    @users = User.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
-    end
+    @users = User.paginate(page: params[:page])
   end
 
   # GET /users/1
@@ -81,6 +76,6 @@ class UsersController < ApplicationController
      end
 
      def admin_user
-       redirect_to(root_url) unless current_user.admin?
+       redirect_to(root_url) unless current_user.role.name = 'admin'
      end
 end
