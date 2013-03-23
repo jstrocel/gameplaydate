@@ -4,15 +4,16 @@ FactoryGirl.define do
    sequence(:email) { |n| "person_#{n}@example.com"}   
    password "foobar"
    password_confirmation "foobar"
+   factory :role do
+     name "admin"
+   end 
  end
  
  factory :game do
    sequence(:name)  { |n| "Game #{n}" }
  end
  
- factory :admin do
-   role "admin"
- end
+
  
  factory :invitee do
  end

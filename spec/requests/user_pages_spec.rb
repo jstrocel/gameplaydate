@@ -61,7 +61,7 @@ describe "User pages" do
        it { should_not have_link('delete') }
 
        describe "as an admin user" do
-         let(:admin) { FactoryGirl.create(:admin) }
+         let(:admin) { FactoryGirl.create(:role) }
          before do
            sign_in admin
            visit users_path
