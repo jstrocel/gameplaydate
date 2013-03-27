@@ -13,13 +13,12 @@
 class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
   has_secure_password
-  has_one :role
   has_many :invites
   has_many :attendances
   has_many :games
   has_many :personas
   has_many :friendships, foreign_key: "follower_id", dependent: :destroy
-  has_many :followed_users, through: :relationships, source: :followed
+  has_many :followed_users, through: :friendships, source: :followed
   has_many :reverse_friendships, foreign_key: "followed_id",
                                    class_name:  "Friendship",
                                    dependent:   :destroy
@@ -34,14 +33,31 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
-                      uniqueness: { case_sensitive: false }
+                      uniqueness: { case_sensitive: false }                      
+                      
+  def following?(other_user)
+    friendships.find_by_followed_id(other_user.id)
+  end
+
+  def follow!(other_user)
+    friendships.create!(followed_id: other_user.id)
+  end
+
+  def unfollow!(other_user)
+    friendships.find_by_followed_id(other_user.id).destroy
+  end
+              
+                      
+  private                    
   def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
   end
   
-  def admin?
-     
-  end
+#  def admin?
+#    if self.role.name = "admin"
+#      return true   
+#    end  
+#  end
   
   
   

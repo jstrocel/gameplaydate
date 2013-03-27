@@ -1,9 +1,15 @@
 Gameplaydate::Application.routes.draw do
 
-  resources :users
+  resources :users do
+     member do
+       get :following, :followers
+     end
+   end
   resources :invites
   resources :invitees, only: [:create, :destroy]
   resources :sessions, only: [:new, :create, :destroy]
+  resources :friendships, only: [:create, :destroy]
+  
   root to: 'static_pages#home'
 
   match '/signup',  to: 'users#new'

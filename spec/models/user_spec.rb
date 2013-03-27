@@ -8,7 +8,8 @@ describe User do
 
     it { should respond_to(:name) }
     it { should respond_to(:email) }
-    it { should respond_to(:role) }
+    #it { should respond_to(:role) }
+    it { should respond_to(:admin) }
     it { should respond_to(:invites) }
     it { should respond_to(:attendances) }
     it { should respond_to(:games) }
@@ -25,6 +26,7 @@ describe User do
     it { should respond_to(:psnid)}
     it { should be_valid}
     
+
     describe "accessible attributes" do
       it "should not allow access to admin" do
         expect do
@@ -32,6 +34,16 @@ describe User do
         end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
       end    
     end
+    
+    describe "with admin attribute set to 'true'" do
+      before do
+        @user.save!
+        @user.toggle!(:admin)
+      end
+
+      it { should be_admin }
+    end
+    
     
     describe "when name is not present" do
       before { @user.name = " " }

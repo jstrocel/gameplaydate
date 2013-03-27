@@ -16,6 +16,10 @@ class Invite < ActiveRecord::Base
     self.game = Game.find_or_create_by_name(name) if name.present?
   end
   
+  def invitee=(name)
+    self.invitee= Invitee.create(:user_id => User.find_by_name(name).id)
+  end
+  
   def invite!(user)
   end
   

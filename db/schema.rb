@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130321034227) do
+ActiveRecord::Schema.define(:version => 20130323172955) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "follower_id"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20130321034227) do
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
+    t.boolean  "admin"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.string   "password_digest"
@@ -67,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20130321034227) do
     t.string   "xblaid"
     t.string   "psnid"
     t.string   "wowid"
+    t.string   "role_id"
   end
 
 end
