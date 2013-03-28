@@ -6,6 +6,9 @@ gem 'bcrypt-ruby', '3.0.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
+gem 'faker', '1.0.1'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 
 group :development do
@@ -44,9 +47,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'twitter-bootstrap-rails'
 end
-
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
 
 group :production do
   gem 'pg', '0.12.2'
