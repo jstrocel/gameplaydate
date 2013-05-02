@@ -11,6 +11,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
 
+
 group :development do
   gem 'annotate', '2.5.0'
 end
@@ -19,7 +20,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails', '2.11.0'
   gem 'guard-rspec', '1.2.1'
-  gem 'guard-spork', '1.2.0'  
+  gem 'guard-spork', :github => 'guard/guard-spork'  
   gem 'spork', '0.9.2'
 end
 

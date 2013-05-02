@@ -40,9 +40,7 @@ describe "Invites" do
         it "should create an invite" do
           expect { click_button "Invite" }.to change(Invite, :count).by(1)
         end
-        it "should email all invitees" do
-          pending "email all the invitees"
-        end  
+    
         
       end
       
