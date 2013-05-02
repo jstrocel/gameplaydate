@@ -21,6 +21,9 @@ describe User do
     it { should respond_to(:authenticate) }
     it { should respond_to(:remember_token) }
     it { should respond_to(:steamid) }
+    it { should respond_to(:upcoming_invites)}
+    it { should respond_to(:past_invites)}
+    it { should respond_to(:rsvp_needed)}
     it { should respond_to(:xblaid)}
     it { should respond_to(:wowid)}
     it { should respond_to(:psnid)}

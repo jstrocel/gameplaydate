@@ -9,6 +9,7 @@ gem 'bootstrap-will_paginate', '0.0.6'
 gem 'faker', '1.0.1'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'rack', '1.4.1'
 
 
 
