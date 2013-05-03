@@ -46,6 +46,15 @@ class User < ActiveRecord::Base
   def unfollow!(other_user)
     friendships.find_by_followed_id(other_user.id).destroy
   end
+  
+  def upcoming_invites
+  end
+  
+  def past_invites
+  end
+  
+  def rsvp_needed
+  end
               
                       
   private                    

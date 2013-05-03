@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.2.rc1'
+gem 'rails', '3.2.13'
 gem 'bcrypt-ruby', '3.0.1'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -9,7 +9,7 @@ gem 'bootstrap-will_paginate', '0.0.6'
 gem 'faker', '1.0.1'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'rack', '1.4.1'
+gem 'rack', '1.4.5'
 
 
 

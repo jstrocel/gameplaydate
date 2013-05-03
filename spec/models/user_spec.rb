@@ -176,7 +176,7 @@ describe User do
       end
     end
     
-    it "sends a e-mail" do
+    pending "sends a e-mail" do
         @user.send_instructions
         ActionMailer::Base.deliveries.last.to.should == [@user.email]
       end
