@@ -47,6 +47,9 @@ class User < ActiveRecord::Base
     friendships.find_by_followed_id(other_user.id).destroy
   end
   
+  def invites
+    invitees.find_by_user_id(self.id)
+  end
   def upcoming_invites
   end
   
