@@ -55,6 +55,10 @@ describe Invite do
   end
   
   
+  pending "new invite" do
+    "It should have the invite organizer as the first invitee"
+  end
+  
   
   
   
