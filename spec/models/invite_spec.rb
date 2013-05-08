@@ -6,7 +6,7 @@ describe Invite do
   let(:inviter_user) { FactoryGirl.create(:user) }
   let(:invitee_user) { FactoryGirl.create(:user) }
   let(:invitee) {FactoryGirl.create(:invitee)}
-  before {@invite = inviter_user.invites.build(game_id: game.id, fromtime: Time.now, totime: 1.hour.from_now)
+  before {@invite = Invite.new(game_id: game.id, fromtime: Time.now, totime: 1.hour.from_now)
    # @invitee =  @invite.invitees.build(user_id: invitee_user.id)
     }
   
@@ -16,7 +16,7 @@ describe Invite do
   
   it { should respond_to(:invitees) }
   it { should respond_to (:user_id)}
-  it { should respond_to (:user)}
+  it { should respond_to (:host)}
   it { should respond_to (:game_id)}
   it { should respond_to (:game)}
   it { should respond_to (:content)}
@@ -55,11 +55,8 @@ describe Invite do
   end
   
   
-  describe "new invite" do
-      Invite.save 
-      expect{
-        Invitee.count
-      }to change.by(1)
+  it "creates an invitee with every invite" do
+      expect{Invite.save}.to change{Invitee.count}.by(1)
   end
   
   

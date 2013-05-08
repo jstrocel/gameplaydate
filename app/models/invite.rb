@@ -19,6 +19,10 @@ class Invite < ActiveRecord::Base
     self.invitee= Invitee.create(:user_id => User.find_by_name(name).id)
   end
   
+  def host
+    self.invitees.find(:all, :conditions => {:host => true})
+  end
+  
   def invite!(user)
   end
   
