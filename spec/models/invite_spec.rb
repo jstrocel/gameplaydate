@@ -55,8 +55,11 @@ describe Invite do
   end
   
   
-  pending "new invite" do
-    "It should have the invite organizer as the first invitee"
+  describe "new invite" do
+      Invite.save 
+      expect{
+        Invitee.count
+      }to change.by(1)
   end
   
   
