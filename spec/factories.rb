@@ -7,34 +7,23 @@ FactoryGirl.define do
    factory :admin do
      admin true
    end
+   factory :user_with_invite
+   
  end
  
  factory :game do
    sequence(:name)  { |n| "Game #{n}" }
  end
- /
- Factory.define :account do |f|
-   f.after_build do |account|
-     account.user ||= Factory.build(:user, :account => account)
-     account.payment_profile ||= Factory.build(:payment_profile, :account => account)
-     account.subscription ||= Factory.build(:subscription, :account => account)
-   end
- end
 
- Factory.define :user do |f|
-   f.after_build do |user|
-     user.account ||= Factory.build(:account, :user => user)
-     user.profile ||= Factory.build(:profile, :user => user)
-   end
- end
- /
  factory :invitee do
    user
  end
  
- factory :invite do
-  game 
-  invitee 
+ factory :invite do |n|
+  user 
+  game_id "1" 
+  fromtime Time.now + 1.weeks
+  totime Time.now + 1.weeks + 1.hour
  end
  
 end

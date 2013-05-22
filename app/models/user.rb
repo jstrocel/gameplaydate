@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
   has_secure_password
   has_many :invites
+  has_many :invitees
   has_many :attendances
   has_many :games
   has_many :personas
@@ -47,9 +48,6 @@ class User < ActiveRecord::Base
     friendships.find_by_followed_id(other_user.id).destroy
   end
   
-  def invites
-    invitees.find_by_user_id(self.id)
-  end
   def upcoming_invites
   end
   

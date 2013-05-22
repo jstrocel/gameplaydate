@@ -6,8 +6,7 @@ describe Invite do
   let(:inviter_user) { FactoryGirl.create(:user) }
   let(:invitee_user) { FactoryGirl.create(:user) }
   let(:invitee) {FactoryGirl.create(:invitee)}
-  before {@invite = Invite.new(game_id: game.id, fromtime: Time.now, totime: 1.hour.from_now)
-   # @invitee =  @invite.invitees.build(user_id: invitee_user.id)
+  before {@invite = inviter_user.invites.build(game_id: game.id, fromtime: Time.now+1.weeks, totime: Time.now+1.weeks+1.hours)
     }
   
   
@@ -24,7 +23,7 @@ describe Invite do
   it { should respond_to (:uninvite)}
   it { should respond_to (:invited?)}
   
-  #it { should be_valid }
+  it { should be_valid }
   
   describe "accessible attributes" do
     it "should not allow access to user_id" do
@@ -44,22 +43,9 @@ describe Invite do
     it { should_not be_valid }
   end
   
-  describe "when there are no invitees" do
-    before { @invite.invitees.empty?}
-    it { should_not be_valid}
-  end
-  
   describe "game methods" do
     it { should respond_to(:game_name) }
     its(:game_name) { should == game.name }
   end
-  
-  
-  it "creates an invitee with every invite" do
-      expect{Invite.save}.to change{Invitee.count}.by(1)
-  end
-  
-  
-  
   
 end
