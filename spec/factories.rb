@@ -7,21 +7,22 @@ FactoryGirl.define do
    factory :admin do
      admin true
    end
-   trait :user_with_invite do
+   trait :with_invites do
      after :create do |user|
-           FactoryGirl.create_list :invite, 3, :user => user
+           FactoryGirl.create_list :invite, 3, :organizer => user
          end
    end
  end
  
  factory :game do
    sequence(:name)  { |n| "Game #{n}" }
+   platform "PC"
  end
 
  
  
  factory :invite do
-  game_id "1" 
+  game FactoryGirl.create(:game) 
   sequence(:fromtime) { |n| Time.now + n.weeks }
   sequence(:totime) { |n| Time.now + n.weeks + 1.hour }
   maximum_players 5

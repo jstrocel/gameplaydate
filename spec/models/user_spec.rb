@@ -28,6 +28,7 @@ describe User do
     it { should respond_to(:xblaid)}
     it { should respond_to(:wowid)}
     it { should respond_to(:psnid)}
+    it { should respond_to(:pending_invite)}
     it { should be_valid}
     
 
@@ -190,6 +191,12 @@ describe User do
         @invite1.invite!(player2)
         player2.invitations.first.should == @invite1
       end
+    end
+    
+    describe "should have pending invites" do
+      it "should have an accept value of nil" do
+        
+      end 
     end
     pending "sends a e-mail" do
         @user.send_instructions

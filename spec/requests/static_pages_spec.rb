@@ -4,18 +4,45 @@ describe "Static pages" do
   
   subject { page }
 
-  pending "Home page" do
+  describe "Home page" do
     before { visit root_path }
     
     it { should have_selector('h1',    text: 'GamePlayDate') }
-    it { should have_selector('invites-upcoming')}
-    it { should have_selector('invites-pending')}
-    it { should have_selector('invites-past')}
+  
     describe "for signed in users" do
-     pending "should list the new invites that haven't been RSVP'd" 
-     pending "should list new friend requests"      
-     pending "should list schedule" 
-      
+     let(:user) { FactoryGirl.create(:user, :with_invites) }  
+     before{
+       sign_in user
+       visit root_path
+     }  
+     
+       
+       
+       it { should have_selector('invites-past')}
+       it { should have_selector('invites-pending')}
+       it { should have_selector('friend-requests')}
+       it { should have_selector('invites-upcoming')}
+       
+       it "should list the new invites that haven't been RSVP'd"  do
+         
+         user.pending_invites.each do |item|
+           page.should have_selector("li##{item.id}", text: item.fromtime)
+         end
+       end
+       
+       it "should list new friend requests"  do
+         
+          user.requests.each do |item|
+            page.should have_selector("li##{item.id}", text: item.user.name)
+          end
+       end
+       
+       it "should list schedule"  do
+         
+           user.invitations.each do |item|
+             page.should have_selector("li##{item.id}", text: item.fromtime)
+           end
+        end
     end
   end
   
