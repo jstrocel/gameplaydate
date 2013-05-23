@@ -1,0 +1,23 @@
+<%= form_for(@event) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+
+  <div class="field">
+    <%= f.label :game_name %><br />
+    <%= f.text_field :game_name %>
+  </div>
+  <%= f.fields_for :invites do |builder| %>
+     <%= render 'shared/invite_fields', :f => builder %>
+   <% end %>
+  <div class="field">
+    <%= f.label :fromtime %><br />
+    <%= f.datetime_select :fromtime %>
+  </div>
+  <div class="field">
+    <%= f.label :totime %><br />
+    <%= f.datetime_select :totime %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Create Event", class: "btn btn-large btn-primary" %>
+  </div>
+<% end %>

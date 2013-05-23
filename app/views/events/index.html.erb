@@ -1,0 +1,28 @@
+<% provide(:title, 'Events') %>
+<h1>Events</h1>
+
+<table>
+  <tr>
+    <th>Game</th>
+    <th>User</th>
+    <th>Fromtime</th>
+    <th>Totime</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @events.each do |event| %>
+  <tr>
+    <td><%= event.fromtime %></td>
+    <td><%= event.totime %></td>
+    <td><%= link_to 'Show', event %></td>
+    <td><%= link_to 'Edit', edit_event_path(event) %></td>
+    <td><%= link_to 'Destroy', event, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Invite', new_event_path %>
