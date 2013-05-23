@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pp'
 
 describe User do
   before { @user = User.new(name: "Example User", email: "user@example.com",
@@ -11,7 +12,7 @@ describe User do
     #it { should respond_to(:role) }
     it { should respond_to(:admin) }
     it { should respond_to(:invites) }
-    it { should respond_to(:attendances) }
+    #it { should respond_to(:attendances) }
     it { should respond_to(:games) }
     it { should respond_to(:personas) }
     it { should respond_to(:friendships) }
@@ -176,6 +177,20 @@ describe User do
       end
     end
     
+    describe "should have many invites through invitations" do
+      before{
+        game1 = FactoryGirl.create(:game)
+        @player1 = FactoryGirl.create(:user)
+        @invite1 =  @player1.invites.build(game: game1, fromtime: Time.now, totime: 1.hour.from_now)
+        @player1.save       
+      }
+      it "should create invitations" do
+        player2 = FactoryGirl.create(:user)
+
+        @invite1.invite!(player2)
+        player2.invitations.first.should == @invite1
+      end
+    end
     pending "sends a e-mail" do
         @user.send_instructions
         ActionMailer::Base.deliveries.last.to.should == [@user.email]

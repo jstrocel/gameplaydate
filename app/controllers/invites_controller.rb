@@ -18,9 +18,8 @@ class InvitesController < ApplicationController
 
   def create
     @invite = current_user.invites.build(params[:invite])
-   invitee = @invite.invitees
       if @invite.save
-        flash[:success] = "User invited!"
+        flash[:success] = "Event Created!"
         redirect_to @invite
       else
         render :new
@@ -29,6 +28,11 @@ class InvitesController < ApplicationController
 
   def update
   end
+  
+  def cancel
+    
+  end
+  
 
   def destroy
     @invite = Invite.find(params[:id]).destroy

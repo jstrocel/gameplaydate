@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130505042715) do
+ActiveRecord::Schema.define(:version => 20130523171017) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "follower_id"
@@ -37,12 +37,11 @@ ActiveRecord::Schema.define(:version => 20130505042715) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.boolean  "accepted"
-    t.boolean  "host"
   end
 
   create_table "invites", :force => true do |t|
     t.integer  "game_id"
-    t.integer  "user_id"
+    t.integer  "organizer_id"
     t.integer  "maximum_players"
     t.datetime "fromtime"
     t.datetime "totime"
