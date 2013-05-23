@@ -9,7 +9,7 @@ FactoryGirl.define do
    end
    trait :with_invites do
      after :create do |user|
-           FactoryGirl.create_list :invite, 3, :organizer => user
+           FactoryGirl.create_list :event, 3, :organizer => user
          end
    end
  end
@@ -21,7 +21,7 @@ FactoryGirl.define do
 
  
  
- factory :invite do
+ factory :event do
   game FactoryGirl.create(:game) 
   sequence(:fromtime) { |n| Time.now + n.weeks }
   sequence(:totime) { |n| Time.now + n.weeks + 1.hour }
