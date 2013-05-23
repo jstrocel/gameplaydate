@@ -13,9 +13,9 @@
 class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
   has_secure_password
-  has_many :invites, :foreign_key => "organizer_id"
-  has_many :invitees, :foreign_key =>"user_id"
-  has_many :invitations, :through => :invitees, :source => :invite
+  has_many :events, :foreign_key => "organizer_id"
+  has_many :invites, :foreign_key =>"user_id"
+  has_many :invitations, :through => :invites, :source => :event
   
   has_many :games
   has_many :personas

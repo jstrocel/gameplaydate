@@ -13,6 +13,17 @@
 
 ActiveRecord::Schema.define(:version => 20130523171017) do
 
+  create_table "events", :force => true do |t|
+    t.integer  "game_id"
+    t.integer  "organizer_id"
+    t.integer  "maximum_players"
+    t.datetime "fromtime"
+    t.datetime "totime"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "content"
+  end
+
   create_table "friendships", :force => true do |t|
     t.integer  "follower_id"
     t.integer  "followed_id"
@@ -31,23 +42,12 @@ ActiveRecord::Schema.define(:version => 20130523171017) do
     t.string   "platform"
   end
 
-  create_table "invitees", :force => true do |t|
-    t.integer  "invite_id"
+  create_table "invites", :force => true do |t|
+    t.integer  "event_id"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.boolean  "accepted"
-  end
-
-  create_table "invites", :force => true do |t|
-    t.integer  "game_id"
-    t.integer  "organizer_id"
-    t.integer  "maximum_players"
-    t.datetime "fromtime"
-    t.datetime "totime"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.string   "content"
   end
 
   create_table "roles", :force => true do |t|

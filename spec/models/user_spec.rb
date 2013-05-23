@@ -182,7 +182,7 @@ describe User do
       before{
         game1 = FactoryGirl.create(:game)
         @player1 = FactoryGirl.create(:user)
-        @invite1 =  @player1.invites.build(game: game1, fromtime: Time.now, totime: 1.hour.from_now)
+        @invite1 =  @player1.events.build(game: game1, fromtime: Time.now, totime: 1.hour.from_now)
         @player1.save       
       }
       it "should create invitations" do

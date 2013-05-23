@@ -5,8 +5,8 @@ Gameplaydate::Application.routes.draw do
        get :following, :followers
      end
    end
-  resources :invites
-  resources :invitees, only: [:create, :destroy]
+  resources :events
+  resources :invites, only: [:create, :destroy]
   resources :sessions, only: [:new, :create, :destroy]
   resources :friendships, only: [:create, :destroy]
   
