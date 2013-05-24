@@ -22,13 +22,14 @@ describe User do
     it { should respond_to(:authenticate) }
     it { should respond_to(:remember_token) }
     it { should respond_to(:steamid) }
-    it { should respond_to(:upcoming_invites)}
-    it { should respond_to(:past_invites)}
-    it { should respond_to(:rsvp_needed)}
+    #it { should respond_to(:upcoming_events)}
+    #it { should respond_to(:past_events)}
     it { should respond_to(:xblaid)}
     it { should respond_to(:wowid)}
     it { should respond_to(:psnid)}
-    it { should respond_to(:pending_invite)}
+    #it { should respond_to(:pending_invites)}
+    it { should respond_to(:events)}
+    it { should respond_to(:all_events)}
     it { should be_valid}
     
 
@@ -178,26 +179,31 @@ describe User do
       end
     end
     
-    describe "should have many invites through invitations" do
+    describe "should have many events through invitations" do
       before{
-        game1 = FactoryGirl.create(:game)
+        @game1 = FactoryGirl.create(:game)
         @player1 = FactoryGirl.create(:user)
-        @invite1 =  @player1.events.build(game: game1, fromtime: Time.now, totime: 1.hour.from_now)
-        @player1.save       
+        @invite1 =  @player1.events.build(game: @game1, fromtime: Time.now, totime: 1.hour.from_now)
+        @player1.save 
+             @player2 = FactoryGirl.create(:user)
+
+              @invite1.invite!(@player2)      
       }
       it "should create invitations" do
-        player2 = FactoryGirl.create(:user)
-
-        @invite1.invite!(player2)
-        player2.invitations.first.should == @invite1
+   
+        @player2.invitations.first.should == @invite1
+      end
+      it "the created invite should be pending" do
+          @player2.pending_invites.first.should == @invite1
+      end
+      
+      it "all_events should have events the user has organized and has been invited to" do
+        @invite2 = @player2.events.build(game: @game1, fromtime: 2.hours.from_now, totime: 3.hours.from_now)
+        @player2.save
+        @player2.all_events.should include(@invite1, @invite2)
       end
     end
-    
-    describe "should have pending invites" do
-      it "should have an accept value of nil" do
-        
-      end 
-    end
+  
     pending "sends a e-mail" do
         @user.send_instructions
         ActionMailer::Base.deliveries.last.to.should == [@user.email]

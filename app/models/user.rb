@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   has_many :events, :foreign_key => "organizer_id"
   has_many :invites, :foreign_key =>"user_id"
   has_many :invitations, :through => :invites, :source => :event
-  
+  scope :pending_invites, includes(:invitations).where("accepted = ?", nil)
   has_many :games
   has_many :personas
   has_many :friendships, foreign_key: "follower_id", dependent: :destroy
@@ -49,14 +49,15 @@ class User < ActiveRecord::Base
     friendships.find_by_followed_id(other_user.id).destroy
   end
   
-  def upcoming_invites
+  def upcoming
+    invitations.where("fromtime >=", Time.now)
   end
   
-  def past_invites
+  def all_events
+    (events.all + invitations.all).uniq
   end
   
-  def rsvp_needed
-  end
+ 
               
                       
   private                    

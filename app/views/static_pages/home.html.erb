@@ -1,14 +1,16 @@
 <% provide(:title, 'Home') %>
 <h1>GamePlayDate</h1>
 
+
 <% if signed_in? %>
+
    <div class= "span8">
    <h3>Pending Invites</h3>
-   <%= render 'shared/pending' %>  
+   <%= render 'shared/events/pending' %>  
    <h3>Upcoming Events</h3>
-   <%= render 'shared/upcoming' %>
+   <%= render 'shared/events/upcoming' %>
    <h3>Friend Requests</h3>
-   <%= render 'shared/requests'%>
+   <%= render 'shared/friendships/requests'%>
    </div> 
 <%else%>
 

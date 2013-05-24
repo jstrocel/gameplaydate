@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe "Static pages" do
-  
   subject { page }
 
   describe "Home page" do
@@ -17,11 +16,9 @@ describe "Static pages" do
      }  
      
        
-       
-       it { should have_selector('invites-past')}
-       it { should have_selector('invites-pending')}
-       it { should have_selector('friend-requests')}
-       it { should have_selector('invites-upcoming')}
+       it { should have_selector('.invites-pending')}
+       it { should have_selector('.friend-requests')}
+       it { should have_selector('.events-upcoming')}
        
        it "should list the new invites that haven't been RSVP'd"  do
          
@@ -30,7 +27,7 @@ describe "Static pages" do
          end
        end
        
-       it "should list new friend requests"  do
+       pending "should list new friend requests"  do
          
           user.requests.each do |item|
             page.should have_selector("li##{item.id}", text: item.user.name)
