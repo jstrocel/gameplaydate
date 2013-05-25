@@ -194,7 +194,7 @@ describe User do
         @player2.invitations.first.should == @invite1
       end
       it "the created invite should be pending" do
-          @player2.pending_invites.first.should == @invite1
+          @player2.invites.pending.first.event.should == @invite1
       end
       
       it "all_events should have events the user has organized and has been invited to" do

@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  default_scope order("fromtime DESC")
   attr_accessible :game_id, :game_name, :fromtime, :totime, :invites_attributes, :game_attributes, :game
   belongs_to :game
   belongs_to :organizer, :class_name => "User"
@@ -7,6 +8,8 @@ class Event < ActiveRecord::Base
   validates :fromtime, :totime, :organizer_id, :game_id, :presence => true
   accepts_nested_attributes_for :invites, :allow_destroy => true 
   accepts_nested_attributes_for :game
+  scope :upcoming, where( ":fromtime >= ?", Time.now)
+  scope :past, where( ":totime <= ?", Time.now)
   
   def game_name
     game.try(:name)

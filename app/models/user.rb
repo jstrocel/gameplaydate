@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
   has_many :events, :foreign_key => "organizer_id"
   has_many :invites, :foreign_key =>"user_id"
   has_many :invitations, :through => :invites, :source => :event
-  scope :pending_invites, includes(:invitations).where("accepted = ?", nil)
   has_many :games
   has_many :personas
   has_many :friendships, foreign_key: "follower_id", dependent: :destroy
@@ -25,7 +24,6 @@ class User < ActiveRecord::Base
                                    class_name:  "Friendship",
                                    dependent:   :destroy
   has_many :followers, through: :reverse_friendships, source: :follower
-  
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token
   
@@ -49,15 +47,21 @@ class User < ActiveRecord::Base
     friendships.find_by_followed_id(other_user.id).destroy
   end
   
-  def upcoming
-    invitations.where("fromtime >=", Time.now)
-  end
-  
   def all_events
-    (events.all + invitations.all).uniq
+    (self.events.all + self.invitations.all).uniq
   end
   
- 
+  def pending_invites
+     self.invites.pending
+  end
+  
+  def upcoming_events
+     (self.events.upcoming + self.invitations.upcoming).uniq
+  end
+  
+  def past_events
+     (self.events.past + self.invitations.past).uniq
+  end  
               
                       
   private                    

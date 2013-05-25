@@ -2,6 +2,7 @@ class Invite < ActiveRecord::Base
   attr_accessible :user_id, :event_id, :user_name, :user, :event
   belongs_to :event
   belongs_to :user
+  scope :pending, where(:accepted => nil)
   
   def user_name
     user.try(:name)
