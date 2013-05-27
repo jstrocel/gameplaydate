@@ -7,9 +7,9 @@ FactoryGirl.define do
    factory :admin do
      admin true
    end
-   trait :with_invites do
+   trait :with_events do
      after :create do |user|
-           FactoryGirl.create_list :event, 3, :organizer => user
+           FactoryGirl.create_list :event,  3, :with_invites, :organizer => user
          end
    end
  end
@@ -26,6 +26,21 @@ FactoryGirl.define do
   sequence(:fromtime) { |n| Time.now + n.weeks }
   sequence(:totime) { |n| Time.now + n.weeks + 1.hour }
   maximum_players 5
+  trait :with_invites do
+     after :create do |event|
+           FactoryGirl.create_list :invite, 3, :event => event
+         end
+   end
+   trait :with_max_invites do
+      after :create do |event|
+            FactoryGirl.create_list :invite, 5, :event => event
+          end
+    end
+ end
+ 
+ factory :invite do
+   event
+   user
  end
  
 end

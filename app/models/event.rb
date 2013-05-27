@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   has_many :invites, :foreign_key =>"event_id", :dependent => :destroy
   has_many :users, :through => :invites
   validates :fromtime, :totime, :organizer_id, :game_id, :presence => true
-  accepts_nested_attributes_for :invites, :allow_destroy => true 
+  accepts_nested_attributes_for :invites, :allow_destroy => true, :reject_if => lambda { |a| a[:user_id]==:organizer_id }
   accepts_nested_attributes_for :game
   scope :upcoming, where( ":fromtime >= ?", Time.now)
   scope :past, where( ":totime <= ?", Time.now)

@@ -31,14 +31,14 @@ describe "events" do
     end
     
      describe "with valid information" do
-        let(:Event) { FactoryGirl.create(:Event) }
+        #let(:Event) { FactoryGirl.create(:Event) }
         before do
           fill_in "Game name", with: "World of Warcraft"
           fill_in "event_invites_attributes_0_user_name",    with: "Tomodachi"
         end
         
         it "should create an Event" do
-          expect { click_button "Event" }.to change(Event, :count).by(1)
+          expect { click_button "Create Event" }.to change(Event, :count).by(1)
         end
     
         

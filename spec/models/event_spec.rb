@@ -57,9 +57,12 @@ describe Invite do
       @result = @event.invites.where("user_id= ?", guest.id)
     }
     it "should create a new invitee" do
-    @result.should_not be_empty
+     @result.should_not be_empty
+    end
+
   end
-  end
+  
+  
 
   
 end
