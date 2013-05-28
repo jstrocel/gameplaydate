@@ -11,7 +11,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :email, :password, :password_confirmation
+  #attr_accessible :name, :email, :password, :password_confirmation
   has_secure_password
   has_many :events, :foreign_key => "organizer_id"
   has_many :invites, :foreign_key =>"user_id"

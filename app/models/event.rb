@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   default_scope order("fromtime DESC")
-  attr_accessible :game_id, :game_name, :fromtime, :totime, :invites_attributes, :game_attributes, :game
+  #attr_accessible :game_id, :game_name, :fromtime, :totime, :invites_attributes, :game_attributes, :game
   belongs_to :game
   belongs_to :organizer, :class_name => "User"
   has_many :invites, :foreign_key =>"event_id", :dependent => :destroy
