@@ -203,51 +203,51 @@ describe "User pages" do
     it { should have_selector('h1',    text: user.name) }
     it { should have_selector('title', text: user.name) }
 
-    describe "follow/unfollow buttons" do
+    describe "friend/unfriend buttons" do
       let(:other_user) { FactoryGirl.create(:user) }
       before { sign_in user }
 
-      describe "following a user" do
+      describe "friending a user" do
         before { visit user_path(other_user) }
 
-        it "should increment the followed user count" do
+        it "should increment the friended user count" do
           expect do
-            click_button "Follow"
-          end.to change(user.followed_users, :count).by(1)
+            click_button "Add Friend"
+          end.to change(user.friended_users, :count).by(1)
         end
 
-        it "should increment the other user's followers count" do
+        it "should increment the other user's friends count" do
           expect do
-            click_button "Follow"
-          end.to change(other_user.followers, :count).by(1)
+            click_button "Add Friend"
+          end.to change(other_user.friends, :count).by(1)
         end
 
         describe "toggling the button" do
-          before { click_button "Follow" }
-          it { should have_selector('input', value: 'Unfollow') }
+          before { click_button "Add Friend" }
+          it { should have_selector('input', value: 'Unfriend') }
         end
       end
 
-      describe "unfollowing a user" do
+      describe "unfriending a user" do
         before do
-          user.follow!(other_user)
+          user.friend!(other_user)
           visit user_path(other_user)
         end
 
-        it "should decrement the followed user count" do
+        it "should decrement the friended user count" do
           expect do
-            click_button "Unfollow"
-          end.to change(user.followed_users, :count).by(-1)
+            click_button "Unfriend"
+          end.to change(user.friends, :count).by(-1)
         end
 
-        it "should decrement the other user's followers count" do
+        it "should decrement the other user's friends count" do
           expect do
-            click_button "Unfollow"
-          end.to change(other_user.followers, :count).by(-1)
+            click_button "Unfriend"
+          end.to change(other_user.friends, :count).by(-1)
         end
 
         describe "toggling the button" do
-          before { click_button "Unfollow" }
+          before { click_button "Unfriend" }
           it { should have_selector('input', value: 'Follow') }
         end
       end
@@ -293,15 +293,15 @@ describe "User pages" do
     end
   end
 
-  describe "following/followers" do
+  describe "friending/friends" do
     let(:user) { FactoryGirl.create(:user) }
     let(:other_user) { FactoryGirl.create(:user) }
-    before { user.follow!(other_user) }
+    before { user.friend!(other_user) }
 
-    describe "followed users" do
+    describe "friended users" do
       before do
         sign_in user
-        visit following_user_path(user)
+        visit friend_user_path(user)
       end
 
       it { should have_selector('title', text: full_title('Following')) }
@@ -309,10 +309,10 @@ describe "User pages" do
       it { should have_link(other_user.name, href: user_path(other_user)) }
     end
 
-    describe "followers" do
+    describe "friends" do
       before do
         sign_in other_user
-        visit followers_user_path(other_user)
+        visit friends_user_path(other_user)
       end
 
       it { should have_selector('title', text: full_title('Followers')) }

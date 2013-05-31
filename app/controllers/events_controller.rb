@@ -12,11 +12,10 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new()
-    invite = @event.invites.build
   end
 
   def create
-    @event = current_user.events.build(params[:event])
+    @event = current_user.hosted_events.build(event_params)
       if @event.save
         flash[:success] = "Event Created!"
         redirect_to @event
@@ -36,4 +35,18 @@ class EventsController < ApplicationController
   def destroy
     @event = Event.find(params[:id]).destroy
   end
+  
+  
+  private
+
+    def load_event
+      @episode = Episode.find(params[:id])
+    end
+
+    def event_params
+      params.require(:event).permit(:maximum_players, :fromtime, :totime, :content)
+    end
+  
+  
+  
 end

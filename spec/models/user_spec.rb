@@ -21,19 +21,19 @@ describe User do
     it { should respond_to(:password_confirmation) }
     it { should respond_to(:authenticate) }
     it { should respond_to(:remember_token) }
-    it { should respond_to(:steamid) }
+    #it { should respond_to(:steamid) }
     #it { should respond_to(:upcoming_events)}
     #it { should respond_to(:past_events)}
-    it { should respond_to(:xblaid)}
-    it { should respond_to(:wowid)}
-    it { should respond_to(:psnid)}
+    #it { should respond_to(:xblaid)}
+    #it { should respond_to(:wowid)}
+    #it { should respond_to(:psnid)}
     #it { should respond_to(:pending_invites)}
-    it { should respond_to(:events)}
+    it { should respond_to(:hosted_events)}
     it { should respond_to(:all_events)}
     it { should be_valid}
     
 
-    describe "accessible attributes" do
+    pending "accessible attributes" do
       it "should not allow access to admin" do
         expect do
           User.new(role: "admin")
@@ -62,7 +62,7 @@ describe User do
     end
     
     describe "when password is not present" do
-      before { @user.password = @user.password_confirmation = " " }
+      before { @user.password = " " }
       it { should_not be_valid }
     end
     
@@ -83,7 +83,7 @@ describe User do
     
     describe "return value of authenticate method" do
       before { @user.save }
-      let(:found_user) { User.find_by_email(@user.email) }
+      let(:found_user) { User.find_by(email: @user.email) }
 
       describe "with valid password" do
         it { should == found_user.authenticate(@user.password) }
@@ -165,7 +165,7 @@ describe User do
     
     describe "return value of authenticate method" do
       before { @user.save }
-      let(:found_user) { User.find_by_email(@user.email) }
+      let(:found_user) { User.find_by( email:@user.email) }
 
       describe "with valid password" do
         it { should == found_user.authenticate(@user.password) }
@@ -179,27 +179,56 @@ describe User do
       end
     end
     
+    
+    context "friends list" do
+      before{
+        @friend1 = FactoryGirl.create(:user)
+        @friend2 = FactoryGirl.create(:user)
+        @friend1.request_friend(@friend2)
+      }
+    
+      it "should be able to request friends" do
+        @friend2.pending_friend_ids.include?(@friend1.id).should be_true
+      end
+        
+        it "should be able to accept friends" do
+         @friend2.accept_friend(@friend1)
+         @friend2.friend_ids.include?(@friend1.id).should be_true
+      end
+            it "should remove friends" do
+            @friend2.accept_friend(@friend1)
+            @friend2.remove_friend(@friend1)
+            @friend2.friend_ids.include?(@friend1.id).should be_false
+          end
+           
+        
+        
+    
+     
+    end
+    
     describe "should have many events through invitations" do
       before{
         @game1 = FactoryGirl.create(:game)
         @player1 = FactoryGirl.create(:user)
-        @invite1 =  @player1.events.build(game: @game1, fromtime: Time.now, totime: 1.hour.from_now)
+        @invite1 =  @player1.hosted_events.build(game: @game1, fromtime: Time.now, totime: 1.hour.from_now)
         @player1.save 
-             @player2 = FactoryGirl.create(:user)
-
-              @invite1.invite!(@player2)      
+        @player2 = FactoryGirl.create(:user)
+        @invite1.invite!(@player2)      
       }
       it "should create invitations" do
    
-        @player2.invitations.first.should == @invite1
+        @player2.invites.first.should == @invite1
       end
+      
       it "the created invite should be pending" do
-          @player2.invites.pending.first.event.should == @invite1
+          @player2.pending_invites.first.should == @invite1
       end
       
       it "all_events should have events the user has organized and has been invited to" do
-        @invite2 = @player2.events.build(game: @game1, fromtime: 2.hours.from_now, totime: 3.hours.from_now)
+        @invite2 = @player2.hosted_events.build(game: @game1, fromtime: 2.hours.from_now, totime: 3.hours.from_now)
         @player2.save
+        @invite2.save
         @player2.all_events.should include(@invite1, @invite2)
       end
     end
