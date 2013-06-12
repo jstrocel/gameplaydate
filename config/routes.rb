@@ -1,20 +1,18 @@
 Gameplaydate::Application.routes.draw do
 
   resources :users do
-     member do
-       get :following, :followers
-     end
+     resources :friends, only: [:create, :destroy]
    end
   resources :events
   resources :invites, only: [:create, :destroy]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :friendships, only: [:create, :destroy]
+  resources :friends, only: [:create, :destroy]
   
   root to: 'static_pages#home'
 
   get '/signup',  to: 'users#new'
   get '/signin',  to: 'sessions#new'
-  get '/signout', to: 'sessions#destroy', via: :delete
+  delete '/signout', to: 'sessions#destroy'
   
 
   get '/help',    to: 'static_pages#help'

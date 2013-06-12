@@ -11,7 +11,7 @@ describe "events" do
     before { visit events_path }
 
     it { should have_selector('h1',    text: 'Events') }
-    it { should have_selector('title', text: 'Events') }
+    it { should have_title('Events') }
   end
   
   describe "New Event" do
@@ -25,7 +25,7 @@ describe "events" do
         
         describe "error messages" do
           before { click_button "Create Event" }
-          it { should have_selector('title', text: 'New Event') }
+          it { should have_title('New Event') }
           it { should have_content('error') }
         end  
     end
@@ -34,7 +34,7 @@ describe "events" do
         #let(:Event) { FactoryGirl.create(:Event) }
         before do
           fill_in "Game name", with: "World of Warcraft"
-          fill_in "event_invites_attributes_0_user_name",    with: "Tomodachi"
+          fill_in "event_invites_user_name",    with: "Tomodachi"
         end
         
         it "should create an Event" do

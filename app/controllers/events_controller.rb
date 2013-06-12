@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   before_filter :correct_user,   only: :destroy
   
   def index
-    @events = current_user.events.all
+    @events = current_user.all_events
   end
 
   def show
@@ -40,11 +40,12 @@ class EventsController < ApplicationController
   private
 
     def load_event
-      @episode = Episode.find(params[:id])
+      @event = Episode.find(params[:id])
     end
 
     def event_params
-      params.require(:event).permit(:maximum_players, :fromtime, :totime, :content)
+      allowed_attributes = [ :game_name, :game, :maximum_players, :fromtime, :"fromtime(1i)", :"fromtime(2i)", :"fromtime(3i)", :"fromtime(4i)", :"fromtime(5i)", :"totime(1i)", :"totime(2i)", :"totime(3i)", :"totime(4i)", :"totime(5i)", :totime, :content]
+      params.require(:event).permit(allowed_attributes)
     end
   
   

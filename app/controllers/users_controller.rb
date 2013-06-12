@@ -3,6 +3,7 @@ class UsersController < ApplicationController
                 only: [:index, :edit, :update, :destroy, :following, :followers]
   before_filter :correct_user,   only: [:edit, :update]
   before_filter :admin_user,     only: :destroy
+  before_filter :skip_password_attribute, only: :update
   
   def index
     @users = User.paginate(page: params[:page])
@@ -69,26 +70,26 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
-  def following
+  def friends
     @title = "Following"
     @user = User.find(params[:id])
-    @users = @user.followed_users.paginate(page: params[:page])
+    @users = @user.friends.paginate(page: params[:page])
     render 'show_follow'
   end
 
-  def followers
-    @title = "Followers"
-    @user = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page])
-    render 'show_follow'
-  end
   
   
   
   private
   
       def user_params
-        params.require(:user).permit(:name, :email, :friend_ids, :pending_friend_ids, :password, :password_confirmation)
+        params.require(:user).permit(:name, :email, :friend_ids, :pending_friend_ids, :password, :password_confirmation, :user)
+      end
+      
+      def skip_password_attribute
+        if params[:password].blank? && params[:password_confirmation].blank?
+          params.except!(:password, :password_confirmation)
+        end
       end
   
 

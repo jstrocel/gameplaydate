@@ -16,7 +16,7 @@ GIT
 
 GIT
   remote: https://github.com/mongoid/mongoid.git
-  revision: e1fa17295bfbc048f613a070e67bd433ccec256f
+  revision: 11e45e5a30a45458b83db99ab6c9d9ccc337e66f
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0.0.rc1)
@@ -76,8 +76,15 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
+    columnize (0.3.6)
     commonjs (0.2.6)
     database_cleaner (1.0.1)
+    debugger (1.6.0)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.1)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.2.2)
     diff-lcs (1.2.4)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -129,7 +136,7 @@ GEM
     mime-types (1.23)
     minitest (4.7.4)
     moped (1.5.0)
-    multi_json (1.7.4)
+    multi_json (1.7.6)
     nokogiri (1.5.9)
     origin (1.1.0)
     pg (0.15.1)
@@ -229,6 +236,7 @@ DEPENDENCIES
   capybara (= 2.1.0)
   coffee-rails (~> 4.0.0.rc1)
   database_cleaner (= 1.0.1)
+  debugger
   factory_girl_rails (= 4.2.1)
   faker (= 1.1.2)
   growl (= 1.0.3)

@@ -36,7 +36,7 @@ describe "Static pages" do
        
        it "should list schedule"  do
          
-           user.invitations.each do |item|
+           user.invites.each do |item|
              page.should have_selector("li##{item.id}", text: item.fromtime)
            end
         end

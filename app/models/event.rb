@@ -1,11 +1,11 @@
 class Event 
    include Mongoid::Document
    include Mongoid::Timestamps
- 
+   include Mongoid::MultiParameterAttributes
  
   field :maximum_players, type:Integer
-  field :fromtime, type: DateTime
-  field :totime, type: DateTime
+  field :fromtime, type: Time
+  field :totime, type: Time
   field :content, type: String
   field :invites, type: Hash, :default => Hash.new
   belongs_to :user
@@ -14,6 +14,7 @@ class Event
   validates :fromtime, :totime, :organizer_id, :game_id, :presence => true
   
   /
+  {"utf8"=>"✓", "event"=>{"fromtime(1i)"=>"2013", "fromtime(2i)"=>"6", "fromtime(3i)"=>"10", "fromtime(4i)"=>"23", "fromtime(5i)"=>"21", "totime(1i)"=>"2013", "totime(2i)"=>"6", "totime(3i)"=>"10", "totime(4i)"=>"23", "totime(5i)"=>"21"}, "commit"=>"Create Event", "action"=>"create", "controller"=>"events"}
   
   default_scope order("fromtime DESC")
   #attr_accessible :game_id, :game_name, :fromtime, :totime, :invites_attributes, :game_attributes, :game
@@ -48,6 +49,10 @@ class Event
   
   def game_name
     game.try(:name)
+  end
+  
+  def game_name=(name)
+    self.game = Game.find_or_create_by(name: name) if name.present?
   end
   
   def invite!(user)

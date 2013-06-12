@@ -2,8 +2,7 @@ require 'spec_helper'
 require 'pp'
 
 describe User do
-  before { @user = User.new(name: "Example User", email: "user@example.com",
-    password: "foobar", password_confirmation: "foobar") }
+  before { @user = User.new(name: "Example User", email: "user@example.com", password: "foobar", password_confirmation: "foobar") }
 
     subject { @user }
 
@@ -14,8 +13,8 @@ describe User do
     it { should respond_to(:invites) }
     #it { should respond_to(:attendances) }
     it { should respond_to(:games) }
-    it { should respond_to(:personas) }
-    it { should respond_to(:friendships) }
+    #it { should respond_to(:personas) }
+    #it { should respond_to(:friendships) }
     it { should respond_to(:password_digest) }
     it { should respond_to(:password) }
     it { should respond_to(:password_confirmation) }
@@ -62,18 +61,30 @@ describe User do
     end
     
     describe "when password is not present" do
-      before { @user.password = " " }
-      it { should_not be_valid }
+      before { @no_pass = User.new(name: "Example User", email: "user@example.com", password: "", password_confirmation: "foobar")
+        @no_pass.save
+         }
+      it "should not be valid" do
+        @no_pass.should_not be_valid
+      end
     end
     
     describe "when password doesn't match confirmation" do
-      before { @user.password_confirmation = "mismatch" }
-      it { should_not be_valid }
+      before { @no_pass_conf = User.new(name: "Example User", email: "user@example.com", password: "foobar", password_confirmation: "foobar1")
+        @no_pass_conf.save
+         }
+      it "should not be valid" do
+        @no_pass_conf.should_not be_valid
+      end
     end
     
     describe "when password confirmation is nil" do
-      before { @user.password_confirmation = nil }
-      it { should_not be_valid }
+       before { @no_pass_confnil = User.new(name: "Example User", email: "user@example.com", password: "foobar", password_confirmation: "")
+          @no_pass_confnil.save
+           }
+        it "should not be valid" do
+          @no_pass_confnil.should_not be_valid
+        end
     end
     
     describe "with a password that's too short" do
@@ -129,12 +140,16 @@ describe User do
 
     describe "when email address is already taken" do
       before do
-        user_with_same_email = @user.dup
-        user_with_same_email.email = @user.email.upcase
-        user_with_same_email.save
+        @user.save
+        @user_with_same_email = @user.clone
+        @user_with_same_email.email = @user.email.upcase
+        @user_with_same_email.save
       end
 
-      it { should_not be_valid }
+      it  "should not be valid" do
+        @user_with_same_email.should_not be_valid
+      end
+      
     end
     
     describe "email address with mixed case" do

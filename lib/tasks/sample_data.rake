@@ -3,7 +3,7 @@ namespace :db do
   task populate: :environment do
     make_users
     #make_microposts
-    make_friendships
+    make_games
   end
 end
 
@@ -24,7 +24,7 @@ def make_users
   end
 end
 
-def make_friendships
+/def make_friendships
   users = User.all
   user  = users.first
   followed_users = users[2..50]
@@ -32,14 +32,14 @@ def make_friendships
   followed_users.each { |followed| user.follow!(followed) }
   followers.each      { |follower| follower.follow!(user) }
 end
-
+/
 def make_games
   samplegamenames= ["World of Warcraft", "Minecraft", "Eve Online", "Guild Wars 2", "Star Wars: The Old Republic"]
   samplegamenames.each do |name|
     Game.create(name: name, platform: "PC")
   end  
 end
-
+/
 def make_invites
   10.times do |n|
    content = Faker::Lorem.sentence(5)
@@ -51,5 +51,5 @@ def make_invites
    content:content)
   end  
 end
-
+/
 
