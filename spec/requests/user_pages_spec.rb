@@ -177,54 +177,60 @@ describe "User pages" do
     it { should have_selector('h1',    text: user.name) }
     it { should have_title(user.name) }
 
-    describe "friend/unfriend buttons" do
-      let(:other_user) { FactoryGirl.create(:user) }
-      before { sign_in user }
+     describe "follow/unfollow buttons" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before { sign_in user }
 
-      describe "friending a user" do
-        before { visit user_path(other_user) }
+        describe "following a user" do
+          before { visit user_path(other_user) }
 
-        it "should increment the friended user count" do
-          expect do
-            click_button "Add Friend"
-          end.to change(user.friends, :count).by(1)
-        end
-        /
-        it "should increment the other user's friends count" do
-          expect do
-            click_button "Add Friend"
-          end.to change(other_user.friends, :count).by(1)
-        end
+          it "should increment the followed user count" do
+            expect {
+              click_button "Add Friend"
+              user.reload
+            }.to change {user.followed_users.count}.by(1)
+          end
 
-        describe "toggling the button" do
-          before { click_button "Add Friend" }
-          it { should have_selector('input', value: 'Unfriend') }
-        end/
-      end
+          it "should increment the other user's followers count" do
+            expect {
+              click_button "Add Friend"
+              user.reload
+              other_user.reload
+            }.to change {other_user.followers.count}.by(1)
+          end
 
-      /describe "unfriending a user" do
-        before do
-          user.friend!(other_user)
-          visit user_path(other_user)
+          describe "toggling the button" do
+            before { click_button "Add Friend" }
+            it { should have_xpath("//input[@value='Unfriend']") }
+          end
         end
 
-        it "should decrement the friended user count" do
-          expect do
-            click_button "Unfriend"
-          end.to change(user.friends, :count).by(-1)
-        end
+        describe "unfollowing a user" do
+          before do
+            user.follow!(other_user)
+            visit user_path(other_user)
+          end
 
-        it "should decrement the other user's friends count" do
-          expect do
-            click_button "Unfriend"
-          end.to change(other_user.friends, :count).by(-1)
-        end
+          it "should decrement the followed user count" do
+            expect {
+              click_button "Unfriend"
+              user.reload
+            }.to change {user.followed_users.count}.by(-1)
+          end
 
-        describe "toggling the button" do
-          before { click_button "Unfriend" }
-          it { should have_selector('input', value: 'Follow') }
+          it "should decrement the other user's followers count" do
+            expect {
+              click_button "Unfriend"
+              user.reload
+              other_user.reload
+            }.to change {other_user.followers.count}.by(-1)
+          end
+
+          describe "toggling the button" do
+            before { click_button "Unfriend" }
+            it { should have_xpath("//input[@value='Add Friend']") }
+          end
         end
-      end/
     end
   end
   
@@ -270,12 +276,12 @@ describe "User pages" do
   describe "friending/friends" do
     let(:user) { FactoryGirl.create(:user) }
     let(:other_user) { FactoryGirl.create(:user) }
-    before { user.friend!(other_user) }
+    before { user.follow!(other_user) }
 
     describe "friended users" do
       before do
         sign_in user
-        visit friend_user_path(user)
+        visit following_user_path(user)
       end
 
       it { should have_title(full_title('Following')) }
@@ -286,7 +292,7 @@ describe "User pages" do
     describe "friends" do
       before do
         sign_in other_user
-        visit friends_user_path(other_user)
+        visit followers_user_path(other_user)
       end
 
       it { should have_title(full_title('Followers')) }

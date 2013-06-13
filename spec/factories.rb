@@ -9,7 +9,7 @@ FactoryGirl.define do
    end
    trait :with_events do
      after :create do |user|
-           FactoryGirl.create_list :event,  3, :organizer => user
+           FactoryGirl.create_list :event,  3
          end
    end
  end

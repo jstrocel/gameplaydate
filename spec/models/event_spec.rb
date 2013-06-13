@@ -7,7 +7,7 @@ describe Event do
   let(:organizer) { FactoryGirl.create(:user) }
   let(:guest) { FactoryGirl.create(:user) }
   let(:invitee) {FactoryGirl.create(:invite)}
-  before {@event = organizer.hosted_events.build(game_id: game.id, fromtime: Time.now+1.weeks, totime: Time.now+1.weeks+1.hours)
+  before {@event = Event.new(game_id: game.id, fromtime: Time.now+1.weeks, totime: Time.now+1.weeks+1.hours)
     }
 
   
@@ -15,8 +15,6 @@ describe Event do
   
   
   it { should respond_to(:invites) }
-  
-  
   it { should respond_to (:organizer)}
   it { should respond_to (:invite!)}
   it { should respond_to (:organizer)}
@@ -41,10 +39,6 @@ describe Event do
     it { should_not be_valid }
   end
 
-  describe "when organizer id is not present" do
-    before { @event.organizer_id = nil }
-    it { should_not be_valid }
-  end
   
   describe "game methods" do
     it { should respond_to(:game_name) }
@@ -52,12 +46,12 @@ describe Event do
   end
   
   describe "invite! method" do
-    before {
-      @event.save
-      @event.invite!(guest)
-    }
+    before { @event.save! }
     it "should create a new invitee" do
-     @event.invites.has_key?(guest.id).should be_true
+     
+      expect do
+        @event.invite!(guest)
+     end.to change(@event.invites, :count).by(1)
     end
 
   end

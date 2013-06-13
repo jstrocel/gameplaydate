@@ -1,12 +1,14 @@
 Gameplaydate::Application.routes.draw do
 
   resources :users do
-     resources :friends, only: [:create, :destroy]
-   end
+    member do
+      get :following, :followers
+    end
+  end
   resources :events
   resources :invites, only: [:create, :destroy]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :friends, only: [:create, :destroy]
+  resources :friendships, only: [:create, :destroy]
   
   root to: 'static_pages#home'
 

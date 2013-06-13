@@ -11,21 +11,12 @@
 #
 
 class User
-  #attr_accessible :name, :email, :password, :password_confirmation
+  
   include Mongoid::Document
   include Mongoid::Timestamps
   include ActiveModel::SecurePassword
   
-  has_many :hosted_events, class_name: "Event", inverse_of: "organizer"
-  has_and_belongs_to_many :games
-  #has_and_belongs_to_many :friends, class_name: 'User'
-  #has_many :personas
-  #has_many :friendships, foreign_key: "follower_id", dependent: :destroy
-  #has_many :followed_users, through: :friendships, source: :followed
-  #has_many :reverse_friendships, foreign_key: "followed_id",
-   #                                class_name:  "Friendship",
-    #                               dependent:   :destroy
-  #has_many :followers, through: :reverse_friendships, source: :follower
+ 
   
    has_secure_password
      field  :name, type:String
@@ -33,44 +24,50 @@ class User
      field   :admin, type: Boolean 
      field   :password_digest, type:String
      field   :remember_token, type:String
-     
-     field   :friend_ids, type: Array, :default => Array.new
      field   :pending_friend_ids, type: Array, :default => Array.new
      before_save { |user| user.email = email.downcase }
       before_save :create_remember_token
+      has_many :invites, :foreign_key =>"user_id", :dependent => :destroy
+       has_and_belongs_to_many :games
 
+       #has_many :personas
+       has_many :friendships, foreign_key: "follower_id", dependent: :destroy, inverse_of:"follower"
+       #has_many :followed_users, through: :friendships, source: :followed
+       has_many :reverse_friendships, foreign_key: "followed_id", class_name:  "Friendship", dependent: :destroy, inverse_of: "followed"
+       #has_many :followers, through: :reverse_friendships, source: :follower
 
       validates :name,  presence: true, length: { maximum: 50 }
-      validates :password, length: { minimum: 6 }, :on => :create
-      validates :password, presence: true, :on => :create
-      validates :password_confirmation, presence: true, :on => :create
+      validates :password, length: { minimum: 6 }
+      validates :password, presence: true
+      validates :password_confirmation, presence: true
       validates_confirmation_of :password
       VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
        validates :email, presence: true, format: { :with => VALID_EMAIL_REGEX },
                            uniqueness: { case_sensitive: false }
   
   
+  def hosted_events
   
+  end
   
-  /
+
   
-  has_many :events, :foreign_key => "organizer_id"
-  has_many :invites, :foreign_key =>"user_id"
-  has_many :invitations, :through => :invites, :source => :event
-  has_many :games
-  has_many :personas
-  has_many :friendships, foreign_key: "follower_id", dependent: :destroy
-  has_many :followed_users, through: :friendships, source: :followed
-  has_many :reverse_friendships, foreign_key: "followed_id",
-                                   class_name:  "Friendship",
-                                   dependent:   :destroy
-  has_many :followers, through: :reverse_friendships, source: :follower
- /
- 
+  def events
+     Event.in(id: invites.map(&:event_id))
+  end
+  
   def friends
     
     User.where(:id.in => self.friend_ids).entries
     
+  end
+  
+  def followers
+    User.in(id: reverse_friendships.map(&:follower_id))
+  end
+  
+  def followed_users
+    User.in(id: friendships.map(&:followed_id))
   end
                   
   def request_friend(friend)
@@ -85,32 +82,20 @@ class User
    end
   end
   
-  def friend_of?(friend)
-    self.friend_ids.include?(friend.id)
+  def following?(friend)
+    friendships.find_by(followed_id: friend.id)
   end
   
   /def friends
     User.all_in(friend_ids: self.id)
   end
   /
-  def remove_friend(friend)
-   if self.friend_ids.include?(friend.id) && friend.friend_ids.include?(self.id)
-      self.friend_ids.delete(friend.id)
-      friend.friend_ids.delete(self.id)
-   end
+  def unfollow!(friend)
+    friendships.find_by(followed_id: friend.id).destroy
   end
                 
-  def friend!(friend)   
-    if !self.friend_ids.include?(friend.id) && !friend.friend_ids.include?(self.id) && !self.pending_friend_ids.include?(friend.id) && !friend.pending_friend_ids.include?(self.id)
-      self.friend_ids << friend.id 
-      friend.friend_ids << self.id
-      self.save!
-      friend.save!
-   end                   
-  end
-  
-  def invites
-    Event.where(:"invites.#{self.id}".exists =>true).all.entries
+  def follow!(friend)   
+   friendships.create!(followed_id: friend.id)          
   end
   
   def all_events
@@ -119,7 +104,7 @@ class User
   end
   
   def pending_invites
-     Event.where(:"invites.#{self.id}" => false)
+     Event.in(id: invites.where(status:"pending").map(&:event_id))
   end
   
   def upcoming_events

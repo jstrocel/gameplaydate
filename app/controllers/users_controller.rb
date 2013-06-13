@@ -70,10 +70,17 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
-  def friends
+  def following
     @title = "Following"
     @user = User.find(params[:id])
-    @users = @user.friends.paginate(page: params[:page])
+    @users = @user.followed_users.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'
   end
 

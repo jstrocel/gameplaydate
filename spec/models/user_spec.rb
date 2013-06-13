@@ -11,22 +11,14 @@ describe User do
     #it { should respond_to(:role) }
     it { should respond_to(:admin) }
     it { should respond_to(:invites) }
-    #it { should respond_to(:attendances) }
     it { should respond_to(:games) }
     #it { should respond_to(:personas) }
-    #it { should respond_to(:friendships) }
+    it { should respond_to(:friendships) }
     it { should respond_to(:password_digest) }
     it { should respond_to(:password) }
     it { should respond_to(:password_confirmation) }
     it { should respond_to(:authenticate) }
     it { should respond_to(:remember_token) }
-    #it { should respond_to(:steamid) }
-    #it { should respond_to(:upcoming_events)}
-    #it { should respond_to(:past_events)}
-    #it { should respond_to(:xblaid)}
-    #it { should respond_to(:wowid)}
-    #it { should respond_to(:psnid)}
-    #it { should respond_to(:pending_invites)}
     it { should respond_to(:hosted_events)}
     it { should respond_to(:all_events)}
     it { should be_valid}
@@ -206,45 +198,44 @@ describe User do
         @friend2.pending_friend_ids.include?(@friend1.id).should be_true
       end
         
-        it "should be able to accept friends" do
+        pending "should be able to accept friends" do
          @friend2.accept_friend(@friend1)
          @friend2.friend_ids.include?(@friend1.id).should be_true
       end
-            it "should remove friends" do
+            pending "should remove friends" do
             @friend2.accept_friend(@friend1)
             @friend2.remove_friend(@friend1)
             @friend2.friend_ids.include?(@friend1.id).should be_false
           end
-           
-        
-        
-    
-     
     end
     
     describe "should have many events through invitations" do
       before{
         @game1 = FactoryGirl.create(:game)
         @player1 = FactoryGirl.create(:user)
-        @invite1 =  @player1.hosted_events.build(game: @game1, fromtime: Time.now, totime: 1.hour.from_now)
-        @player1.save 
+
+        params1 ={event: { game: @game1, fromtime: 2.hours.from_now, totime: 3.hours.from_now,
+           invites_attributes: [{ user_id: @player1.id, status: "organizer"}]}}
+        @event1 = Event.create(params1[:event])
         @player2 = FactoryGirl.create(:user)
-        @invite1.invite!(@player2)      
+        @event1.save
+        @event1.invite!(@player2)      
       }
       it "should create invitations" do
    
-        @player2.invites.first.should == @invite1
+        @player2.events.first.should == @event1
       end
       
       it "the created invite should be pending" do
-          @player2.pending_invites.first.should == @invite1
+          @player2.pending_invites.should include(@event1)
       end
       
-      it "all_events should have events the user has organized and has been invited to" do
-        @invite2 = @player2.hosted_events.build(game: @game1, fromtime: 2.hours.from_now, totime: 3.hours.from_now)
-        @player2.save
-        @invite2.save
-        @player2.all_events.should include(@invite1, @invite2)
+      it "user.events should have events the user has organized and has been invited to" do
+        params2 ={event: { game: @game1, fromtime: 2.hours.from_now, totime: 3.hours.from_now,
+           invites_attributes: [{ user_id: @player2.id, status: "organizer"}]}}
+        @event2 = Event.create(params2[:event])
+        @event2.save
+        @player2.events.should include(@event1, @event2)
       end
     end
   

@@ -12,10 +12,11 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new()
+    invite = @event.invites.build
   end
 
   def create
-    @event = current_user.hosted_events.build(event_params)
+    @event = Event.new(event_params)
       if @event.save
         flash[:success] = "Event Created!"
         redirect_to @event
@@ -23,8 +24,19 @@ class EventsController < ApplicationController
         render :new
       end
   end
+  
+  def edit
+    @event = Event.find(params[:id])
+  end
 
   def update
+    if @event.update_attributes(user_params)
+      flash[:success] = "Profile updated"
+      sign_in @user
+      redirect_to @event
+    else
+      render 'edit'
+    end
   end
   
   def cancel
@@ -44,7 +56,10 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      allowed_attributes = [ :game_name, :game, :maximum_players, :fromtime, :"fromtime(1i)", :"fromtime(2i)", :"fromtime(3i)", :"fromtime(4i)", :"fromtime(5i)", :"totime(1i)", :"totime(2i)", :"totime(3i)", :"totime(4i)", :"totime(5i)", :totime, :content]
+      allowed_attributes = [ :game_name, :game, :maximum_players, :fromtime, 
+        :"fromtime(1i)", :"fromtime(2i)", :"fromtime(3i)", :"fromtime(4i)", :"fromtime(5i)", :"totime(1i)", 
+        :"totime(2i)", :"totime(3i)", :"totime(4i)", :"totime(5i)", :totime, :content, 
+        :invites =>[:status, :user_name]]
       params.require(:event).permit(allowed_attributes)
     end
   

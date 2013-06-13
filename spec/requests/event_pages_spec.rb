@@ -34,7 +34,7 @@ describe "events" do
         #let(:Event) { FactoryGirl.create(:Event) }
         before do
           fill_in "Game name", with: "World of Warcraft"
-          fill_in "event_invites_user_name",    with: "Tomodachi"
+          fill_in "event_invites_attributes_0_user_name",    with: "Tomodachi"
         end
         
         it "should create an Event" do
