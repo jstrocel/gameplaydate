@@ -1,9 +1,9 @@
 class EventsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :correct_user,   only: :destroy
+  #before_filter :correct_user,   only: :destroy
   
   def index
-    @events = current_user.all_events
+    @events = Event.all
   end
 
   def show
@@ -12,11 +12,13 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new()
-    invite = @event.invites.build
+    #organizer = @event.invites.build(user:current_user, status:"organizer")
+    invite = @event.invites.build    
   end
 
   def create
     @event = Event.new(event_params)
+    @event.invites.build(user:current_user, status:"organizer")
       if @event.save
         flash[:success] = "Event Created!"
         redirect_to @event
@@ -46,6 +48,8 @@ class EventsController < ApplicationController
 
   def destroy
     @event = Event.find(params[:id]).destroy
+    flash[:success] = "Event destroyed."
+    redirect_to events_url
   end
   
   

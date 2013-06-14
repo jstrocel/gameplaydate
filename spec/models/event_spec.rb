@@ -7,8 +7,10 @@ describe Event do
   let(:organizer) { FactoryGirl.create(:user) }
   let(:guest) { FactoryGirl.create(:user) }
   let(:invitee) {FactoryGirl.create(:invite)}
-  before {@event = Event.new(game_id: game.id, fromtime: Time.now+1.weeks, totime: Time.now+1.weeks+1.hours)
-    }
+  before {
+    params = {event: { game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now, invites_attributes: [{ user_id: organizer.id, status: "organizer"}]}}
+    @event = Event.new(params[:event])
+  }
 
   
   subject { @event }
@@ -17,7 +19,6 @@ describe Event do
   it { should respond_to(:invites) }
   it { should respond_to (:organizer)}
   it { should respond_to (:invite!)}
-  it { should respond_to (:organizer)}
   it { should respond_to (:game)}
   it { should respond_to (:content)}
   it { should respond_to (:uninvite)}
@@ -26,13 +27,6 @@ describe Event do
   
   it { should be_valid }
   
-  pending "accessible attributes" do
-    it "should not allow access to organizer_id" do
-      expect do
-        Event.new(organizer_id: nil)
-      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-    end    
-  end
   
   describe "when game id is not present" do
     before { @event.game_id = nil }
@@ -56,7 +50,10 @@ describe Event do
 
   end
   
-  
+  describe "should have an organizer" do
+    before {@event.invites = nil}
+    it { should_not be_valid }
+  end
 
   
 end

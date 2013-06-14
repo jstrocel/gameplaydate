@@ -32,15 +32,29 @@ describe "events" do
     
      describe "with valid information" do
         #let(:Event) { FactoryGirl.create(:Event) }
+        let(:game) { FactoryGirl.create(:game)}
+        let(:invitee) {FactoryGirl.create(:user)}
         before do
-          fill_in "Game name", with: "World of Warcraft"
-          fill_in "event_invites_attributes_0_user_name",    with: "Tomodachi"
+          fill_in "Game name", with: game.name
+          fill_in "event_invites_attributes_0_user_name",    with: invitee.name
         end
         
         it "should create an Event" do
-          expect { click_button "Create Event" }.to change(Event, :count).by(1)
+          expect { click_button "Create Event" 
+           
+            }.to change(Event, :count).by(1)
         end
-    
+        
+        it "should create an Invite" do
+          expect { click_button "Create Event" 
+            }.to change(Invite, :count).by(1)
+        end
+        
+        it "should have the creator as the organizer" do
+         click_button "Create Event"
+          @event = Event.all.last
+          @event.invites.where(user: user, status: "organizer").should_not be_empty
+        end
         
       end
       

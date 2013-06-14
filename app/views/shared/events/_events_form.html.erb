@@ -8,9 +8,11 @@
     <%= f.label :game_name %><br />
     <%= f.text_field :game_name %>
   </div>
+  
   <%= f.fields_for :invites do |builder| %>
-     <%= render 'shared/events/invite_fields', :f => builder %>
-   <% end %>
+       <%= render 'shared/events/invite_fields', :f => builder %>
+     <% end %>
+ 
 
   <div class="field">
     <%= f.label :fromtime %><br />

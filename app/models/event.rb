@@ -13,9 +13,11 @@ class Event
  
   belongs_to :game
   validates :fromtime, :totime, :game_id, :presence => true
+  #validate :presence_of_organizer, :on => :create
   
   def organizer
-    self.invites.in(status:"organizer").first
+    User.find(self.invites.in(status:"organizer").first.user_id)
+    
   end
   
   def game_name
@@ -35,5 +37,12 @@ class Event
   
   def invited?(user)
   end
+  
+  def presence_of_organizer
+    if self.invites.where("organizer").empty?
+      errors.add("An event needs an organizer")
+    end
+  end
+  
   
 end
