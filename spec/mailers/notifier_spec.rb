@@ -17,7 +17,7 @@ describe Notifier do
  
     #ensure that the sender is correct
     it 'renders the sender email' do
-       mail.from.should == ['noreply@empresa.com']
+       mail.from.should == ['no-reply@gameplaydate.com']
     end
  
     #ensure that the @name variable appears in the email body

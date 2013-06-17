@@ -1,9 +1,9 @@
 class Notifier < ActionMailer::Base
-  default :from => 'noreply@company.com'
+  default :from => 'no-reply@gameplaydate.com'
  
   def registration_confirmation(user)
-    @name = user.name
+    @user = user
     #@confirmation_url = confirmation_url(user)
-    mail :to => user.email, :subject => 'Welcome to GamePlayDate!'
+    mail(:to => "#{user.name} <#{user.email}>", :subject => "Welcome to GamePlayDate!")
   end
 end

@@ -42,6 +42,7 @@ class UsersController < ApplicationController
      @user = User.new(user_params)
       if @user.save
         sign_in @user
+        Notifier.registration_confirmation(@user).deliver
         flash[:success] = "Welcome to GamePlayDate!"
         redirect_to @user
       else
