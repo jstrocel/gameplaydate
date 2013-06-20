@@ -22,7 +22,7 @@ FactoryGirl.define do
  
  
  factory :event do
-  game FactoryGirl.create(:game) 
+  game {FactoryGirl.create(:game) }
   sequence(:fromtime) { |n| Time.now + n.weeks }
   sequence(:totime) { |n| Time.now + n.weeks + 1.hour }
   maximum_players 5

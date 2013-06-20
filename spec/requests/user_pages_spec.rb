@@ -185,18 +185,15 @@ describe "User pages" do
           before { visit user_path(other_user) }
 
           it "should increment the followed user count" do
-            expect {
-              click_button "Add Friend"
-              user.reload
-            }.to change {user.followed_users.count}.by(1)
+             expect do
+                click_button "Add Friend"
+              end.to change(user.followed_users, :count).by(1)
           end
 
           it "should increment the other user's followers count" do
-            expect {
-              click_button "Add Friend"
-              user.reload
-              other_user.reload
-            }.to change {other_user.followers.count}.by(1)
+            expect do
+                click_button "Add Friend"
+              end.to change(other_user.followers, :count).by(1)
           end
 
           describe "toggling the button" do
@@ -212,18 +209,15 @@ describe "User pages" do
           end
 
           it "should decrement the followed user count" do
-            expect {
-              click_button "Unfriend"
-              user.reload
-            }.to change {user.followed_users.count}.by(-1)
+            expect do
+                click_button "Unfriend"
+              end.to change(user.followed_users, :count).by(-1)
           end
 
           it "should decrement the other user's followers count" do
-            expect {
-              click_button "Unfriend"
-              user.reload
-              other_user.reload
-            }.to change {other_user.followers.count}.by(-1)
+            expect do
+                click_button "Unfriend"
+              end.to change(other_user.followers, :count).by(-1)
           end
 
           describe "toggling the button" do

@@ -14,8 +14,8 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'rack', '1.5.2'
 gem 'rails', '4.0.0.rc1'
-gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
-gem 'will_paginate_mongoid'
+#gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
+#gem 'will_paginate_mongoid'
 gem 'debugger'
 
 

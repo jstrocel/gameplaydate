@@ -62,9 +62,8 @@ describe "Authentication" do
              click_button "Sign in"
           end
           describe "after signing in" do
-            it "should render the desired protected page" do
-              page.should have_title('Edit user')
-            end
+            
+            it {should have_title('Edit user')}
             describe "when signing in again" do
               
                before do
@@ -74,10 +73,8 @@ describe "Authentication" do
                   fill_in "Password", with: user.password
                   click_button "Sign in"
                 end
-
-                it "should render the default (profile) page" do
-                  page.should have_title(user.name) 
-                end
+                
+                it { should have_title(user.name)}
             end  
           end   
        end   

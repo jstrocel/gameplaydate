@@ -40,19 +40,20 @@ describe "events" do
         end
         
         it "should create an Event" do
-          expect { click_button "Create Event" 
-           
-            }.to change(Event, :count).by(1)
+          expect do
+            click_button "Create Event"
+          end.to change(Event, :count).by(1)
         end
         
         it "should create an Invite" do
-          expect { click_button "Create Event" 
-            }.to change(Invite, :count).by(1)
+           expect do
+              click_button "Create Event"
+            end.to change(Invite, :count).by(1)
         end
         
-        it "should have the creator as the organizer" do
+        pending "should have the creator as the organizer" do
          click_button "Create Event"
-          @event = Event.all.last
+          
           @event.invites.where(user: user, status: "organizer").should_not be_empty
         end
         

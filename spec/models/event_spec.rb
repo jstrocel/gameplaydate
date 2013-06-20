@@ -8,7 +8,7 @@ describe Event do
   let(:guest) { FactoryGirl.create(:user) }
   let(:invitee) {FactoryGirl.create(:invite)}
   before {
-    params = {event: { game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now, invites_attributes: [{ user_id: organizer.id, status: "organizer"}]}}
+    params = {event: { game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now}}
     @event = Event.new(params[:event])
   }
 
@@ -50,7 +50,7 @@ describe Event do
 
   end
   
-  describe "should have an organizer" do
+  pending "should have an organizer" do
     before {@event.invites = nil}
     it { should_not be_valid }
   end
