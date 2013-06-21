@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
      before_save { |user| user.email = email.downcase }
       before_save :create_remember_token
       has_many :invites, :foreign_key =>"user_id", :dependent => :destroy
-      has_many :hosted_events, class_name: "Event", :foreign_key =>"organizer_id"
+      has_many :hosted_events, class_name: "Event", :foreign_key =>"organizer_id", :inverse_of => :organizer
       has_many :invited_events, class_name: "Event", through: :invites
        has_many :games, through: :personas
        #has_many :personas

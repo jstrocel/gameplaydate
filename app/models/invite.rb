@@ -4,7 +4,7 @@ class Invite < ActiveRecord::Base
   #attr_accessible :followed_id
   belongs_to :user
   belongs_to :event
-  
+  #validate :cant_invite_organizer
 
   #validates :event_id, presence: true
   #validates :user_id, presence: true
@@ -17,5 +17,15 @@ class Invite < ActiveRecord::Base
   def user_name=(name)
       self.user = User.find_by(name: name) if name.present?
   end  
+  
+  
+  def cant_invite_organizer
+    if event
+     if self.user == event.organizer
+      errors.add(:invite, "An event organizer can't invite themselves")
+    end
+   end
+  end
+  
   
 end

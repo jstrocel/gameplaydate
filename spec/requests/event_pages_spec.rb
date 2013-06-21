@@ -51,13 +51,20 @@ describe "events" do
             end.to change(Invite, :count).by(1)
         end
         
-        pending "should have the creator as the organizer" do
-         click_button "Create Event"
-          
-          @event.invites.where(user: user, status: "organizer").should_not be_empty
+        it "should not be able to invite the organizer" do
+        fill_in "event_invites_attributes_0_user_name",    with: current_user.name
+          expect do
+            click_button "Create Event"
+          end.to change(Event, :count).by(0)
         end
-        
       end
+      
+
+      
+      
+      
+      
+      
       
       describe "when users are not friends" do
         pending "Should not be valid"

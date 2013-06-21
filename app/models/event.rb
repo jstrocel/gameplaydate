@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
   belongs_to :game
   validates :fromtime, :totime, :game_id, :presence => true
   #validate :presence_of_organizer, :on => :create
+  validate :cant_invite_organizer_to_event
   
   
   def game_name
@@ -39,11 +40,14 @@ class Event < ActiveRecord::Base
   def invited?(user)
   end
   
-  def presence_of_organizer
-    if self.invites.where("organizer").empty?
-      errors.add("An event needs an organizer")
+  def cant_invite_organizer_to_event
+    self.invites.each do |invite|
+     if invite.user == self.organizer
+      errors.add(:organizer, "cannot be invited")
+     end
     end
   end
   
+
   
 end
