@@ -252,7 +252,6 @@ DEPENDENCIES
   rack (= 1.5.2)
   rails (= 4.0.0.rc1)
   rails_12factor
-  rb-fsevent
   rspec-rails (= 2.13.2)
   sass-rails (~> 4.0.0.rc1)
   spork (~> 1.0rc)

@@ -38,7 +38,7 @@ group :test do
   gem 'database_cleaner', '1.0.1'
   gem 'launchy', '2.3.0'
   group :darwin do
-     gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+    # gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
       gem 'guard-pow', :require => false
     end
   
