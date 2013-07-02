@@ -91,7 +91,7 @@ class UsersController < ApplicationController
   private
   
       def user_params
-        params.require(:user).permit(:name, :email, :friend_ids, :pending_friend_ids, :password, :password_confirmation, :user)
+        params.require(:user).permit(:name, :email, :friend_ids, :pending_friend_ids, :password, :password_confirmation, :user, :beta_invitation_token)
       end
       
       def skip_password_attribute

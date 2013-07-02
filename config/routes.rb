@@ -1,5 +1,6 @@
 Gameplaydate::Application.routes.draw do
 
+  resources :beta_invitations
   resources :users do
     member do
       get :following, :followers
@@ -9,7 +10,7 @@ Gameplaydate::Application.routes.draw do
   resources :invites, only: [:create, :destroy]
   resources :sessions, only: [:new, :create, :destroy]
   resources :friendships, only: [:create, :destroy]
-  
+  resources :password_resets
   root to: 'static_pages#home'
 
   get '/signup',  to: 'users#new'

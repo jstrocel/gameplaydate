@@ -56,7 +56,7 @@ class EventsController < ApplicationController
   private
 
     def load_event
-      @event = Episode.find(params[:id])
+      @event = Event.find(params[:id])
     end
 
     def event_params

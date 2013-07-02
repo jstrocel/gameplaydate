@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
    has_secure_password
      
      before_save { |user| user.email = email.downcase }
-      before_save :create_remember_token
+      before_create { generate_token(:remember_token) }
       has_many :invites, :foreign_key =>"user_id", :dependent => :destroy
       has_many :hosted_events, class_name: "Event", :foreign_key =>"organizer_id", :inverse_of => :organizer
       has_many :invited_events, class_name: "Event", through: :invites
@@ -35,21 +35,47 @@ class User < ActiveRecord::Base
        has_many :followers, through: :reverse_friendships, source: :follower
 
       validates :name,  presence: true, length: { maximum: 50 }
-      validates :password, length: { minimum: 6 }
-      validates :password, presence: true
-      validates :password_confirmation, presence: true
+      validates :password, length: { minimum: 6 }, :on => :create
+      validates :password, presence: true, :on => :create
+      validates :password_confirmation, presence: true, :on => :create
       validates_confirmation_of :password
       VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
       validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
                         uniqueness: { case_sensitive: false }
+                        
+      #validates_presence_of :beta_invitation_id, :message => 'is required'
+      #validates_uniqueness_of :beta_invitation_id
+
+      #has_many :sent_invitations, :class_name => 'BetaInvitation', :foreign_key => 'sender_id'
+      #belongs_to :beta_invitation
+
+     # before_create :set_beta_invitation_limit
+      
+  
+      def beta_invitation_token
+        beta_invitation.token if beta_invitation
+      end
+
+      def beta_invitation_token=(token)
+        self.beta_invitation = BetaInvitation.find_by_token(token)
+      end
   
   def events
     Event.joins("LEFT OUTER JOIN invites ON invites.event_id = events.id").where("invites.user_id = #{self.id} OR events.organizer_id = #{self.id}")
   end
   
+  def friends
 
+  end
   
 
+  
+  def send_password_reset
+    generate_token(:password_reset_token)
+    self.password_reset_sent_at = Time.zone.now
+    save!
+    Notifier.password_reset(self).deliver
+  end
 
  
   
@@ -94,8 +120,14 @@ class User < ActiveRecord::Base
               
                       
   private                    
-  def create_remember_token
-      self.remember_token = SecureRandom.urlsafe_base64
+  def generate_token(column)
+    begin
+      self[column] = SecureRandom.urlsafe_base64
+    end while User.exists?(column => self[column])
+  end
+  
+  def set_beta_invitation_limit
+    self.beta_invitation_limit = 5
   end
   
 #  def admin?

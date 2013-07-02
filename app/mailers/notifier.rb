@@ -6,4 +6,9 @@ class Notifier < ActionMailer::Base
     #@confirmation_url = confirmation_url(user)
     mail(:to => "#{user.name} <#{user.email}>", :subject => "Welcome to GamePlayDate!")
   end
+  
+  def password_reset(user)
+      @user = user
+      mail :to => user.email, :subject => "Password Reset"
+    end
 end

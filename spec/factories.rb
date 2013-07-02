@@ -1,7 +1,18 @@
 FactoryGirl.define do 
+  
+  factory :beta_invitation do
+     sequence(:recipient_email) { |n| "person_#{n}@example.com"}
+     sent_at DateTime.now
+  end
+  
+  
  factory :user do
+ 
+   #@beta_invite = FactoryGirl.create(:beta_invitation) 
    sequence(:name)  { |n| "Person #{n}" }
-   sequence(:email) { |n| "person_#{n}@example.com"}   
+   #email @beta_invite.recipient_email
+   sequence(:email) { |n| "person_#{n}@example.com"}  
+   #beta_invitation @beta_invite
    password "foobar"
    password_confirmation "foobar"
    factory :admin do
@@ -12,14 +23,16 @@ FactoryGirl.define do
            FactoryGirl.create_list :event,  3
          end
    end
+   before
+   
  end
  
  factory :game do
    sequence(:name)  { |n| "Game #{n}" }
    platform "PC"
  end
-
  
+
  
  factory :event do
   game {FactoryGirl.create(:game) }

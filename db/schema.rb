@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130523171017) do
+ActiveRecord::Schema.define(version: 20130628214623) do
+
+  create_table "beta_invitations", force: true do |t|
+    t.integer  "sender_id"
+    t.string   "recipient_email"
+    t.string   "token"
+    t.datetime "sent_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "events", force: true do |t|
     t.integer  "game_id"
@@ -60,9 +69,9 @@ ActiveRecord::Schema.define(version: 20130523171017) do
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "email"
-    t.boolean  "admin",           default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.boolean  "admin",                  default: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "password_digest"
     t.string   "remember_token"
     t.string   "steamid"
@@ -70,6 +79,10 @@ ActiveRecord::Schema.define(version: 20130523171017) do
     t.string   "psnid"
     t.string   "wowid"
     t.string   "role_id"
+    t.string   "password_reset_token"
+    t.datetime "password_reset_sent_at"
+    t.integer  "beta_invitation_id"
+    t.integer  "beta_invitation_limit"
   end
 
 end

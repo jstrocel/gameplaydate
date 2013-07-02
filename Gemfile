@@ -21,6 +21,7 @@ gem 'debugger'
 
 group :development do
   gem 'annotate', '2.5.0'
+  gem "nifty-generators"
 end
 
 group :development, :test do
@@ -30,7 +31,8 @@ group :development, :test do
   gem 'spork-rails', github: 'railstutorial/spork-rails'
   gem 'guard-spork', :github => 'guard/guard-spork'  
   gem 'spork', '~> 1.0rc'
-  gem 'factory_girl_rails', '4.2.1'
+  gem 'factory_girl_rails', '4.2.1' 
+  gem 'mocha', :require => 'mocha/api'
 end
 
 group :test do
@@ -60,6 +62,7 @@ gem 'twitter-bootstrap-rails'
 
 group :production do
   gem 'pg', '0.15.1'
+  gem 'rails_12factor'
 end
 
 # To use ActiveModel has_secure_password
@@ -76,3 +79,5 @@ end
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+
+gem "mocha", group: :test

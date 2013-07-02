@@ -58,6 +58,11 @@ describe "User pages" do
    it { should have_title(user.name) }
  end
  
+ describe "reset password" do
+    before { visit signup_path }
+   
+ end
+ 
  describe "signup page" do
     before { visit signup_path }
 

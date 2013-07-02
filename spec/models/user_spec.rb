@@ -12,7 +12,7 @@ describe User do
     it { should respond_to(:admin) }
     it { should respond_to(:invites) }
     it { should respond_to(:games) }
-    #it { should respond_to(:personas) }
+    it { should respond_to(:personas) }
     it { should respond_to(:friendships) }
     it { should respond_to(:password_digest) }
     it { should respond_to(:password) }
@@ -21,6 +21,8 @@ describe User do
     it { should respond_to(:remember_token) }
     it { should respond_to(:hosted_events)}
     it { should respond_to(:all_events)}
+    it { should respond_to (:beta_invitation_id)}
+    it { should respond_to (:beta_invitation_limit)}
     it { should be_valid}
     
 
