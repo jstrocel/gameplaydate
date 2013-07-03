@@ -5,6 +5,7 @@ ruby '2.0.0'
 gem 'rails', '4.0.0.rc1'
 
 gem 'bcrypt-ruby', '3.0.1'
+gem 'bootstrap-sass', '2.3.1.0'
 gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
 gem 'faker', '1.1.2'
@@ -12,6 +13,16 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'rack', '1.5.2'
 gem 'rails', '4.0.0.rc1'
+gem 'sass-rails',   '~> 4.0.0.rc1'
+gem 'coffee-rails', '~> 4.0.0.rc1'
+gem 'uglifier', '>= 1.3.0'
+
+gem 'therubyracer'
+gem 'less', '2.3.2'
+gem 'less-rails', '2.3.3'
+gem 'jbuilder', '1.0.2'
+
+
 
 gem 'debugger'
 
@@ -47,37 +58,9 @@ group :test do
 end
 
 
-# Gems used only for assets and not required
-# in production environments by default.
-
-gem 'sass-rails',   '~> 4.0.0.rc1'
-gem 'coffee-rails', '~> 4.0.0.rc1'
-gem 'uglifier', '>= 1.3.0'
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer'
-gem 'less', '2.3.2'
-gem 'less-rails', '2.3.3'
-gem 'twitter-bootstrap-rails'
-
 
 group :production do
   gem 'pg', '0.15.1'
   gem 'rails_12factor'
 end
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
-
-gem "mocha", group: :test
