@@ -4,4 +4,5 @@ class Game < ActiveRecord::Base
   #field :platform, type: String
   has_many :events
   #has_many :personas
+  has_many :gameownerships
 end

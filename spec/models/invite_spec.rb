@@ -13,7 +13,7 @@ describe Invite do
   
     describe "validations" do
     
-      context "should not be able invite a player with a conflicting event" do
+      pending "should not be able invite a player with a conflicting event" do
         before{
           event2.save
           event2.invite!(guest)
@@ -25,7 +25,7 @@ describe Invite do
         
       end
     
-      context "should not be able to invite the organizer" do
+      pending "should not be able to invite the organizer" do
         let(:user) {:organizer}
         it{should_not be_valid }
       

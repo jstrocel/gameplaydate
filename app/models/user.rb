@@ -25,15 +25,16 @@ class User < ActiveRecord::Base
       has_many :invites, :foreign_key =>"user_id", :dependent => :destroy
       has_many :hosted_events, class_name: "Event", :foreign_key =>"organizer_id", :inverse_of => :organizer
       has_many :invited_events, class_name: "Event", through: :invites
-       has_many :games, through: :personas
-       #has_many :personas
+      has_many :gameownerships, class_name: "GameOwnership"
+       has_many :games, through: :gameownerships
+       has_many :personas
        has_many :friendships, foreign_key: "follower_id", dependent: :destroy
        has_many :followed_users, through: :friendships, source: :followed
        has_many :reverse_friendships, foreign_key: "followed_id",
                                         class_name:  "Friendship",
                                         dependent:   :destroy
        has_many :followers, through: :reverse_friendships, source: :follower
-
+       
       validates :name,  presence: true, length: { maximum: 50 }
       validates :password, length: { minimum: 6 }, :on => :create
       validates :password, presence: true, :on => :create

@@ -1,5 +1,7 @@
 Gameplaydate::Application.routes.draw do
 
+  resources :games
+  resources :personas
   resources :beta_invitations
   resources :users do
     member do

@@ -49,7 +49,7 @@ describe Event do
      end.to change(@event.invites, :count).by(1)
     end
     
-    it "should not be able to invite the organizer" do
+    pending "should not be able to invite the organizer" do
       @invalid_invite = @event.invite!(@event.organizer)
       @invalid_invite.should_not be_valid
     end
@@ -58,7 +58,7 @@ describe Event do
   
   describe "time conflicts" do
     before { @event.save! }
-    it "should not conflict with other events" do
+    pending "should not conflict with other events" do
        params2 = {event: { game: game, fromtime: @event.fromtime, totime:@event.totime}}
       
        @event2 = organizer.hosted_events.build(params2[:event])

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130628214623) do
+ActiveRecord::Schema.define(version: 20130709175451) do
 
   create_table "beta_invitations", force: true do |t|
     t.integer  "sender_id"
@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(version: 20130628214623) do
   add_index "friendships", ["follower_id", "followed_id"], name: "index_friendships_on_follower_id_and_followed_id", unique: true
   add_index "friendships", ["follower_id"], name: "index_friendships_on_follower_id"
 
+  create_table "game_ownerships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "games", force: true do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -58,6 +66,15 @@ ActiveRecord::Schema.define(version: 20130628214623) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "accepted"
+  end
+
+  create_table "personas", force: true do |t|
+    t.integer  "game_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "server"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "roles", force: true do |t|

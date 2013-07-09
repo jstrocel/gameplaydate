@@ -4,7 +4,7 @@ class BetaInvitationsController < ApplicationController
   end
 
   def create
-    @beta_invitation = BetaInvitation.new(params[:beta_invitation])
+    @beta_invitation = BetaInvitation.new(beta_invite_params)
     if @beta_invitation.save
       redirect_to root_url, :notice => "Successfully created beta invitation."
     else
@@ -14,7 +14,7 @@ class BetaInvitationsController < ApplicationController
   private
 
 
-    def event_params
+    def beta_invite_params
       allowed_attributes = [:sender_id, :recipient_email, :token, :sent_at]
       params.require(:beta_invitation).permit(allowed_attributes)
     end

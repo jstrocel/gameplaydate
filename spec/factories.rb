@@ -31,7 +31,6 @@ FactoryGirl.define do
    sequence(:name)  { |n| "Game #{n}" }
    platform "PC"
  end
- 
 
  
  factory :event do

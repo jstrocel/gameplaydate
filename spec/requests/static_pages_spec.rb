@@ -6,7 +6,7 @@ describe "Static pages" do
   describe "Home page" do
     before { visit root_path }
     
-    it { should have_selector('h1',    text: 'GamePlayDate') }
+    it { should have_selector('h1',    text: 'Welcome to GamePlaydate!') }
   
     describe "for signed in users" do
      let(:user) { FactoryGirl.create(:user, :with_events) }  
