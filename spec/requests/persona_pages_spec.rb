@@ -5,7 +5,11 @@ describe "Personas" do
   subject { page }
   
   let(:user) { FactoryGirl.create(:user) }
-  before { sign_in user }
+  let (:game) { FactoryGirl.create(:game)}
+  before do
+    sign_in user 
+    user.claim_game!(game)
+  end
   
   describe "new" do
     before {visit new_persona_path}
@@ -25,9 +29,9 @@ describe "Personas" do
     end
     describe "with valid information" do
       before do
-        fill_in "Game",            with: "World of Warcraft"
+        select game.name,            :from=> "game[game_id]"
         fill_in "Character Name",  with: "Barlaick"
-        fill_in "Server_Region",   with: "Misha"
+        fill_in "Server Name",   with: "Misha"
       end
       
       it "should create a Persona" do
@@ -37,13 +41,13 @@ describe "Personas" do
   end
   
   describe "delete" do
-    before { FactoryGirl.create(:persona, user: user) }
+    before { @persona =FactoryGirl.create(:persona, user: user) }
     
     describe "as correct user" do
-      before { visit edit_user_path }
+      before { visit persona_path(@persona) }
       
       it "should delete a persona" do
-        expect { click_link "delete" }.to change(Persona, :count).by(-1)
+        expect { click_link "Delete" }.to change(Persona, :count).by(-1)
       end
     end
   end

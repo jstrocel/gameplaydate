@@ -1,5 +1,7 @@
 Gameplaydate::Application.routes.draw do
 
+  get "game_ownerships/create"
+  get "game_ownerships/destroy"
   resources :games
   resources :personas
   resources :beta_invitations
@@ -12,6 +14,7 @@ Gameplaydate::Application.routes.draw do
   resources :invites, only: [:create, :destroy]
   resources :sessions, only: [:new, :create, :destroy]
   resources :friendships, only: [:create, :destroy]
+  resources :game_ownerships, only: [:create, :destroy]
   resources :password_resets
   root to: 'static_pages#home'
 

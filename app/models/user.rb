@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
       has_many :invites, :foreign_key =>"user_id", :dependent => :destroy
       has_many :hosted_events, class_name: "Event", :foreign_key =>"organizer_id", :inverse_of => :organizer
       has_many :invited_events, class_name: "Event", through: :invites
-      has_many :gameownerships, class_name: "GameOwnership"
+      has_many :gameownerships, class_name: "GameOwnership", dependent: :destroy
        has_many :games, through: :gameownerships
        has_many :personas
        has_many :friendships, foreign_key: "follower_id", dependent: :destroy
@@ -94,6 +94,18 @@ class User < ActiveRecord::Base
                 
   def follow!(friend)   
    friendships.create!(followed_id: friend.id)          
+  end
+  
+  def claim_game!(game)
+   gameownerships.create!(game_id:game.id)
+  end
+  
+  def unclaim_game!(game)
+    gameownerships.find_by(game_id:game.id).destroy
+   end
+  
+  def own_game?(game)
+   gameownerships.find_by(game_id:game.id)
   end
   
   def all_events
