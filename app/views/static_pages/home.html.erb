@@ -1,7 +1,7 @@
 <% provide(:title, 'Home') %>
 
 <% if signed_in? %>
-  <% if signed_in? %> 
+  <% if !current_user.events.empty? %> 
    <div class= "span8">
    <h3>Pending Invites</h3>
    <%= render 'shared/events/pending' %>  
@@ -11,7 +11,21 @@
    <%= render 'shared/friendships/requests'%>
    </div> 
    <%else%>
-   
+   <div class="row">
+           <div class="span4">
+             <h2>Complete Your Profile</h2>
+             <p><%= link_to "Go >>", user_path(current_user), class: "btn"%></p>
+           </div>
+           <div class="span4">
+             <h2>Find Your Friends</h2>
+        
+             <p><%= link_to "Go >>", users_path, class: "btn"%></p>
+          </div>
+           <div class="span4">
+             <h2>Create Events</h2>
+             <p><%= link_to "Go >>", new_event_path, class: "btn"%></p>
+           </div>
+         </div>
    <%end%>
 <%else%>
 <div class="hero-unit">

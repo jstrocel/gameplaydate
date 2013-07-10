@@ -8,7 +8,7 @@
       </h1>
     </section>
     <section>
-       <div class="span8">
+      
          <% if @user.personas.any? %>
             <h3>Personas</h3>
             <ol class="personas">
@@ -16,9 +16,14 @@
             </ol>
             <%= will_paginate @personas %>
           <% end %>
-        </div>
     </section>
   </aside>
+  
+  <%if @user = current_user%>
+  <p><%= link_to "New Persona", new_persona_path %></p>
+  <p><%= link_to "Edit Profile", edit_user_path(@user) %></p>
+  <%end%>
+  
   <div class="span8">
    <%= render 'friend_form' if signed_in? %>
   </div>
