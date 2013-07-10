@@ -23,6 +23,12 @@ FactoryGirl.define do
            FactoryGirl.create_list :event,  3
          end
    end
+   
+   trait :with_games do
+      after :create do |user|
+       FactoryGirl.create_list :game,  3
+      end      
+    end
    before
    
  end

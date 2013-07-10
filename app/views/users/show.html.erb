@@ -8,7 +8,15 @@
       </h1>
     </section>
     <section>
-     
+       <div class="span8">
+         <% if @user.personas.any? %>
+            <h3>Personas</h3>
+            <ol class="personas">
+              <%= render @personas %>
+            </ol>
+            <%= will_paginate @personas %>
+          <% end %>
+        </div>
     </section>
   </aside>
   <div class="span8">

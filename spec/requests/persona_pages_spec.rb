@@ -29,7 +29,7 @@ describe "Personas" do
     end
     describe "with valid information" do
       before do
-        select game.name,            :from=> "game[game_id]"
+        select game.name,            :from=> "persona[game_id]"
         fill_in "Character Name",  with: "Barlaick"
         fill_in "Server Name",   with: "Misha"
       end
@@ -41,7 +41,7 @@ describe "Personas" do
   end
   
   describe "delete" do
-    before { @persona =FactoryGirl.create(:persona, user: user) }
+    before { @persona =FactoryGirl.create(:persona, user: user, game: game) }
     
     describe "as correct user" do
       before { visit persona_path(@persona) }

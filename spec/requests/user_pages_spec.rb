@@ -127,6 +127,10 @@ describe "User pages" do
   
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
+   let(:game) { FactoryGirl.create(:game) }
+    let!(:p1) { FactoryGirl.create(:persona, user: user, game: game, name: "Foo") }
+    let!(:p2) { FactoryGirl.create(:persona, user: user, game: game, name: "Bar") }
+    
    # let(:invite1){FactoryGirl.create(:invite)}
    # let(:invite2) {FactoryGirl.create(:invite)}
 
@@ -134,6 +138,26 @@ describe "User pages" do
 
     it { should have_selector('h1',    text: user.name) }
     it { should have_title(user.name) }
+    
+  
+    describe "personas" do
+       before { sign_in user }
+      it { should have_content(p1.name) }
+      it { should have_content(p2.name) }
+      
+      describe "create persona" do
+      
+      end
+      
+      describe "delete persona" do
+        
+      end
+      
+      describe "edit persona" do
+        
+      end
+      
+    end
 
   /  describe "invites" do
       it { should have_content(invite1.content) }
