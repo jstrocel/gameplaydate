@@ -1,0 +1,12 @@
+<% provide(:title, 'Persona') %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @persona.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_persona_path(@persona) %> |
+  <%= link_to "Delete", @persona, :data => { :confirm => 'Are you sure?' }, :method => :delete %> |
+  <%= link_to "View All", personas_path %>
+</p>

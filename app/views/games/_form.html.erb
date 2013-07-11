@@ -1,0 +1,12 @@
+<%= form_for @game do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :platform %><br />
+    <%= f.text_field :platform %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

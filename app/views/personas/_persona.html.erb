@@ -1,0 +1,17 @@
+<p>
+  <strong>Game:</strong>
+  <%= persona.game.name %>
+</p>
+<p>
+  <strong>Server:</strong>
+  <%= persona.server %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= persona.name %>
+</p>
+<%if persona.user = current_user%>
+<%= link_to "Edit", edit_persona_path(@persona) %> |
+<%= link_to "Delete", persona, :data => { :confirm => 'Are you sure?' }, :method => :delete %>
+<%end%>

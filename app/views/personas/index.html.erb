@@ -1,0 +1,23 @@
+<% provide(:title, 'Personas') %>
+
+<table>
+  <tr>
+    <th>Game</th>
+    <th>Server</th>
+    <th>Name</th>
+  </tr>
+  <% for persona in @personas %>
+     
+    <tr>
+      <td><%= persona.game.name %></td>
+      <td><%= persona.server %></td>
+      <td><%= persona.name %></td>
+      
+      <td><%= link_to "Show", persona %></td>
+      <td><%= link_to "Edit", edit_persona_path(persona) %></td>
+      <td><%= link_to "Destroy", persona, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Persona", new_persona_path %></p>

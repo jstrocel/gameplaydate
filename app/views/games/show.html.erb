@@ -1,0 +1,22 @@
+<% provide(:title, @game.name) %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @game.name %>
+</p>
+<p>
+  <strong>Platform:</strong>
+  <%= @game.platform %>
+</p>
+
+<p>
+  <% if current_user.admin? %>
+    <%= link_to "Edit", edit_game_path(@game) %> |
+    <%= link_to "Destroy", @game, :data => { :confirm => 'Are you sure?' }, :method => :delete %> |
+  <%end%>
+  <%= link_to "View All", games_path %>
+</p>
+
+<div class="span8">
+ <%= render 'own_form' if signed_in? %>
+</div>

@@ -1,0 +1,5 @@
+<%= form_for(current_user.gameownerships.build(game_id: @game.id),
+             remote: true) do |f| %>
+             <div><%= f.hidden_field :game_id %></div>
+  <%= f.submit "Claim", class: "btn btn-large btn-primary" %>
+<% end %>

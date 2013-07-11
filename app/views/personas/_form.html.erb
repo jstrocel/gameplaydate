@@ -1,0 +1,16 @@
+<%= form_for @persona do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <p>
+    <%= f.collection_select :game_id, @games, :id, :name, :prompt => "Select A Game"  %>
+  </p>
+  <p>
+    <%= f.label :name, "Character Name"%><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :server, "Server Name"%><br />
+    <%= f.text_field :server %>
+  </p>
+
+  <p><%= f.submit "Add Persona" %></p>
+<% end %>

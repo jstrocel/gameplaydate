@@ -1,0 +1,19 @@
+<% provide(:title, 'Games') %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Platform</th>
+    <th>Status</th>
+  </tr>
+  
+  
+    <%= render @games %>
+
+  
+</table>
+
+
+
+
+<p><%= link_to "New Game", new_game_path %></p>
