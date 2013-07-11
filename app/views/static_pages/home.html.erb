@@ -12,16 +12,16 @@
    </div> 
    <%else%>
    <div class="row">
-           <div class="span4">
+           <div class="span3 user_verb">
              <h2>Complete Your Profile</h2>
              <p><%= link_to "Go >>", user_path(current_user), class: "btn"%></p>
            </div>
-           <div class="span4">
+           <div class="span3 user_verb">
              <h2>Find Your Friends</h2>
         
              <p><%= link_to "Go >>", users_path, class: "btn"%></p>
           </div>
-           <div class="span4">
+           <div class="span3 user_verb">
              <h2>Create Events</h2>
              <p><%= link_to "Go >>", new_event_path, class: "btn"%></p>
            </div>

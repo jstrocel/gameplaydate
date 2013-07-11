@@ -2,7 +2,26 @@
   <%= gravatar_for user, size: 52 %>
   <%= link_to user.name, user %>
   <% if current_user.admin? && !current_user?(user) %>
-    | <%= link_to "delete", user, method: :delete,
+    | <%= link_to "delete user", user, method: :delete,
                                   data: { confirm: "You sure?" } %>
   <% end %>
+  
+  <% unless current_user?(user) %>
+    <div id="friend_form<%=user.id%>">
+    <% if current_user.following?(user) %>
+      <%= form_for(current_user.friendships.find_by(followed_id: user),
+                   html: { method: :delete },
+                   remote: true) do |f| %>
+        <%= f.submit "Unfriend", class: "btn btn-large" %>
+      <% end %>
+    <% else %>
+      <%= form_for(current_user.friendships.build(followed_id: user.id),
+                   remote: true) do |f| %>
+        <div><%= f.hidden_field :followed_id %></div>
+        <%= f.submit "Add Friend", class: "btn btn-large btn-primary" %>
+      <% end %>
+    <% end %>
+    </div>
+  <% end %>
+  
 </li>

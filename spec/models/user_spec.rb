@@ -160,13 +160,24 @@ describe User do
     end
     
     
-    pending "friends list" do
+    describe "friends list" do
       before{
         @friend1 = FactoryGirl.create(:user)
         @friend2 = FactoryGirl.create(:user)
-        @friend1.request_friend(@friend2)
+        @friend1.follow!(@friend2)
+        @friend2.follow!(@friend1)
       }
-    
+      it "should contain friends" do
+       @friend1.friends.include?(@friend2).should be_true
+       @friend2.friends.include?(@friend1).should be_true
+      end
+      
+      it "should be possible to remove friends" do
+         @friend1.unfollow!(@friend2)
+         @friend1.friends.include?(@friend2).should be_false
+         @friend2.friends.include?(@friend1).should be_false
+      end
+      
       pending "should be able to request friends" do
         @friend2.pending_friend_ids.include?(@friend1.id).should be_true
       end

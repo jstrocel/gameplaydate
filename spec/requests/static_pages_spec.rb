@@ -16,11 +16,7 @@ describe "Static pages" do
      }  
      
        
-       it { should have_selector('.invites-pending')}
-       it { should have_selector('.friend-requests')}
-       it { should have_selector('.events-upcoming')}
-       
-       it "should list the new invites that haven't been RSVP'd"  do
+       pending "should list the new invites that haven't been RSVP'd"  do
          
          user.pending_invites.each do |item|
            page.should have_selector("li##{item.id}", text: item.fromtime)
@@ -34,7 +30,7 @@ describe "Static pages" do
           end
        end
        
-       it "should list schedule"  do
+       pending "should list schedule"  do
          
            user.invites.each do |item|
              page.should have_selector("li##{item.id}", text: item.fromtime)

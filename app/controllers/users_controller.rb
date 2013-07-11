@@ -15,7 +15,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     
     @personas = @user.personas.paginate(page: params[:page])
-   
+    @games = @user.games.paginate(page: params[:page])
+   @friends = @user.friends
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }

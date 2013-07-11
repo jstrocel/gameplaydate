@@ -1,5 +1,5 @@
 <% unless current_user?(@user) %>
-  <div id="follow_form">
+  <div id="friend_form<%=@user.id%>">
   <% if current_user.following?(@user) %>
     <%= render 'unfriend' %>
   <% else %>

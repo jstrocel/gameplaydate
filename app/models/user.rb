@@ -30,9 +30,7 @@ class User < ActiveRecord::Base
        has_many :personas
        has_many :friendships, foreign_key: "follower_id", dependent: :destroy
        has_many :followed_users, through: :friendships, source: :followed
-       has_many :reverse_friendships, foreign_key: "followed_id",
-                                        class_name:  "Friendship",
-                                        dependent:   :destroy
+       has_many :reverse_friendships, foreign_key: "followed_id", class_name:  "Friendship", dependent:   :destroy
        has_many :followers, through: :reverse_friendships, source: :follower
        
       validates :name,  presence: true, length: { maximum: 50 }
@@ -66,11 +64,10 @@ class User < ActiveRecord::Base
   end
   
   def friends
-
+      followers.joins(:friendships).where("friendships.follower_id = users.id and friendships.followed_id = :self_id", :self_id => id).load
   end
   
 
-  
   def send_password_reset
     generate_token(:password_reset_token)
     self.password_reset_sent_at = Time.zone.now
@@ -90,6 +87,10 @@ class User < ActiveRecord::Base
   /
   def unfollow!(friend)
     friendships.find_by(followed_id: friend.id).destroy
+    @reverse_friendship = reverse_friendships.find_by(follower_id: friend.id)
+    if !@reverse_friendship.nil?
+     @reverse_friendship.destroy
+    end
   end
                 
   def follow!(friend)   

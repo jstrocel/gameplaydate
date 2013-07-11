@@ -134,10 +134,18 @@ describe "User pages" do
    # let(:invite1){FactoryGirl.create(:invite)}
    # let(:invite2) {FactoryGirl.create(:invite)}
 
-    before { visit user_path(user) }
+    before do
+      user.claim_game!(game)
+      visit user_path(user) 
+    end
 
     it { should have_selector('h1',    text: user.name) }
     it { should have_title(user.name) }
+    
+    describe "games" do
+      before { sign_in user }
+      it { should have_content(game.platform) }
+    end
     
   
     describe "personas" do

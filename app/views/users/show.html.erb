@@ -8,7 +8,13 @@
       </h1>
     </section>
     <section>
-      
+         <% if @user.games.any? %>
+            <h3>Games</h3>
+            <ol class="games">
+              <%= render @games %>
+            </ol>
+            <%= will_paginate @games %>
+          <% end %>
          <% if @user.personas.any? %>
             <h3>Personas</h3>
             <ol class="personas">
@@ -16,15 +22,23 @@
             </ol>
             <%= will_paginate @personas %>
           <% end %>
+          
+          
     </section>
+   <%=render partial: 'user', collection: @friends %>
   </aside>
+  
+  
+  
+  
+  <div class="span8">
+    <%= render 'friend_form' if signed_in? %>
+   </div>
   
   <%if @user = current_user%>
   <p><%= link_to "New Persona", new_persona_path %></p>
   <p><%= link_to "Edit Profile", edit_user_path(@user) %></p>
   <%end%>
   
-  <div class="span8">
-   <%= render 'friend_form' if signed_in? %>
-  </div>
+ 
 </div>
