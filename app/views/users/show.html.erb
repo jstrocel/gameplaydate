@@ -15,7 +15,7 @@
             </ol>
             <%= will_paginate @games %>
           <% end %>
-         <% if @user.personas.any? %>
+         <% if @personas.any? %>
             <h3>Personas</h3>
             <ol class="personas">
               <%= render @personas %>

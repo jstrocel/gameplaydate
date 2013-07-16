@@ -4,6 +4,7 @@
 <td><%= game.platform %></td>
 <td>
   <div id="own_form<%=game.id%>">
+    <%if @user = current_user%>
   <% if current_user.own_game?(game) %>
     <%= form_for(current_user.gameownerships.find_by(game_id: game.id),
                  html: { method: :delete },
@@ -17,9 +18,10 @@
       <%= f.submit "Claim", class: "btn btn-large btn-primary" %>
     <% end %>
   <% end %>
+  <%end%>
   </div>
 </td>
 <td><%= link_to "Show", game %></td>
 <td><%= link_to "Edit", edit_game_path(game) %></td>
-<td><%= link_to "Destroy", game, :confirm => 'Are you sure?', :method => :delete %></td>
+<td><%= link_to "Destroy", game, :data => { :confirm => 'Are you sure?' }, :method => :delete %></td>
 </tr>
