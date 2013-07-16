@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe GameOwnership do
-  pending "add some examples to (or delete) #{__FILE__}"
   
   let(:game_owner) { FactoryGirl.create(:user) }
   let(:game) { FactoryGirl.create(:game) }

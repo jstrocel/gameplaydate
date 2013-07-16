@@ -8,7 +8,6 @@ describe User do
 
     it { should respond_to(:name) }
     it { should respond_to(:email) }
-    #it { should respond_to(:role) }
     it { should respond_to(:admin) }
     it { should respond_to(:invites) }
     it { should respond_to(:games) }
@@ -26,13 +25,6 @@ describe User do
     it { should be_valid}
     
 
-    pending "accessible attributes" do
-      it "should not allow access to admin" do
-        expect do
-          User.new(role: "admin")
-        end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-      end    
-    end
     
     describe "with admin attribute set to 'true'" do
       before do
@@ -178,19 +170,6 @@ describe User do
          @friend2.friends.include?(@friend1).should be_false
       end
       
-      pending "should be able to request friends" do
-        @friend2.pending_friend_ids.include?(@friend1.id).should be_true
-      end
-        
-        pending "should be able to accept friends" do
-         @friend2.accept_friend(@friend1)
-         @friend2.friend_ids.include?(@friend1.id).should be_true
-      end
-            pending "should remove friends" do
-            @friend2.accept_friend(@friend1)
-            @friend2.remove_friend(@friend1)
-            @friend2.friend_ids.include?(@friend1.id).should be_false
-          end
     end
     
     describe "should have many events through invitations" do
@@ -218,11 +197,7 @@ describe User do
         @player2.events.should include(@event1, @event2)
       end
     end
-  
-    pending "sends a e-mail" do
-        @user.send_instructions
-        ActionMailer::Base.deliveries.last.to.should == [@user.email]
-      end
+
     
     
 end

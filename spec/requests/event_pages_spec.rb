@@ -31,7 +31,6 @@ describe "events" do
     end
     
      describe "with valid information" do
-        #let(:Event) { FactoryGirl.create(:Event) }
         let(:game) { FactoryGirl.create(:game)}
         let(:invitee) {FactoryGirl.create(:user)}
         before do
@@ -50,36 +49,8 @@ describe "events" do
               click_button "Create Event"
             end.to change(Invite, :count).by(1)
         end
-        
-        pending "should not be able to invite the organizer" do
-        fill_in "event_invites_attributes_0_user_name",    with: current_user.name
-          expect do
-            click_button "Create Event"
-          end.to change(Event, :count).by(0)
-        end
-      end
-      
-
-      
-      
-      
-      
-      
-      
-      describe "when users are not friends" do
-        pending "Should not be valid"
-      end  
-      
-      describe "when destroying an Event" do
-       pending "Should delete an Event and all invite entries"
-      end
-      
-      describe"when accepting an Event" do
-        pending "Should change invite accepted Status to true"
       end
     
   end  
   
-  
-
 end

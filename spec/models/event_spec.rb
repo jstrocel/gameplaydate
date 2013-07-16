@@ -9,7 +9,6 @@ describe Event do
   let(:invitee) {FactoryGirl.create(:invite)}
   before {
     params = {event: { game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now}}
-    #debugger
     @event = organizer.hosted_events.build(params[:event])
   }
 
@@ -40,31 +39,5 @@ describe Event do
     its(:game_name) { should == game.name }
   end
   
-  describe "invite! method" do
-    before { @event.save! }
-    it "should create a new invitee" do
-     
-      expect do
-        @event.invite!(guest)
-     end.to change(@event.invites, :count).by(1)
-    end
-    
-    pending "should not be able to invite the organizer" do
-      @invalid_invite = @event.invite!(@event.organizer)
-      @invalid_invite.should_not be_valid
-    end
 
-  end
-  
-  describe "time conflicts" do
-    before { @event.save! }
-    pending "should not conflict with other events" do
-       params2 = {event: { game: game, fromtime: @event.fromtime, totime:@event.totime}}
-      
-       @event2 = organizer.hosted_events.build(params2[:event])
-       @event2.should_not be_valid
-    end
-    
-  end
-  
 end

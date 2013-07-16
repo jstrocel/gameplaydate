@@ -114,16 +114,6 @@ describe "User pages" do
   end
   
   
-  describe "messages page" do
-    
-    #before {visit message_path(user)}
-    
-    pending "it should list messages" do
-      pending "each listing should have first 50 characters of recipient names"
-      pending "each listing should ahve the first 50 characters of the most recent message"
-    end
-    
-  end
   
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
@@ -131,8 +121,6 @@ describe "User pages" do
     let!(:p1) { FactoryGirl.create(:persona, user: user, game: game, name: "Foo") }
     let!(:p2) { FactoryGirl.create(:persona, user: user, game: game, name: "Bar") }
     
-   # let(:invite1){FactoryGirl.create(:invite)}
-   # let(:invite2) {FactoryGirl.create(:invite)}
 
     before do
       user.claim_game!(game)
