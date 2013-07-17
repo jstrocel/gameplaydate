@@ -4,10 +4,9 @@
   <%= render 'shared/error_messages', object: f.object %>
 
 
-  <div class="field">
-    <%= f.label :game_name %><br />
-    <%= f.text_field :game_name %>
-  </div>
+  <p>
+    <%= f.collection_select :game_id, @games, :id, :name, :prompt => "Select A Game"  %>
+  </p>
   
   <%= f.fields_for :invites do |builder| %>
        <%= render 'shared/events/invite_fields', :f => builder %>

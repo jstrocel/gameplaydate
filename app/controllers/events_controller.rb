@@ -9,16 +9,20 @@ class EventsController < ApplicationController
   def show
      @event = Event.find(params[:id])
      @users = @event.users
+     @organizer = User.find(@event.organizer_id)
   end
 
   def new
     @event = Event.new()
-    #organizer = @event.invites.build(user:current_user, status:"organizer")
+    @games = current_user.games
+    @friends = current_user.followers
     invite = @event.invites.build    
   end
 
   def create
+    @games = current_user.games
     @event = current_user.hosted_events.build(event_params)
+    @friends = current_user.followers
       if @event.save
         flash[:success] = "Event Created!"
         redirect_to @event
@@ -32,7 +36,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    if @event.update_attributes(user_params)
+    if @event.update_attributes(event_params)
       flash[:success] = "Profile updated"
       sign_in @user
       redirect_to @event
@@ -60,10 +64,10 @@ class EventsController < ApplicationController
     end
 
     def event_params
-      allowed_attributes = [ :game_name, :game, :maximum_players, :fromtime, 
+      allowed_attributes = [ :organizer, :game_name, :game, :game_id, :maximum_players, :fromtime, 
         :"fromtime(1i)", :"fromtime(2i)", :"fromtime(3i)", :"fromtime(4i)", :"fromtime(5i)", :"totime(1i)", 
         :"totime(2i)", :"totime(3i)", :"totime(4i)", :"totime(5i)", :totime, :content, 
-        invites_attributes: [:user, :status]]
+        invites_attributes: [:user_id, :user, :status]]
       params.require(:event).permit(allowed_attributes)
     end
   

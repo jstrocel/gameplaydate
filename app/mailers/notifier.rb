@@ -14,6 +14,6 @@ class Notifier < ActionMailer::Base
   def send_invite(user, event)
     @user = user
     @event = event
-    mail :to => user.email, :subject => "You have been invited to play!"
+    mail :to => user.email, :subject => "You have been invited to play #{event.game.name}!"
   end
 end

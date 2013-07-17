@@ -32,23 +32,22 @@ describe Notifier do
     let (:event) {host.hosted_events.build(game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now)}
     let(:mail) { Notifier.send_invite(invitee1, event) }
     
-    #ensure that the subject is correct
     it 'renders the subject' do
-     mail.subject.should match('You have been invited to play!')
+      #TODO refactor
+     mail.subject.should include('You have been invited to play')
+     mail.subject.should include(event.game.name)
     end
     
     
-      #ensure that the receiver is correct
     it 'renders the receiver email' do
        mail.to.should == [invitee1.email]
       end
-
-      #ensure that the sender is correct
+      
       it 'renders the sender email' do
          mail.from.should == ['no-reply@gameplaydate.com']
       end
 
-      #ensure that the @name variable appears in the email body
+      
       it 'assigns @name' do
         mail.body.encoded.should match(invitee1.name)
       end
@@ -56,6 +55,7 @@ describe Notifier do
       it 'assigns @event' do
         mail.body.encoded.should match(event.game.name)
       end
+      
     
   end
   

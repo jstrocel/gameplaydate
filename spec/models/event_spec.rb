@@ -8,8 +8,7 @@ describe Event do
   let(:guest) { FactoryGirl.create(:user) }
   let(:invitee) {FactoryGirl.create(:invite)}
   before {
-    params = {event: { game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now}}
-    @event = organizer.hosted_events.build(params[:event])
+    @event = organizer.hosted_events.build(game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now)
   }
 
   

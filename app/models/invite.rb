@@ -1,14 +1,9 @@
 class Invite < ActiveRecord::Base
-  #include Mongoid::Document
-  #include Mongoid::Timestamps
-  #attr_accessible :followed_id
+  after_create :send_email
   belongs_to :user
   belongs_to :event
-  #validate :cant_invite_organizer
+  
 
-  #validates :event_id, presence: true
-  #validates :user_id, presence: true
-  #field  :status, type:String, :default => "pending"
   
   def user_name
        self.user 
@@ -18,13 +13,10 @@ class Invite < ActiveRecord::Base
       self.user = User.find_by(name: name) if name.present?
   end  
   
-  
-  def cant_invite_organizer
-    if event
-     if self.user == event.organizer
-      errors.add(:invite, "An event organizer can't invite themselves")
-    end
-   end
+  def send_email
+    if self.user && self.event
+   Notifier.send_invite(self.user, self.event).deliver
+ end
   end
   
   

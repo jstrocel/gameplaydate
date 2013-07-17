@@ -1,20 +1,11 @@
 class Event < ActiveRecord::Base
-   #include Mongoid::Document
-   #include Mongoid::Timestamps
-   #include Mongoid::MultiParameterAttributes
- 
-  #field :maximum_players, type:Integer
-  #field :fromtime, type: Time
-  #field :totime, type: Time
-  #field :content, type: String
-  #field :invites, type: Hash, :default => Hash.new
+
   has_many :invites,:foreign_key =>"event_id", :dependent => :destroy
   has_many :users, :through => :invites
   accepts_nested_attributes_for :invites, :allow_destroy => true
   belongs_to :organizer
   belongs_to :game
-  validates :fromtime, :totime, :game_id, :presence => true
-  #validate :presence_of_organizer, :on => :create
+  validates :fromtime, :totime, :game_id, :organizer_id, :presence => true
   validate :cant_invite_organizer_to_event
   
   

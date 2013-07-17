@@ -41,23 +41,6 @@ class User < ActiveRecord::Base
       VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
       validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
                         uniqueness: { case_sensitive: false }
-                        
-      #validates_presence_of :beta_invitation_id, :message => 'is required'
-      #validates_uniqueness_of :beta_invitation_id
-
-      #has_many :sent_invitations, :class_name => 'BetaInvitation', :foreign_key => 'sender_id'
-      #belongs_to :beta_invitation
-
-     # before_create :set_beta_invitation_limit
-      
-  
-      def beta_invitation_token
-        beta_invitation.token if beta_invitation
-      end
-
-      def beta_invitation_token=(token)
-        self.beta_invitation = BetaInvitation.find_by_token(token)
-      end
   
   def events
     Event.joins("LEFT OUTER JOIN invites ON invites.event_id = events.id").where("invites.user_id = #{self.id} OR events.organizer_id = #{self.id}")

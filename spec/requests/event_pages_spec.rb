@@ -3,9 +3,14 @@ require 'spec_helper'
 describe "events" do
   
   subject { page }
-  
-  let(:user) { FactoryGirl.create(:user) }
-  before { sign_in user }
+   let(:game) { FactoryGirl.create(:game)}
+    let(:invitee) {FactoryGirl.create(:user)}
+  let(:organizer) { FactoryGirl.create(:user) }
+  before { 
+    organizer.claim_game!(game)
+    invitee.follow!(organizer)
+    sign_in organizer 
+    }
   
   describe "Events Index page" do
     before { visit events_path }
@@ -31,11 +36,10 @@ describe "events" do
     end
     
      describe "with valid information" do
-        let(:game) { FactoryGirl.create(:game)}
-        let(:invitee) {FactoryGirl.create(:user)}
+       
         before do
-          fill_in "Game name", with: game.name
-          fill_in "event_invites_attributes_0_user_name",    with: invitee.name
+          select invitee.name, :from=> "event[invites_attributes][0][user_id]"
+          select game.name, :from=> "event[game_id]"
         end
         
         it "should create an Event" do
