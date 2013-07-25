@@ -48,13 +48,18 @@ describe Notifier do
       end
 
       
-      it 'assigns @name' do
+      it 'includes the invitee name' do
         mail.body.encoded.should match(invitee1.name)
       end
       
-      it 'assigns @event' do
+      it 'includes the game to be played' do
         mail.body.encoded.should match(event.game.name)
       end
+      
+      it 'includes the organizers name' do
+        mail.body.encoded.should match(event.organizer.name)
+      end
+      
       
     
   end

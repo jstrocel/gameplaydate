@@ -16,10 +16,19 @@ def make_users
     name  = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
     password  = "password"
-    User.create!(name:     name,
+    next_user = User.create!(name:     name,
                  email:    email,
                  password: password,
                  password_confirmation: password)
+   / if n > 5
+    5.times do |x|  
+      previous_user = User.find(n-x)
+      if previous_user
+        next_user.follow!(previous_user)
+        previous_user.follow!(next_user)
+      end
+     end  
+    end/
   end
 end
 
@@ -29,5 +38,8 @@ def make_games
     Game.create(name: name, platform: "PC")
   end  
 end
+
+
+
 
 

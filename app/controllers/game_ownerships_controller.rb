@@ -2,7 +2,6 @@ class GameOwnershipsController < ApplicationController
   before_action :signed_in_user
   
   def create
-    #debugger
       @game = Game.find(params[:game_ownership][:game_id])
       current_user.claim_game!(@game)
       respond_to do |format|

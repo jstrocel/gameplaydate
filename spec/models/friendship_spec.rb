@@ -16,7 +16,14 @@ describe Friendship do
     its(:follower) { should eq follower }
     its(:followed) { should eq followed }
   end
-
+  
+  
+  describe "don't follow twice" do
+    before {friendship.save}
+    it "should not be able to follow someone twice" do
+     expect {  follower.follow!(followed) }.to change(Friendship, :count).by(0)
+    end
+  end
   describe "when followed id is not present" do
     before { friendship.followed_id = nil }
     it { should_not be_valid }

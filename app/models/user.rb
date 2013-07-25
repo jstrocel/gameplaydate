@@ -1,23 +1,7 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  id         :integer          not null, primary key
-#  firstname  :string(255)
-#  lastname   :string(255)
-#  email      :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
+
 
 class User < ActiveRecord::Base
-  
-  #include Mongoid::Document
-  #include Mongoid::Timestamps
-  #include ActiveModel::SecurePassword
-  
- 
-  
+
    has_secure_password
      
      before_save { |user| user.email = email.downcase }
@@ -77,7 +61,7 @@ class User < ActiveRecord::Base
   end
                 
   def follow!(friend)   
-   friendships.create!(followed_id: friend.id)          
+     friendships.create!(followed_id: friend.id)  
   end
   
   def claim_game!(game)

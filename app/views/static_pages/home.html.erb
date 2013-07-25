@@ -2,55 +2,12 @@
 
 <% if signed_in? %>
   <% if !current_user.events.empty? %> 
-   <div class= "span8">
-   <h3>Pending Invites</h3>
-   <%= render 'shared/events/pending' %>  
-   <h3>Upcoming Events</h3>
-   <%= render 'shared/events/upcoming' %>
-   <h3>Friend Requests</h3>
-   <%= render 'shared/friendships/requests'%>
-   </div> 
+      <ol class="events">
+        <%= render partial: 'shared/events/event', collection: @events %>
+      </ol>
    <%else%>
-   <div class="row">
-           <div class="span3 user_verb">
-             <h2>Complete Your Profile</h2>
-             <p><%= link_to "Go >>", user_path(current_user), class: "btn"%></p>
-           </div>
-           <div class="span3 user_verb">
-             <h2>Find Your Friends</h2>
-        
-             <p><%= link_to "Go >>", users_path, class: "btn"%></p>
-          </div>
-           <div class="span3 user_verb">
-             <h2>Create Events</h2>
-             <p><%= link_to "Go >>", new_event_path, class: "btn"%></p>
-           </div>
-         </div>
+     <%= render 'noevents'%>
    <%end%>
 <%else%>
-<div class="hero-unit">
-        <h1>Welcome to GamePlaydate!</h1>
-        <p>This is the Gaming Network for Parents, Professionals, and other busy people. Get the most out of your gaming experience by scheduling meet-ups and keeping all your profiles in one place!</p>
-        <p><%= link_to "Sign up", signup_path, class: "btn btn-large btn-primary" %></p>
-      </div>
-      
-      <div class="row">
-              <div class="span4">
-                <h2>Schedule</h2>
-                <p>We love playing games, but we also love keeping the rest of our lives in order. Schedule your online time so your friends know when to meet you. </p>
-                <p><a class="btn" href="#">View details »</a></p>
-              </div>
-              <div class="span4">
-                <h2>Plan</h2>
-                <p>Keep all your profiles in one place so your friends know where to find you.</p>
-                <p><a class="btn" href="#">View details »</a></p>
-             </div>
-              <div class="span4">
-                <h2>Have Fun</h2>
-                <p>Because your playing with you're friends, there's no need to be harassed!</p>
-                <p><a class="btn" href="#">View details »</a></p>
-              </div>
-            </div>
-
-
+ <%= render 'unsigned'%>
 <%end%>     
