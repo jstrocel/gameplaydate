@@ -2,9 +2,7 @@
 
 <% if signed_in? %>
   <% if !current_user.events.empty? %> 
-      <ol class="events">
-        <%= render partial: 'shared/events/event', collection: @events %>
-      </ol>
+    <%= render 'shared/schedule'%>
    <%else%>
      <%= render 'noevents'%>
    <%end%>

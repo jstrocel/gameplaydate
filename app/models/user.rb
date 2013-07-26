@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   end
   
   def friends
-      followers.joins(:friendships).where("friendships.follower_id = users.id and friendships.followed_id = :self_id", :self_id => id).load
+      followers.joins(:friendships).where("friendships.follower_id = users.id and friendships.followed_id = :self_id", :self_id => id).uniq.load
   end
   
 
@@ -48,10 +48,6 @@ class User < ActiveRecord::Base
     friendships.find_by(followed_id: friend.id)
   end
   
-  /def friends
-    User.all_in(friend_ids: self.id)
-  end
-  /
   def unfollow!(friend)
     friendships.find_by(followed_id: friend.id).destroy
     @reverse_friendship = reverse_friendships.find_by(follower_id: friend.id)
@@ -60,12 +56,16 @@ class User < ActiveRecord::Base
     end
   end
                 
-  def follow!(friend)   
-     friendships.create!(followed_id: friend.id)  
+  def follow!(friend) 
+    if !self.following?(friend)  
+     friendships.create!(followed_id: friend.id)
+    end
   end
   
   def claim_game!(game)
-   gameownerships.create!(game_id:game.id)
+   if !self.own_game?(game)
+     gameownerships.create!(game_id:game.id)
+   end
   end
   
   def unclaim_game!(game)
@@ -76,23 +76,20 @@ class User < ActiveRecord::Base
    gameownerships.find_by(game_id:game.id)
   end
   
-  def all_events
-    #Event.any_of({ organizer_id: "#{self.id}" },{"invites.#{self.id}"=> false},{"invites.#{self.id}"=> true})
-    #(self.events.all + self.invitations.all).uniq
+  def accept_invite!(event)
+    if event.users.includes(self)
+      invite = event.invites.where(user:self).first
+      invite.update_attributes(:status => 'accepted')
+    end
+  end
+  
+  def confirmed_events
+    Event.joins(:invites).where(:invites => {:user => self, :status => "accepted"})
   end
   
   def pending_invites
-    # Event.in(id: invites.where(status:"pending").map(&:event_id))
     Event.joins(:invites).where(:invites => {:user => self, :status => "pending"})
   end
-  
-  def upcoming_events
-     
-  end
-  
-  def past_events
-     
-  end  
   
   def toggle!(field)
     send "#{field}=", !self.send("#{field}?")

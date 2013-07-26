@@ -10,11 +10,18 @@ describe GameOwnership do
  
   it { should be_valid }
 
-  describe "follower methods" do    
+  describe "ownership methods" do    
     it { should respond_to(:game) }
     it { should respond_to(:user) }
     its(:game) { should eq game }
     its(:user) { should eq game_owner }
+  end
+  
+  describe "don't own twice" do
+    before {game_ownership.save}
+    it "should not be able to own the same game twice" do
+     expect {  game_owner.claim_game!(game) }.to change(GameOwnership, :count).by(0)
+    end
   end
 
   describe "when game id is not present" do

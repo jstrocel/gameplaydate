@@ -18,7 +18,7 @@ class Event < ActiveRecord::Base
   end
   
   def invite!(user)
-   self.invites.create!(user_id: user.id, status:"pending")
+     self.invites.create!(user_id: user.id, status:"pending")
   end
   
   def organize!(user)

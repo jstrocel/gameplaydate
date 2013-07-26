@@ -24,6 +24,8 @@ describe Friendship do
      expect {  follower.follow!(followed) }.to change(Friendship, :count).by(0)
     end
   end
+  
+
   describe "when followed id is not present" do
     before { friendship.followed_id = nil }
     it { should_not be_valid }

@@ -20,9 +20,12 @@ describe Invite do
   it { should respond_to(:send_email) }
   
   it "should notify the user through email" do
-
    lambda {@invite.save}.should change(ActionMailer::Base.deliveries,:size).by(1)
+  end
   
+  describe "when the user has been invited already" do
+    before{@event.invite!(guest)}
+    it { should_not be_valid}
   end
   
   

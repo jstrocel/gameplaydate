@@ -19,6 +19,11 @@
   <b>Totime:</b>
   <%= @event.totime %>
 </p>
+<% if !@event.invites.empty?%>
+<ol class="invitees">
+  <%= render partial: 'invite', collection: @event.invites %>
+</ol>
+<%end%>
 
 
 <%= link_to 'Edit', edit_event_path(@event) %> |

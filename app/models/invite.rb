@@ -2,7 +2,7 @@ class Invite < ActiveRecord::Base
   after_create :send_email
   belongs_to :user
   belongs_to :event
-  
+  validates_uniqueness_of :user_id, :scope => :event_id  
 
   
   def user_name
@@ -15,8 +15,8 @@ class Invite < ActiveRecord::Base
   
   def send_email
     if self.user && self.event
-   Notifier.send_invite(self.user, self.event).deliver
- end
+     Notifier.send_invite(self.user, self.event).deliver
+   end
   end
   
   

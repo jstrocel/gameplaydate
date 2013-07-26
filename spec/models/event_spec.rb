@@ -38,5 +38,19 @@ describe Event do
     its(:game_name) { should == game.name }
   end
   
+  describe "inviting users" do
+    before do
+      @event.save
+      @event.invite!(guest)
+    end
+    
+    it "should invite the user using invite! method" do
+      @event.invites.count.should eq(1)
+      @event.users.first.should eq(guest)
+    end
+      
+    
+  end
+  
 
 end

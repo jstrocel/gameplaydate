@@ -19,7 +19,7 @@ describe User do
     it { should respond_to(:authenticate) }
     it { should respond_to(:remember_token) }
     it { should respond_to(:hosted_events)}
-    it { should respond_to(:all_events)}
+    it { should respond_to(:events)}
     it { should respond_to (:beta_invitation_id)}
     it { should respond_to (:beta_invitation_limit)}
     it { should be_valid}
@@ -164,6 +164,13 @@ describe User do
        @friend2.friends.include?(@friend1).should be_true
       end
       
+      it "should have the correct number of friends" do
+        @friend1.friends.count.should eq(1)
+         @friend2.friends.count.should eq(1)
+    
+        
+      end
+      
       it "should be possible to remove friends" do
          @friend1.unfollow!(@friend2)
          @friend1.friends.include?(@friend2).should be_false
@@ -171,6 +178,9 @@ describe User do
       end
       
     end
+    
+
+    
     
     describe "should have many events through invitations" do
       before{
@@ -182,13 +192,18 @@ describe User do
         @event1.invite!(@player2)      
       }
       it "should create invitations" do
-   
         @player2.events.first.should == @event1
       end
       
       it "the created invite should be pending" do
           @player2.pending_invites.should include(@event1)
       end
+      
+      it "should be able to accept the invite" do
+        expect{@player2.accept_invite!(@event1)}.to change(@player2.confirmed_events, :count).by(1)
+      end
+      
+      
       
       it "user.events should have events the user has organized and has been invited to" do
         params2 ={event: { game: @game1, fromtime: 2.hours.from_now, totime: 3.hours.from_now }}
@@ -197,6 +212,9 @@ describe User do
         @player2.events.should include(@event1, @event2)
       end
     end
+    
+    
+    
 
     
     

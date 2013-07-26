@@ -30,7 +30,7 @@ class InitialData < ActiveRecord::Migration
     create_table "invites", :force => true do |t|
      t.integer  "event_id"
      t.integer  "user_id"
-     t.integer  "status"
+     t.string  "status",  default: 'pending'
      t.datetime "created_at", :null => false
      t.datetime "updated_at", :null => false
      t.boolean  "accepted"
