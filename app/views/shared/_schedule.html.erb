@@ -1,9 +1,10 @@
-  <ol class="events">
-    <%= render partial: 'shared/events/event', collection: @events %>
-  </ol>
-  
-  
-  <ol class="events">
+
+  <h1>Pending Events</h1>
+  <ol class="pending_events">
      <%= render partial: 'shared/events/event', collection: @pending_events %>
    </ol>
   
+  <h1> Confirmed Events</h1>
+  <ol class="confirmed_events">
+    <%= render partial: 'shared/events/event', collection: @confirmed_events %>
+  </ol>

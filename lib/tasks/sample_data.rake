@@ -60,7 +60,8 @@ def claim_games
   users = User.all
   users.each do |user| 
     3.times do |n| 
-      user.claim_game!(Game.find(rand(1..5)))
+      game = Game.find(rand(1..5))
+      user.claim_game!(game)
       puts "#{user.name} now owns #{game.name}"
     end
   end
@@ -71,13 +72,18 @@ def make_events
   users = User.all
   users.each do |user|
     5.times do |n|
-      event = user.hosted_events.build(game: user.games.first, fromtime: 2.hours.from_now, totime: 3.hours.from_now)
+      game = user.games.first
+      event = user.hosted_events.build(game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now)
       puts "#{user.name} is hosting a #{game.name} game"
       event.save
       invitees = user.friends[1..5]
       invitees.each do |invitee|
         event.invite!(invitee) 
         puts "#{user.name} invited #{invitee.name}"
+        if rand(1..2) == 2
+          invitee.accept_invite!(event)
+          puts "#{invitee.name} has accepted #{user.name}'s invitation!"
+        end
       end
     end
   end   
