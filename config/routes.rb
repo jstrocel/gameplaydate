@@ -10,8 +10,18 @@ Gameplaydate::Application.routes.draw do
       get :following, :followers
     end
   end
-  resources :events
-  resources :invites, only: [:create, :destroy]
+  resources :events do
+    collection do
+     get :pending, :confirmed
+     post :pending, :confirmed
+    end
+    
+  end
+  resources :invites do
+    member do 
+     post :accept, :cancel
+    end
+  end
   resources :sessions, only: [:new, :create, :destroy]
   resources :friendships, only: [:create, :destroy]
   resources :game_ownerships, only: [:create, :destroy]

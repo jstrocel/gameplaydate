@@ -21,7 +21,7 @@
 </p>
 <% if !@event.invites.empty?%>
 <ol class="invitees">
-  <%= render partial: 'invite', collection: @event.invites %>
+  <%= render partial: 'invite', collection: @event.invites, :as => :invite %>
 </ol>
 <%end%>
 

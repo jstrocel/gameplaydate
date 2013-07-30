@@ -1,8 +1,25 @@
-<li>
-  <%= link_to(event) do %>
-  <span class="content"><%= event.game.name %> by <%=event.organizer.name%></span>
-  <%end%>
-  <span class="timestamp">
-    From <%= event.fromtime.to_s(:long) %> to <%=event.totime.to_s(:long)%>.
+<li class ="row">
+  <span class = "span1">
+    <div class = "row text-center btn-danger">
+      <%=event.fromtime.strftime('%b')%>
+    </div>
+    <div class = "row text-center">
+      <h2><%=event.fromtime.day%><h2>
+     </div>
   </span>
+  <span class = "span2">
+    <div class = "row">
+      <%=event.fromtime.strftime('From: %l:%M %p')%>
+    </div>
+    <div class = "row">
+      <%=event.totime.strftime('To: %l:%M %p')%>
+    </div>
+  </span>
+  <span class "span1"> <%= gravatar_for event.organizer, size: 52 %></span>
+  <%= link_to(event) do %>
+  <span class="span4"><%= event.game.name %> with <%=event.organizer.name%></span>
+  <%end%>
+  <%if event.invited?(current_user)%>
+  <span class="span2"><%= render :partial => 'shared/invites/rsvp_form', locals: { invite: event.invited?(current_user) }%></span>
+  <%end%>
 </li>

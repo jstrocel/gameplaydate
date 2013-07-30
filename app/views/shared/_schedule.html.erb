@@ -1,10 +1,19 @@
-
+  <div class="row">
   <h1>Pending Events</h1>
-  <ol class="pending_events">
+  <ol class="events">
      <%= render partial: 'shared/events/event', collection: @pending_events %>
-   </ol>
   
+  <div class="span12 text-center">
+  <%= button_to "See all Pending Events", pending_events_path, class:"btn btn-large btn-block btn-primary" %>
+  </div>
+   </ol>
+  </div>
+  <div class="row">
   <h1> Confirmed Events</h1>
-  <ol class="confirmed_events">
+  <ol class="events">
     <%= render partial: 'shared/events/event', collection: @confirmed_events %>
   </ol>
+  <div class="span12 text-center">
+  <%= button_to "See all Confirmed Events", confirmed_events_path, class:"btn btn-large btn-block btn-danger" %>
+  </div>
+  </div>

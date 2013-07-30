@@ -3,13 +3,16 @@ require 'spec_helper'
 describe "events" do
   
   subject { page }
-   let(:game) { FactoryGirl.create(:game)}
-    let(:invitee) {FactoryGirl.create(:user)}
+  let(:game) { FactoryGirl.create(:game)}
+  let(:invitee1) {FactoryGirl.create(:user)}
+  let(:invitee2) {FactoryGirl.create(:user)}
   let(:organizer) { FactoryGirl.create(:user) }
+  let (:event) {FactoryGirl.create(:event, organizer: organizer, game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now)} 
+     
+  
   before { 
     organizer.claim_game!(game)
-    invitee.follow!(organizer)
-    sign_in organizer 
+    invitee1.follow!(organizer)
     }
   
   describe "Events Index page" do
@@ -20,7 +23,10 @@ describe "events" do
   end
   
   describe "New Event" do
-    before { visit new_event_path }
+    before do
+      sign_in organizer 
+      visit new_event_path 
+    end
     
     
      describe "with invalid information" do
@@ -38,7 +44,7 @@ describe "events" do
      describe "with valid information" do
        
         before do
-          select invitee.name, :from=> "event[invites_attributes][0][user_id]"
+          select invitee1.name, :from=> "event[invites_attributes][0][user_id]"
           select game.name, :from=> "event[game_id]"
         end
         
@@ -56,5 +62,54 @@ describe "events" do
       end
     
   end  
+  
+  describe "Show Event" do
+    before do
+         event.invite!(invitee1)
+         event.invite!(invitee2)
+    end
+    
+    context "As Organizer" do
+      before do
+        sign_in organizer
+        visit event_path(event)
+      end
+    end
+    
+    
+    context "As Invitee" do 
+      before do  
+        sign_in invitee1
+        visit event_path(event)
+        @invite = Invite.find_by(event:event, user:invitee1)
+      end
+      
+      
+      #it { should have_selector( 'li#user-id-#{invitee1.id}',    text: 'Events') }
+      
+      it "should be able to accept invite" do
+        expect do
+             click_button "Accept"
+           end.to change(@invite, :status).to("accepted")
+      end
+      
+      context "after the invitee has accepted the invitation" do
+        before do
+          invitee1.accept_invite!(event)
+           visit event_path(event)
+        end
+        
+        it "should be able to cancel invite" do
+          expect do
+               click_button "Cancel"
+             end.to change(@invite, :status).to("cancelled")
+        end
+      end
+      
+    end
+    
+  end
+  
+  
   
 end

@@ -16,4 +16,16 @@ class Notifier < ActionMailer::Base
     @event = event
     mail :to => user.email, :subject => "You have been invited to play #{event.game.name}!"
   end
+  
+  def accept_email(invite)
+    @user = invite.user
+    @organizer = invite.event.organizer
+    mail :to => @organizer.email, :subject => "#{@user.name} has accepted your invite!"
+  end
+  
+  def cancel_email(invite)
+     @user = invite.user
+      @organizer = invite.event.organizer
+      mail :to => @organizer.email, :subject => "#{@user.name} has cancelled."
+  end
 end

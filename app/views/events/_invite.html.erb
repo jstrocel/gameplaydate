@@ -1,5 +1,6 @@
-<li>
-<%= gravatar_for invite.user, size: 52 %>
-<%= link_to invite.user.name, invite.user %>
-<%=invite.status%>
+<li id="user-id-<%=invite.user_id%>">
+  <%= gravatar_for invite.user, size: 52 %>
+  <%= link_to invite.user.name, invite.user %>
+  <%=invite.status%>
+  <%= render :partial => 'shared/invites/rsvp_form', locals: { invite: invite }%>
 </li>

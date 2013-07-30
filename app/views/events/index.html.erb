@@ -1,28 +1,12 @@
 <% provide(:title, 'Events') %>
 <h1>Events</h1>
 
-<table>
-  <tr>
-    <th>Game</th>
-    <th>User</th>
-    <th>Fromtime</th>
-    <th>Totime</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
 
-<% @events.each do |event| %>
-  <tr>
-    <td><%= event.fromtime %></td>
-    <td><%= event.totime %></td>
-    <td><%= link_to 'Show', event %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
-    <td><%= link_to 'Destroy', event, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
+<%= button_to 'Create New Event', new_event_path, class: "btn btn-block btn-large btn-success" %>
+<%= button_to 'See My Events', new_event_path, class: "btn btn-block btn-large btn-danger" %>
 
-<br />
 
-<%= link_to 'New Invite', new_event_path %>
+<ol class="events">
+   <%= render partial: 'shared/events/event', collection: @events %>
+ </ol>
+<%= will_paginate @events %>

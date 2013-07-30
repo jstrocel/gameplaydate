@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   before_filter :signed_in_user
   
   def index
-    @events = Event.all
+    @events = Event.paginate(page: params[:page], :per_page => 10)
   end
 
   def show
@@ -10,6 +10,15 @@ class EventsController < ApplicationController
      @users = @event.users
      @organizer = User.find(@event.organizer_id)
   end
+  
+  def pending
+    @events = current_user.pending_invites.paginate(page: params[:page])
+  end
+  
+  def confirmed
+    @events = current_user.confirmed_events.paginate(page: params[:page])
+  end
+  
 
   def new
     @event = Event.new()

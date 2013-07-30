@@ -29,6 +29,7 @@ class Event < ActiveRecord::Base
   end
   
   def invited?(user)
+    invites.find_by(user_id: user.id)
   end
   
   def cant_invite_organizer_to_event
