@@ -21,7 +21,7 @@ class EventsController < ApplicationController
   
 
   def new
-    @event = Event.new()
+    @event = current_user.hosted_events.new()
     @games = current_user.games
     @friends = current_user.followers
     invite = @event.invites.build    

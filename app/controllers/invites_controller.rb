@@ -3,13 +3,16 @@ class InvitesController < ApplicationController
   
   def accept
       @invite = Invite.find_by(id: params[:id])
-      @invite.update_attributes(:status => 'accepted')
+      if @invite.update_attributes(:status => 'accepted')
       Notifier.accept_email(@invite).deliver
         flash[:success] = "Invite Accepted"
         respond_to do |format|
           format.html { redirect_to :back }
           format.js
         end
+      else
+        render @invite.event
+      end
   end
   
   def cancel

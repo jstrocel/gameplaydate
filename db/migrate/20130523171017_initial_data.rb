@@ -13,7 +13,7 @@ class InitialData < ActiveRecord::Migration
       t.string   "xblaid"
       t.string   "psnid"
       t.string   "wowid"
-      t.string   "role_id"
+      t.string   "role", :default => "user"
     end
 
     create_table "events", :force => true do |t|
@@ -54,17 +54,6 @@ class InitialData < ActiveRecord::Migration
      t.datetime "updated_at", :null => false
      t.string   "platform"
     end
-
-
-
-
-
-    create_table "roles", :force => true do |t|
-     t.string   "name"
-     t.datetime "created_at", :null => false
-     t.datetime "updated_at", :null => false
-    end
-
 
   end
 end

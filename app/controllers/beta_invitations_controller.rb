@@ -1,14 +1,18 @@
 class BetaInvitationsController < ApplicationController
+  before_filter :signed_in_user
+  
   def new
-    @beta_invitation = BetaInvitation.new
+    @beta_invitation = BetaInvitation.new()
   end
 
   def create
     @beta_invitation = BetaInvitation.new(beta_invite_params)
+    @beta_invitation.sender = current_user
     if @beta_invitation.save
+      
       redirect_to root_url, :notice => "Successfully created beta invitation."
     else
-      render :action => 'new'
+      render :new
     end
   end
   private

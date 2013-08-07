@@ -5,6 +5,11 @@
       <h1>
         <%= gravatar_for @user %>
         <%= @user.name %>
+          <%if current_user.admin? %>
+          
+           <p><%= link_to "New Persona", new_persona_path %></p>
+           <p><%= link_to "Edit Profile", edit_user_path(@user) %></p>
+           <%end%>
       </h1>
     </section>
     <section>
@@ -23,6 +28,8 @@
             <%= will_paginate @personas %>
           <% end %>
           
+         
+          
           
     </section>
    <%=render partial: 'user', collection: @friends %>
@@ -34,11 +41,7 @@
   <div class="span8">
     <%= render 'friend_form' if signed_in? %>
    </div>
-  
-  <%if @user = current_user%>
-  <p><%= link_to "New Persona", new_persona_path %></p>
-  <p><%= link_to "Edit Profile", edit_user_path(@user) %></p>
-  <%end%>
-  
+ 
+   
  
 </div>

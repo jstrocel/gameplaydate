@@ -10,6 +10,10 @@ require "rails/all"
 
 Bundler.require(:default, Rails.env)
 
+CONFIG = YAML.load(File.read(File.expand_path('../application.yml', __FILE__)))
+CONFIG.merge! CONFIG.fetch(Rails.env, {})
+CONFIG.symbolize_keys!
+
 module Gameplaydate
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

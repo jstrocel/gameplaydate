@@ -77,29 +77,23 @@ ActiveRecord::Schema.define(version: 20130709175451) do
     t.datetime "updated_at"
   end
 
-  create_table "roles", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "email"
     t.boolean  "admin",                  default: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "password_digest"
     t.string   "remember_token"
     t.string   "steamid"
     t.string   "xblaid"
     t.string   "psnid"
     t.string   "wowid"
-    t.string   "role_id"
+    t.string   "role",                   default: "user"
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
     t.integer  "beta_invitation_id"
-    t.integer  "beta_invitation_limit"
+    t.integer  "beta_invitation_limit",  default: 0
   end
 
 end

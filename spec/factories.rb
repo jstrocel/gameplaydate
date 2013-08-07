@@ -1,7 +1,7 @@
 FactoryGirl.define do 
   
   factory :beta_invitation do
-     sequence(:recipient_email) { |n| "person_#{n}@example.com"}
+     sequence(:recipient_email) { |n| "beta_user_#{n}@example.com"}
      sent_at DateTime.now
   end
   
@@ -15,8 +15,10 @@ FactoryGirl.define do
    #beta_invitation @beta_invite
    password "foobar"
    password_confirmation "foobar"
+   beta_invitation_limit 5
    factory :admin do
      admin true
+     role "admin"
    end
    trait :with_events do
      after :create do |user|

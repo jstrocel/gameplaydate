@@ -20,21 +20,18 @@ describe User do
     it { should respond_to(:remember_token) }
     it { should respond_to(:hosted_events)}
     it { should respond_to(:events)}
+    it { should respond_to(:role)}
     it { should respond_to (:beta_invitation_id)}
     it { should respond_to (:beta_invitation_limit)}
     it { should be_valid}
     
-
-    
-    describe "with admin attribute set to 'true'" do
+    describe "signing up a beta_user" do
       before do
-        @user.save!
-        @user.toggle!(:admin)
+        @user.role = "beta_user"
+        @user.beta_invitation_id = nil
       end
-
-      it { should be_admin }
+     it {should_not be_valid}
     end
-    
     
     describe "when name is not present" do
       before { @user.name = " " }

@@ -1,5 +1,5 @@
 <% if current_user?(invite.user) %>
-  <div id="rsvp_form<%=invite.user_id%>", class="rsvp">
+  <div id="<%=invite.id%>", class="rsvp">
   <% if invite.status == "accepted" %>
     <%= render :partial => '/shared/invites/cancel', locals: { invite_id: invite.id }%>
   <% else %>

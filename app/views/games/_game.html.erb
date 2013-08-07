@@ -22,6 +22,8 @@
   </div>
 </td>
 <td><%= link_to "Show", game %></td>
+<% if current_user.admin?  %>
 <td><%= link_to "Edit", edit_game_path(game) %></td>
 <td><%= link_to "Destroy", game, :data => { :confirm => 'Are you sure?' }, :method => :delete %></td>
 </tr>
+<%end%>

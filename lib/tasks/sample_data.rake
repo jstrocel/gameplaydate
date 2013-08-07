@@ -13,7 +13,8 @@ def make_users
   admin = User.create!(name:     "Example User",
                        email:    "example@railstutorial.org",
                        password: "foobar",
-                       password_confirmation: "foobar")
+                       password_confirmation: "foobar",
+                       role: "admin")
   admin.toggle!(:admin)
   99.times do |n|
     name  = Faker::Name.name
@@ -73,7 +74,9 @@ def make_events
   users.each do |user|
     5.times do |n|
       game = user.games.first
-      event = user.hosted_events.build(game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now)
+      fromtime = Time.now+rand(1..7).days
+      totime = fromtime + 1.hour
+      event = user.hosted_events.build(game: game, fromtime: Time.now+(n+user.id).days, totime: Time.now + 1.hour + (n+user.id+1).days)
       puts "#{user.name} is hosting a #{game.name} game"
       event.save
       invitees = user.friends[1..5]

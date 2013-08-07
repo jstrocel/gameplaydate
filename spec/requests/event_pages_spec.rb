@@ -16,7 +16,11 @@ describe "events" do
     }
   
   describe "Events Index page" do
-    before { visit events_path }
+    before do
+      sign_in organizer 
+      visit events_path 
+    end
+    
 
     it { should have_selector('h1',    text: 'Events') }
     it { should have_title('Events') }
@@ -81,16 +85,18 @@ describe "events" do
       before do  
         sign_in invitee1
         visit event_path(event)
+    
         @invite = Invite.find_by(event:event, user:invitee1)
+        
       end
       
       
-      #it { should have_selector( 'li#user-id-#{invitee1.id}',    text: 'Events') }
+      it { should have_selector("li##{@invite.id}") }
       
       it "should be able to accept invite" do
         expect do
-             click_button "Accept"
-           end.to change(@invite, :status).to("accepted")
+          within("div#1.rsvp"){ click_button "Accept" }
+           end.to change(event.invites.accepted, :count).by(1)
       end
       
       context "after the invitee has accepted the invitation" do
@@ -102,7 +108,7 @@ describe "events" do
         it "should be able to cancel invite" do
           expect do
                click_button "Cancel"
-             end.to change(@invite, :status).to("cancelled")
+             end.to change(event.invites.cancelled, :count).by(1)
         end
       end
       

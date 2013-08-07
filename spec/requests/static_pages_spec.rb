@@ -18,9 +18,14 @@ describe "Static pages" do
      }  
      
      it "should display the user's schedule" do
-        user.events.each do |item|
-           expect(page).to have_selector("li", text: item.game.name)
+        user.pending_invites.limit(5).each do |item|
+           expect(page).to have_selector("li##{item.id}", text: item.game.name)
          end
+        
+        user.confirmed_events.limit(5).each do |item|
+              expect(page).to have_selector("li##{item.id}", text: item.game.name)
+        end
+         
      end
      
     

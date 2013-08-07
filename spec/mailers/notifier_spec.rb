@@ -24,6 +24,33 @@ describe Notifier do
  
   end
   
+  describe 'send_beta_invite' do
+    let (:host) {FactoryGirl.create(:user)}
+    let (:beta_invitee_email) {"anybody@home.com"}
+    let (:beta_invitation) {FactoryGirl.create(:beta_invitation, :sender=>host, :recipient_email=>beta_invitee_email)}
+    let(:mail) { Notifier.send_beta_invite(beta_invitation) }
+    
+      it 'renders the subject' do
+       mail.subject.should include('has invited you to GamePlayDate')
+       mail.subject.should include(host.name)
+      end
+
+      it 'renders the receiver email' do
+         mail.to.should == [beta_invitee_email]
+        end
+
+        it 'renders the sender email' do
+           mail.from.should == ['no-reply@gameplaydate.com']
+        end
+
+        it 'includes the beta inviters name' do
+          mail.body.encoded.should match(host.name)
+        end
+  
+  end
+  
+  
+  
   describe 'send_invite' do
     let (:host) {FactoryGirl.create(:user)}
     let (:invitee1) {FactoryGirl.create(:user)}
@@ -59,9 +86,6 @@ describe Notifier do
       it 'includes the organizers name' do
         mail.body.encoded.should match(event.organizer.name)
       end
-      
-      
-    
   end
   
 end

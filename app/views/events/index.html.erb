@@ -2,8 +2,8 @@
 <h1>Events</h1>
 
 
-<%= button_to 'Create New Event', new_event_path, class: "btn btn-block btn-large btn-success" %>
-<%= button_to 'See My Events', new_event_path, class: "btn btn-block btn-large btn-danger" %>
+<%= button_to 'Create New Event', new_event_path, class: "btn btn-block btn-large btn-success", :method => :get %>
+<%= button_to 'See My Events', new_event_path, class: "btn btn-block btn-large btn-danger", :method => :get  %>
 
 
 <ol class="events">

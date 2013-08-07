@@ -18,6 +18,8 @@
 
       <%= f.label :password_confirmation, "Confirm Password" %>
       <%= f.password_field :password_confirmation %>
+      
+      <%= f.collection_select :role, User::ROLES, :to_s, :humanize %>
 
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
     <% end %>

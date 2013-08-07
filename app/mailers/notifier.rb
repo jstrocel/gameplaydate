@@ -11,6 +11,19 @@ class Notifier < ActionMailer::Base
       mail :to => user.email, :subject => "Password Reset"
   end
   
+  def send_beta_invite(beta_invitation)
+     # subject    '#{beta_invitation.sender.name} has invited you to GamePlayDate'
+    #  recipients beta_invitation.recipient_email
+     # body       :invitation => invitation, :signup_url => signup_url
+      
+      @beta_invitation = beta_invitation
+      @sender = beta_invitation.sender
+      #@signup_url = signup_url
+     @subject =  "#{@sender.name} has invited you to GamePlayDate"
+      mail :to => @beta_invitation.recipient_email, :subject => @subject
+      @beta_invitation.update_attribute(:sent_at, Time.now)
+  end
+  
   def send_invite(user, event)
     @user = user
     @event = event

@@ -46,6 +46,7 @@ describe Event do
     
     it "should invite the user using invite! method" do
       @event.invites.count.should eq(1)
+      @event.invites.pending.count.should eq(1)
       @event.users.first.should eq(guest)
     end
       

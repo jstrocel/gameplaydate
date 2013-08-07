@@ -26,8 +26,12 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
-    @user = User.new
-
+    if params[:beta_invitation_token]
+       @user = User.new(:beta_invitation_token => params[:beta_invitation_token])
+       @user.email = @user.beta_invitation.recipient_email 
+    else
+       @user = User.new()
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
@@ -43,6 +47,8 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
      @user = User.new(user_params)
+     @user.role = "beta_user" if CONFIG[:beta_mode] ==true
+    
       if @user.save
         sign_in @user
         Notifier.registration_confirmation(@user).deliver
@@ -94,8 +100,11 @@ class UsersController < ApplicationController
   private
   
       def user_params
-        params.require(:user).permit(:name, :email, :friend_ids, :pending_friend_ids, :password, :password_confirmation, :user, :beta_invitation_token)
+      
+          allowed_attributes = [ :name, :email, :friend_ids, :pending_friend_ids, :password, :password_confirmation, :user, :beta_invitation_token]
+        params.require(:user).permit(allowed_attributes)
       end
+      
       
       def skip_password_attribute
         if params[:password].blank? && params[:password_confirmation].blank?

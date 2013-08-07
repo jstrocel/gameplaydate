@@ -15,7 +15,6 @@ Gameplaydate::Application.routes.draw do
      get :pending, :confirmed
      post :pending, :confirmed
     end
-    
   end
   resources :invites do
     member do 
@@ -27,8 +26,15 @@ Gameplaydate::Application.routes.draw do
   resources :game_ownerships, only: [:create, :destroy]
   resources :password_resets
   root to: 'static_pages#home'
+  #get '/signup',  to: 'users#new'
+  get '/signup',  to: 'users#new'          
+  get '/signup/:beta_invitation_token', to: 'users#new', :as => :beta_signup
+   #get '/signup/(:invitation_token)',  to: 'users#new'
+  
+    
 
-  get '/signup',  to: 'users#new'
+  
+ 
   get '/signin',  to: 'sessions#new'
   delete '/signout', to: 'sessions#destroy'
   
