@@ -1,0 +1,9 @@
+development:
+  beta_mode: false
+  mailer_host: "localhost:3000"
+test:
+  beta_mode: false
+  mailer_host: "localhost:3000"
+production:
+  beta_mode: true
+  mailer_host: "localhost:3000"
