@@ -1,5 +1,7 @@
 class Notifier < ActionMailer::Base
-  default :from => 'no-reply@gameplaydate.com'
+  layout 'email'
+  default :from => 'GamePlayDate.com <no-reply@gameplaydate.com>'
+  
  
   def registration_confirmation(user)
     @user = user
@@ -11,14 +13,10 @@ class Notifier < ActionMailer::Base
       mail :to => user.email, :subject => "Password Reset"
   end
   
-  def send_beta_invite(beta_invitation)
-     # subject    '#{beta_invitation.sender.name} has invited you to GamePlayDate'
-    #  recipients beta_invitation.recipient_email
-     # body       :invitation => invitation, :signup_url => signup_url
-      
+  def send_beta_invite(beta_invitation, signup_url)
       @beta_invitation = beta_invitation
       @sender = beta_invitation.sender
-      #@signup_url = signup_url
+      @signup_url = signup_url
      @subject =  "#{@sender.name} has invited you to GamePlayDate"
       mail :to => @beta_invitation.recipient_email, :subject => @subject
       @beta_invitation.update_attribute(:sent_at, Time.now)
@@ -33,6 +31,7 @@ class Notifier < ActionMailer::Base
   def accept_email(invite)
     @user = invite.user
     @organizer = invite.event.organizer
+    @event = invite.event
     mail :to => @organizer.email, :subject => "#{@user.name} has accepted your invite!"
   end
   

@@ -1,5 +1,5 @@
 class BetaInvitation < ActiveRecord::Base
-  after_create :send_email
+  #after_create :send_email
   belongs_to :sender, :class_name => 'User', inverse_of: :sent_beta_invitations
   has_one :recipient, :class_name => 'User', :foreign_key => 'beta_invitation_id'
 
@@ -9,13 +9,6 @@ class BetaInvitation < ActiveRecord::Base
 
   before_create :generate_token
   before_create :decrement_sender_count, :if => :sender
-  
-  
-  def send_email
-    if self.sender && self.recipient_email
-    Notifier.send_beta_invite(self).deliver
-   end
-  end
   
   
   

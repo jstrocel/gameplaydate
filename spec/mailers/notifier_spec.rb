@@ -1,6 +1,6 @@
 require 'spec_helper'
  
-describe Notifier do
+describe Notifier, :focus=> true do
   describe 'registration_confirmation' do
     let(:user) { FactoryGirl.create(:user) }
     let(:mail) { Notifier.registration_confirmation(user) }
@@ -28,7 +28,7 @@ describe Notifier do
     let (:host) {FactoryGirl.create(:user)}
     let (:beta_invitee_email) {"anybody@home.com"}
     let (:beta_invitation) {FactoryGirl.create(:beta_invitation, :sender=>host, :recipient_email=>beta_invitee_email)}
-    let(:mail) { Notifier.send_beta_invite(beta_invitation) }
+    let(:mail) { Notifier.send_beta_invite(beta_invitation, beta_signup_url(beta_invitation.token)) }
     
       it 'renders the subject' do
        mail.subject.should include('has invited you to GamePlayDate')
@@ -45,6 +45,10 @@ describe Notifier do
 
         it 'includes the beta inviters name' do
           mail.body.encoded.should match(host.name)
+        end
+        
+        it 'includes the signup url' do
+          mail.body.encoded.should match(beta_signup_url(beta_invitation.token))
         end
   
   end
