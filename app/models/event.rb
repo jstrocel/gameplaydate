@@ -8,6 +8,10 @@ class Event < ActiveRecord::Base
   validates :fromtime, :totime, :game_id, :organizer_id, :presence => true
   validate :cant_invite_organizer_to_event
   
+  #def invites_attributes=(attributes)
+  #  debugger
+  #   self.invites << Invite.where(attributes).first_or_initialize
+  #end
   
   def game_name
     game.try(:name)

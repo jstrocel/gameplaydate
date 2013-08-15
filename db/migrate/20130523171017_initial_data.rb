@@ -27,6 +27,8 @@ class InitialData < ActiveRecord::Migration
       t.string   "content"
     end  
     
+    
+    
     create_table "invites", :force => true do |t|
      t.integer  "event_id"
      t.integer  "user_id"
@@ -35,7 +37,9 @@ class InitialData < ActiveRecord::Migration
      t.datetime "updated_at", :null => false
      t.boolean  "accepted"
     end
+    
 
+    
 
     create_table "friendships", :force => true do |t|
      t.integer  "follower_id"

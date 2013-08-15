@@ -23,8 +23,8 @@ class EventsController < ApplicationController
   def new
     @event = current_user.hosted_events.new()
     @games = current_user.games
-    @friends = current_user.followers
-    invite = @event.invites.build    
+    @friends = current_user.followers 
+   
   end
 
   def create
@@ -41,12 +41,17 @@ class EventsController < ApplicationController
   
   def edit
     @event = Event.find(params[:id])
+     @games = current_user.games
+      @friends = current_user.followers
   end
 
   def update
+    @event = Event.find(params[:id])
+    @games = current_user.games
+      @friends = current_user.followers
+   
     if @event.update_attributes(event_params)
-      flash[:success] = "Profile updated"
-      sign_in @user
+      flash[:success] = "Event updated"
       redirect_to @event
     else
       render 'edit'
@@ -75,7 +80,7 @@ class EventsController < ApplicationController
       allowed_attributes = [ :organizer, :game_name, :game, :game_id, :maximum_players, :fromtime, 
         :"fromtime(1i)", :"fromtime(2i)", :"fromtime(3i)", :"fromtime(4i)", :"fromtime(5i)", :"totime(1i)", 
         :"totime(2i)", :"totime(3i)", :"totime(4i)", :"totime(5i)", :totime, :content, 
-        invites_attributes: [:user_id, :user, :status]]
+        invites_attributes: [:id, :user_id, :user, :status, :_destroy, :event_id, :event]]
       params.require(:event).permit(allowed_attributes)
     end
   

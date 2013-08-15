@@ -1,8 +1,0 @@
-<fieldset>
-  <%= f.label :invite %><br />
-  <p>
-    <%= f.collection_select :user_id, @friends, :id, :name, :prompt => "Select An Invitee"  %>
-  </p>
-  <%= f.check_box :_destroy %>
-  <%= f.label :_destroy, "Remove Invitee" %>
-</fieldset>

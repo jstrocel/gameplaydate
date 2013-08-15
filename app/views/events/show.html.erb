@@ -19,7 +19,7 @@
   <b>Totime:</b>
   <%= @event.totime %>
 </p>
-<% if !@event.invites.empty?%>
+<% if @event.invites%>
 <ol class="invitees">
   <%= render partial: 'invite', collection: @event.invites, :as => :invite %>
 </ol>

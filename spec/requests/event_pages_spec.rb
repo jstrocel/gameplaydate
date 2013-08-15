@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "events" do
-  
+describe "events", :js => true do
+   self.use_transactional_fixtures = false
   subject { page }
   let(:game) { FactoryGirl.create(:game)}
   let(:invitee1) {FactoryGirl.create(:user)}
@@ -13,6 +13,8 @@ describe "events" do
   before { 
     organizer.claim_game!(game)
     invitee1.follow!(organizer)
+    invitee2.follow!(organizer)
+    event.invite!(invitee1)
     }
   
   describe "Events Index page" do
@@ -43,12 +45,28 @@ describe "events" do
           it { should have_title('New Event') }
           it { should have_content('error') }
         end  
-    end
-    
+   end
+   
+   describe "create new invite form", :js => true  do
+     
+     before do
+       
+       click_link "Add Invite" 
+     end
+    it {should have_selector(".invite")}
+   end
+   
+   
+ 
      describe "with valid information" do
        
         before do
-          select invitee1.name, :from=> "event[invites_attributes][0][user_id]"
+         
+          click_link "Add Invite"
+          
+          @invitebox1 = page.find('#invite-fields').first(".invitee")[:id]
+          select invitee1.name, :from=> @invitebox1
+         
           select game.name, :from=> "event[game_id]"
         end
         
@@ -67,11 +85,66 @@ describe "events" do
     
   end  
   
-  describe "Show Event" do
-    before do
-         event.invite!(invitee1)
-         event.invite!(invitee2)
-    end
+  
+  describe "Edit" do
+
+    context "As Organizer" do
+      before do
+        sign_in organizer
+        visit edit_event_path(event)
+      end
+
+      context "no new information" do
+
+        describe "should not have errors" do
+          before { 
+          click_button "Create Event" 
+          }
+
+          it { should_not have_content('error') }
+        end
+
+        it "should not create new invites" do
+         expect {click_button "Create Event"}.to change(Invite, :count).by(0)
+        end
+      end # No New Information
+      context "adding an invitee" do
+        before do
+          if !page.has_selector?('.invitee') 
+            click_link "Add Invite" 
+          end
+          @invitebox2 = page.all('.invitee').last[:id]
+          select invitee2.name, :from=> @invitebox2
+          
+        end
+        it "should create a new invite" do
+          expect do
+            click_button "Create Event"
+            sleep(30)
+          end.to change(Invite, :count).by(1)
+        end
+      end #Adding an Invitee
+      context "removing at invitee" do
+        before do
+          
+          
+          within page.all('.invite').last do click_link "remove" end
+          
+        end
+
+        it "should delete an invite" do
+          expect do
+           click_button "Create Event"
+          end.to change(Invite, :count).by(-1)
+        end
+      end
+    end # As Organizer
+  end # Edit
+
+  
+  
+  
+  describe "Show Event", :js => false do
     
     context "As Organizer" do
       before do
@@ -95,7 +168,7 @@ describe "events" do
       
       it "should be able to accept invite" do
         expect do
-          within("div#1.rsvp"){ click_button "Accept" }
+          within("div##{@invite.id}.rsvp"){ click_button "Accept" }
            end.to change(event.invites.accepted, :count).by(1)
       end
       
@@ -111,9 +184,7 @@ describe "events" do
              end.to change(event.invites.cancelled, :count).by(1)
         end
       end
-      
     end
-    
   end
   
   

@@ -1,28 +1,31 @@
 
-
-<%= form_for(@event) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-
-
-  <p>
-    <%= f.collection_select :game_id, @games, :id, :name, :prompt => "Select A Game"  %>
-  </p>
-  
-  <%= f.fields_for :invites do |builder| %>
-       <%= render 'shared/events/invite_fields', :f => builder %>
-     <% end %>
- 
-
-  <div class="field">
-    <%= f.label :fromtime %><br />
-    <%=  f.datetime_select :fromtime %>
+<%= form_for(@event, :html => {:class => "form-horizontal span6"}) do |events_form| %>
+<fieldset>
+  <%= render 'shared/error_messages', object: events_form.object %>
+  <div class="control-group">
+    <%= events_form.label "Select A Game:"  %>
+    <%= events_form.collection_select :game_id, @games, :id, :name, :prompt => "Select A Game"  %>
   </div>
-  <div class="field">
-    <%= f.label :totime %><br />
-    <%= f.datetime_select :totime %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Create Event", class: "btn btn-large btn-primary" %>
-  </div>
+  <div id= "invite-fields" class="control-group">
+  <%= events_form.fields_for :invites do |builder| %>
+       
+       <%= render '/events/invite_fields', :f => builder %>
+  <% end %>
+     <%= link_to_add_fields "Add Invite", events_form, :invites, "btn btn-large btn-primary" %>
+ </div>
 
+  <div class="control-group">
+    <%= events_form.label "From:" %>
+    <%=  events_form.datetime_select :fromtime, ampm: true, :include_seconds => false, :class => 'datetime-select' %>
+  </div>
+  <div class="control-group">
+    <%= events_form.label "To:" %>
+    <%= events_form.datetime_select :totime, ampm: true, :include_seconds => false, :class => 'datetime-select' %>
+  </div>
+  <div class="form-actions">
+    <%= events_form.submit "Create Event", class: "btn btn-large btn-primary" %>
+  </div>
+</fieldset>
 <% end %>
+
+<%=Invite.count%>

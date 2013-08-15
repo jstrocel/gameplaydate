@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130709175451) do
+ActiveRecord::Schema.define(version: 20130809164917) do
 
   create_table "beta_invitations", force: true do |t|
     t.integer  "sender_id"
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20130709175451) do
     t.string   "content"
   end
 
+  add_index "events", ["organizer_id"], name: "index_events_on_organizer_id"
+
   create_table "friendships", force: true do |t|
     t.integer  "follower_id"
     t.integer  "followed_id"
@@ -52,6 +54,10 @@ ActiveRecord::Schema.define(version: 20130709175451) do
     t.datetime "updated_at"
   end
 
+  add_index "game_ownerships", ["game_id"], name: "index_game_ownerships_on_game_id"
+  add_index "game_ownerships", ["user_id", "game_id"], name: "index_game_ownerships_on_user_id_and_game_id", unique: true
+  add_index "game_ownerships", ["user_id"], name: "index_game_ownerships_on_user_id"
+
   create_table "games", force: true do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -68,6 +74,10 @@ ActiveRecord::Schema.define(version: 20130709175451) do
     t.boolean  "accepted"
   end
 
+  add_index "invites", ["event_id"], name: "index_invites_on_event_id"
+  add_index "invites", ["user_id", "event_id"], name: "index_invites_on_user_id_and_event_id"
+  add_index "invites", ["user_id"], name: "index_invites_on_user_id"
+
   create_table "personas", force: true do |t|
     t.integer  "game_id"
     t.integer  "user_id"
@@ -76,6 +86,10 @@ ActiveRecord::Schema.define(version: 20130709175451) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "personas", ["game_id"], name: "index_personas_on_game_id"
+  add_index "personas", ["user_id", "game_id"], name: "index_personas_on_user_id_and_game_id"
+  add_index "personas", ["user_id"], name: "index_personas_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "name"
