@@ -1,0 +1,11 @@
+<fieldset class= "invite">
+    <%if f.object.user%>
+    <%= f.object.user.name %>
+    <%else%>
+    <%= f.collection_select :user_id, @friends, :id, :name, {:prompt => "Select An Invitee"}, {:class=> "invitee"} %>
+    <%end%>
+    
+     <%= f.hidden_field :event_id %>
+     <%= f.hidden_field :_destroy %>
+<%= link_to "remove", '#', class: "remove_fields btn btn-large btn-danger" %>
+</fieldset>
