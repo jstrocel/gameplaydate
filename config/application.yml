@@ -1,5 +1,5 @@
 development:
-  beta_mode: false
+  beta_mode: true
   mailer_host: "localhost:3000"
 test:
   beta_mode: false

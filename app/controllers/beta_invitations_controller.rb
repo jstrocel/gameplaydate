@@ -9,7 +9,7 @@ class BetaInvitationsController < ApplicationController
     @beta_invitation = BetaInvitation.new(beta_invite_params)
     @beta_invitation.sender = current_user
     if @beta_invitation.save
-      Notifier.send_beta_invite(@beta_invitation, root_url).deliver
+      Notifier.send_beta_invite(@beta_invitation, beta_signup_url(beta_invitation.token)).deliver
       redirect_to root_url, :notice => "Successfully created beta invitation."
     else
       render :new
