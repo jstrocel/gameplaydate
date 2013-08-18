@@ -1,6 +1,6 @@
 <% provide(:title, 'Sign up') %>
 <h1>Sign up</h1>
-<% if CONFIG[:beta_mode]==false && @user.beta_invitation_id == nil%>
+<% if CONFIG[:beta_mode]==false or @user.beta_invitation_id%>
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@user) do |f| %>
