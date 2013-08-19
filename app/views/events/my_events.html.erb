@@ -1,0 +1,12 @@
+<% provide(:title, 'My Events') %>
+<h1>My Events</h1>
+
+
+<%= button_to 'Create New Event', new_event_path, class: "btn btn-block btn-large btn-success", :method => :get %>
+<%= button_to 'See All Events', events_path, class: "btn btn-block btn-large btn-danger", :method => :get  %>
+
+
+<ol class="events">
+   <%= render partial: 'shared/events/event', collection: @events %>
+ </ol>
+<%= will_paginate @events %>
