@@ -81,6 +81,12 @@ describe "events", :js => true do
               click_button "Create Event"
             end.to change(Invite, :count).by(1)
         end
+        
+        it "should send an email" do
+           expect do
+              click_button "Create Event"
+            end.to change(ActionMailer::Base.deliveries,:size).by(1)
+        end
       end
     
   end  

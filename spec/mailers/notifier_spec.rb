@@ -60,7 +60,7 @@ describe Notifier, :focus=> true do
     let (:invitee1) {FactoryGirl.create(:user)}
     let (:invitee2) {FactoryGirl.create(:user)}
     let (:game) {FactoryGirl.create(:game)}
-    let (:event) {host.hosted_events.build(game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now)}
+    let (:event) {host.hosted_events.create(game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now)}
     let(:mail) { Notifier.send_invite(invitee1, event) }
     
     it 'renders the subject' do

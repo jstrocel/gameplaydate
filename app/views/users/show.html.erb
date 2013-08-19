@@ -16,7 +16,7 @@
             </ol>
             <%= will_paginate @games %>
          <%elsif current_user == @user %>
-            <p> You have no games on your profile. <%=link_to "Click Here to add some." games_index_path %>
+            <p> You have no games on your profile. <%=link_to "Click Here to add some.", games_path %>
          <% end %>
          <% if @personas.any? %>
             <h3>Personas</h3>

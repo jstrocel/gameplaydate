@@ -37,6 +37,7 @@ class Notifier < ActionMailer::Base
   
   def cancel_email(invite)
      @user = invite.user
+     @event = invite.event
       @organizer = invite.event.organizer
       mail :to => @organizer.email, :subject => "#{@user.name} has cancelled."
   end
