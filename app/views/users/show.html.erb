@@ -5,11 +5,7 @@
       <h1>
         <%= gravatar_for @user %>
         <%= @user.name %>
-          <%if current_user.admin? %>
-          
-           <p><%= link_to "New Persona", new_persona_path %></p>
-           <p><%= link_to "Edit Profile", edit_user_path(@user) %></p>
-           <%end%>
+        
       </h1>
     </section>
     <section>
@@ -19,15 +15,21 @@
               <%= render @games %>
             </ol>
             <%= will_paginate @games %>
-          <% end %>
+         <%elsif current_user == @user %>
+            <p> You have no games on your profile. <%=link_to "Click Here to add some." games_index_path %>
+         <% end %>
          <% if @personas.any? %>
             <h3>Personas</h3>
             <ol class="personas">
               <%= render @personas %>
             </ol>
             <%= will_paginate @personas %>
+          <%elsif current_user == @user%>
+            You have no online game profiles.<p><%= link_to "Click Here to add some.", new_persona_path %></p>
           <% end %>
-          
+            <%if current_user == @user %>
+             <p><%= link_to "Edit Profile", edit_user_path(@user) %></p>
+             <%end%>
          
           
           

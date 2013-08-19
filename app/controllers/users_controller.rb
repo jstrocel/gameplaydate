@@ -53,7 +53,7 @@ class UsersController < ApplicationController
         sign_in @user
         Notifier.registration_confirmation(@user).deliver
         flash[:success] = "Welcome to GamePlayDate!"
-        redirect_to @user
+        redirect_to root_url
       else
         render 'new'
       end

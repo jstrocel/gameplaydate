@@ -30,6 +30,8 @@ Gameplaydate::Application.routes.draw do
   get '/signup',  to: 'users#new'          
   get '/signup/:beta_invitation_token', to: 'users#new', :as => :beta_signup
    #get '/signup/(:invitation_token)',  to: 'users#new'
+   
+   get '/my_events',  to: 'events#my_events'  
   
     
 

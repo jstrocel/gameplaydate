@@ -4,6 +4,10 @@ class EventsController < ApplicationController
   def index
     @events = Event.paginate(page: params[:page], :per_page => 10)
   end
+  
+  def my_events
+    @events = current_user.events.paginate(page: params[:page], :per_page => 10)
+  end
 
   def show
      @event = Event.find(params[:id])
