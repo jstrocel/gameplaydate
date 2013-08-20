@@ -2,7 +2,7 @@
 
 <%= render 'shared/events/events_form' %>
 
-<%= link_to "Delete Event", user, method: :delete,
+<%= link_to "Delete Event", @event, method: :delete,
                               data: { confirm: "You sure?" } %>
 
 <%= link_to 'Back', my_events_path %>
