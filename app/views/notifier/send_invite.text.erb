@@ -1,7 +1,7 @@
 Hi <%= @user.name %>,
 
 
-You have been invited to play <%= @event.game.name %> on <%= @event.game.platform %> by <%=@event.organizer.name%> from <%=@event.fromtime%> to <%=@event.totime%>. Please go to <%event_url(@event)%> to Accept this invitation.
+You have been invited to play <%= @event.game.name %> on <%= @event.game.platform %> by <%=@event.organizer.name%> from <%=@event.fromtime%> to <%=@event.totime%>. Please go to <%=event_path(@event)%> to Accept this invitation.
 
 Happy Gaming!
 

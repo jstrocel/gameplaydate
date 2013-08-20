@@ -64,7 +64,6 @@ describe Notifier, :focus=> true do
     let(:mail) { Notifier.send_invite(invitee1, event) }
     
     it 'renders the subject' do
-      #TODO refactor
      mail.subject.should include('You have been invited to play')
      mail.subject.should include(event.game.name)
     end
@@ -89,6 +88,10 @@ describe Notifier, :focus=> true do
       
       it 'includes the organizers name' do
         mail.body.encoded.should match(event.organizer.name)
+      end
+      
+      it 'includes a link to the event' do
+        mail.body.encoded.should match(event_path(event))
       end
   end
   
