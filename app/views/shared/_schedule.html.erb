@@ -1,4 +1,15 @@
   <div class="row">
+  <h1>Hosted Events</h1>
+  <ol class="events">
+     <%= render partial: 'shared/events/event', collection: @hosted_events %>
+  
+  <div class="span12 text-center">
+  <%= button_to "See all Hosted Events", my_events_path, class:"btn btn-large btn-block btn-primary" %>
+  </div>
+   </ol>
+  </div>
+  
+  <div class="row">
   <h1>Pending Events</h1>
   <ol class="events">
      <%= render partial: 'shared/events/event', collection: @pending_events %>
