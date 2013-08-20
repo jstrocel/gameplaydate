@@ -1,6 +1,10 @@
 class BetaInvitationsController < ApplicationController
   before_filter :signed_in_user
   
+  def index
+   @beta_invitations = BetaInvitation.paginate(page: params[:page])
+  end
+  
   def new
     @beta_invitation = BetaInvitation.new()
   end
