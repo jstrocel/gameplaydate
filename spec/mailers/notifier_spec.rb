@@ -1,6 +1,6 @@
 require 'spec_helper'
  
-describe Notifier, :focus=> true do
+describe Notifier do
   describe 'registration_confirmation' do
     let(:user) { FactoryGirl.create(:user) }
     let(:mail) { Notifier.registration_confirmation(user) }
