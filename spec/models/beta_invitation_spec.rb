@@ -14,12 +14,6 @@ describe BetaInvitation do
  describe 'sending an invitation' do
    
    
-   it "should notify the user through email" do
-     expect {@beta_invite.save}.to change(ActionMailer::Base.deliveries,:size).by(1)
-    end
-   
-   
-   
  end
  
 end

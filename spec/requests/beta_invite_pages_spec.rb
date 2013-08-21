@@ -31,6 +31,10 @@ describe "beta invitations" do
       it "should create a Beta Invite" do
          expect { click_button submit }.to change(BetaInvitation, :count).by(1)
        end
+      
+       it "should send an e-mail" do
+          expect { click_button submit }.to change(ActionMailer::Base.deliveries,:size).by(1)
+        end
     end
   end
 end
