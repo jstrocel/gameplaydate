@@ -91,6 +91,24 @@ describe "events", :js => true do
     
   end  
   
+  describe "My Events", :js =>false do
+     let(:event_hoster) { FactoryGirl.create(:user, :with_events) }  
+     before do
+       sign_in event_hoster
+       visit my_events_path
+     end
+     
+     it "should display the user's hosted events" do
+         event_hoster.events.limit(5).each do |item|
+             expect(page).to have_selector("li##{item.id}", text: item.game.name)
+           end  
+    end     
+         
+     
+     
+    DatabaseCleaner.clean
+  end
+  
   
   describe "Edit" do
 

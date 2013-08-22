@@ -93,6 +93,15 @@ describe Notifier do
       it 'includes a link to the event' do
         mail.body.encoded.should match(event_path(event))
       end
+      
+      it 'includes the event start time' do
+        mail.body.encoded.should match(event.fromtime.strftime("%A, %B %e %Y,%l:%M %P"))
+      end
+      
+      it 'includes the event end time' do
+        mail.body.encoded.should match(event.totime.strftime("%A, %B %e %Y,%l:%M %P"))
+      end
+      
   end
   
 end

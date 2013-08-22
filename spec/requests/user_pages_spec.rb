@@ -105,6 +105,10 @@ describe "User pages" do
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
+      
+       it "should generate an activity feed entry" do
+          expect { click_button submit }.to change(Activity, :count).by(1)
+        end
 
       describe "after saving the user" do
         before { click_button submit }

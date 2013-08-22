@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
       has_many :sent_beta_invitations, :class_name => 'BetaInvitation', :foreign_key => 'sender_id', inverse_of: :sender
       validates_presence_of :beta_invitation_id, :message => 'is required', :if => :is_beta_user?
       validates_uniqueness_of :beta_invitation_id, :if => :beta_invitation_id, :if => :is_beta_user?
+      has_many :activities
       has_many :invites, :foreign_key =>"user_id", :dependent => :destroy
       has_many :hosted_events, class_name: "Event", :foreign_key =>"organizer_id", :inverse_of => :organizer
       has_many :invited_events, class_name: "Event", through: :invites
@@ -67,7 +68,7 @@ class User < ActiveRecord::Base
                 
   def follow!(friend) 
     if !self.following?(friend)  
-     friendships.create!(followed_id: friend.id)
+     @friendship = friendships.create!(followed_id: friend.id)
     end
   end
   
@@ -133,8 +134,6 @@ class User < ActiveRecord::Base
   
 
 
-  
-  
   
   
 end

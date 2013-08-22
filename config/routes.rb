@@ -1,5 +1,7 @@
 Gameplaydate::Application.routes.draw do
 
+  resources :activities
+
   get "game_ownerships/create"
   get "game_ownerships/destroy"
   resources :games

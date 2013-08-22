@@ -4,6 +4,7 @@ class GameOwnershipsController < ApplicationController
   def create
       @game = Game.find(params[:game_ownership][:game_id])
       current_user.claim_game!(@game)
+      track_activity @game
       respond_to do |format|
         format.html { redirect_to @game }
         format.js

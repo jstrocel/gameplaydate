@@ -51,6 +51,7 @@ class UsersController < ApplicationController
     
       if @user.save
         sign_in @user
+        track_activity @user
         Notifier.registration_confirmation(@user).deliver
         flash[:success] = "Welcome to GamePlayDate!"
         redirect_to root_path

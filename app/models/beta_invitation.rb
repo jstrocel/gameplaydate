@@ -34,4 +34,5 @@ class BetaInvitation < ActiveRecord::Base
   def decrement_sender_count
     sender.decrement! :beta_invitation_limit
   end
+  
 end

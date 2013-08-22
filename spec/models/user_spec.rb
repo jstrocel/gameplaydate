@@ -23,6 +23,7 @@ describe User do
     it { should respond_to(:role)}
     it { should respond_to (:beta_invitation_id)}
     it { should respond_to (:beta_invitation_limit)}
+    it { should respond_to(:activities) }
     it { should be_valid}
     
     describe "signing up a beta_user" do

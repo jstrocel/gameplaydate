@@ -13,6 +13,7 @@ class BetaInvitationsController < ApplicationController
     @beta_invitation = BetaInvitation.new(beta_invite_params)
     @beta_invitation.sender = current_user
     if @beta_invitation.save
+      track_activity @beta_invitation
       Notifier.send_beta_invite(@beta_invitation, beta_signup_url(@beta_invitation.token)).deliver
       redirect_to new_beta_invitation_url, :notice => "Successfully created beta invitation."
     else

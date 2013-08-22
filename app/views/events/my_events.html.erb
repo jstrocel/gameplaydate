@@ -7,6 +7,6 @@
 
 
 <ol class="events">
-   <%= render partial: 'shared/events/event', collection: @events %>
+   <%= render partial: 'shared/events/event', collection: current_user.hosted_events %>
  </ol>
 <%= will_paginate @events %>

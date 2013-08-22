@@ -15,6 +15,11 @@ class EventsController < ApplicationController
      @organizer = User.find(@event.organizer_id)
   end
   
+  def hosted
+    @events = current_user.hosted_events.paginate(page: params[:page])
+  end
+  
+  
   def pending
     @events = current_user.pending_invites.paginate(page: params[:page])
   end
@@ -36,6 +41,7 @@ class EventsController < ApplicationController
     @event = current_user.hosted_events.build(event_params)
     @friends = current_user.followers
       if @event.save
+        track_activity @event
         flash[:success] = "Event Created!"
         redirect_to @event
       else
@@ -53,8 +59,9 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @games = current_user.games
       @friends = current_user.followers
-   
+       
     if @event.update_attributes(event_params)
+      track_activity @event
       flash[:success] = "Event updated"
       redirect_to @event
     else
