@@ -165,7 +165,7 @@ describe User do
       it "should have the correct number of friends" do
         @friend1.friends.count.should eq(1)
          @friend2.friends.count.should eq(1)
-    
+         
         
       end
       

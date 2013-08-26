@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
        has_many :games, through: :gameownerships
        has_many :personas
        has_many :friendships, foreign_key: "follower_id", dependent: :destroy
-       has_many :followed_users, through: :friendships, source: :followed
+       has_many :followed_users, class_name: "User", through: :friendships, source: :followed
        has_many :reverse_friendships, foreign_key: "followed_id", class_name:  "Friendship", dependent:   :destroy
        has_many :followers, through: :reverse_friendships, source: :follower
        
@@ -41,7 +41,21 @@ class User < ActiveRecord::Base
   end
   
   def friends
-      followers.joins(:friendships).where("friendships.follower_id = users.id and friendships.followed_id = :self_id", :self_id => id).uniq.load
+     followed_users.joins(:friendships).where("friendships.follower_id = :self_id and friendships.followed_id = users.id", :self_id => id).uniq.load
+      #followers.joins(:friendships).where("friendships.follower_id = users.id and friendships.followed_id = :self_id", :self_id => id).uniq.load
+      
+  end
+  
+  def friends_with?(friend)
+    friends.includes(friend)
+  end
+  
+  def friend_requests
+    followers-followed_users
+  end
+  
+  def pending_friend_requests
+      followed_users - followers
   end
   
 

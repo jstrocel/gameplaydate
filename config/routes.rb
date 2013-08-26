@@ -9,7 +9,7 @@ Gameplaydate::Application.routes.draw do
   resources :beta_invitations
   resources :users do
     member do
-      get :following, :followers
+      get :following, :followers, :friend_requests
     end
   end
   resources :events do

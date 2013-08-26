@@ -246,10 +246,12 @@ describe "User pages" do
 
      describe "follow/unfollow buttons" do
         let(:other_user) { FactoryGirl.create(:user) }
-        before { sign_in user }
+        
 
         describe "following a user" do
-          before { visit user_path(other_user) }
+          before { 
+            sign_in user
+            visit user_path(other_user) }
 
           it "should increment the followed user count" do
              expect do
@@ -265,13 +267,51 @@ describe "User pages" do
 
           describe "toggling the button" do
             before { click_button "Add Friend" }
-            it { should have_xpath("//input[@value='Unfriend']") }
+            it { should have_xpath("//input[@value='Friendship Requested']") }
           end
+        end
+        
+        
+        describe "accepting a friendship" do
+          before do 
+            user.follow!(other_user)
+            sign_in other_user
+            visit friend_requests_user_path(other_user)
+         
+          end 
+          
+            it { should have_content(user.name)} 
+          
+          
+          it "should increment the user's follower's count" do
+            expect do
+                click_button "Accept"
+              end.to change(user.followers, :count).by(1)
+          end
+          
+          it "should increment both user's friends count" do
+            expect do
+                click_button "Accept"
+              end.to change(user.friends, :count).by(1)
+          end
+          
+          
+           it "should increment other user's friends count" do
+              expect do
+                  click_button "Accept"
+                end.to change(other_user.friends, :count).by(1)
+            end
+          
+          
+          
+          
         end
 
         describe "unfollowing a user" do
           before do
             user.follow!(other_user)
+            other_user.follow!(user)
+            sign_in user
             visit user_path(other_user)
           end
 

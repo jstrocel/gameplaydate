@@ -8,18 +8,42 @@
   
   <% unless current_user?(user) %>
     <div id="friend_form<%=user.id%>">
-    <% if current_user.following?(user) %>
+      
+      
+      
+    <% if current_user.following?(user)%>
+     <% if user.following?(current_user) %>
       <%= form_for(current_user.friendships.find_by(followed_id: user),
                    html: { method: :delete },
                    remote: true) do |f| %>
-        <%= f.submit "Unfriend", class: "btn btn-large" %>
+        <%= f.submit "Unfriend", class: "btn btn-large btn-danger" %>
+        <% end %>
+      <%else %>
+        <%= form_for(current_user.friendships.find_by(followed_id: user),
+                     html: { method: :delete },
+                     remote: true) do |f| %>
+          <%= f.submit "Friendship Requested", class: "btn btn-large" %>
+        <% end %>
+      <%end%>  
+    <%else%>
+    <% if user.following?(current_user) %>
+    <%= form_for(current_user.friendships.build(followed_id: user.id),
+                 remote: true) do |f| %>
+      <div><%= f.hidden_field :followed_id %></div>
+      <%= f.submit "Accept", class: "btn btn-large btn-primary" %>
       <% end %>
-    <% else %>
-      <%= form_for(current_user.friendships.build(followed_id: user.id),
-                   remote: true) do |f| %>
-        <div><%= f.hidden_field :followed_id %></div>
-        <%= f.submit "Add Friend", class: "btn btn-large btn-primary" %>
-      <% end %>
+      <%else%>
+            <%= form_for(current_user.friendships.build(followed_id: user.id),
+                         remote: true) do |f| %>
+              <div><%= f.hidden_field :followed_id %></div>
+              <%= f.submit "Add Friend", class: "btn btn-large btn-success" %>
+      <%end%>
+    <%end%>
+
+      
+      
+      
+      
     <% end %>
     </div>
   <% end %>

@@ -21,11 +21,12 @@ describe "events", :js => true do
     before do
       sign_in organizer 
       visit events_path 
+      
     end
     
-
+    
     it { should have_selector('h1',    text: 'Events') }
-    it { should have_title('Events') }
+   
   end
   
   describe "New Event" do
@@ -144,7 +145,7 @@ describe "events", :js => true do
         it "should create a new invite" do
           expect do
             click_button "Create Event"
-            sleep(30)
+            sleep(5)
           end.to change(Invite, :count).by(1)
         end
       end #Adding an Invitee

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, 
                 only: [:index, :edit, :update, :destroy, :following, :followers]
-  before_filter :correct_user,   only: [:edit, :update]
+  before_filter :correct_user,   only: [:edit, :update, :friend_requests]
   before_filter :admin_user,     only: :destroy
   before_filter :skip_password_attribute, only: :update
   
@@ -93,6 +93,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'
+  end
+  
+  def friend_requests
+    @user = User.find(params[:id])
+     @potential_friends = @user.friend_requests
   end
 
   
