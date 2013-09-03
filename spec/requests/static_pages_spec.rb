@@ -12,8 +12,11 @@ describe "Static pages" do
     
     describe "for signed in users" do
      let(:user) { FactoryGirl.create(:user, :with_events) }  
+     let(:friend_requester) { FactoryGirl.create(:user, :with_events) } 
      before{
+       friend_requester.follow!(user)
        sign_in user
+       
        visit root_path
      }  
      
@@ -27,6 +30,11 @@ describe "Static pages" do
         end
          
      end
+     
+     it"should display the user's friend requests" do
+      expect(page).to have_selector(".friend_requests_number", text: user.friend_requests.count )
+    end
+     
      
     
       
