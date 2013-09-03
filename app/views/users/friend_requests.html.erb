@@ -1,5 +1,5 @@
-<%if @potential_friends%>
+<%if @potential_friends.count > 0%>
  <%=render partial: 'user', collection: @potential_friends %>
 <%else%>
- You have no friend requests. <%=link_to "Go make some friends now!" users_path%>
+ You have no friend requests. <%=link_to "Go make some friends now!", users_path%>
 <%end%>
