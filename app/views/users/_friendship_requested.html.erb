@@ -1,0 +1,5 @@
+<%= form_for(current_user.friendships.find_by(followed_id: @user),
+             html: { method: :delete },
+             remote: true) do |f| %>
+  <%= f.submit "Friendship Requested", class: "btn btn-large" %>
+<% end %>
