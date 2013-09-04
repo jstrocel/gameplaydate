@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "User pages" do
+describe "User pages", :focus => :true do
 
   subject { page }
  
@@ -302,7 +302,11 @@ describe "User pages" do
                 end.to change(other_user.friends, :count).by(1)
             end
           
-          
+          it "should generate a user activity" do
+                 expect do
+                      click_button "Accept"
+                    end.to change(Activity, :count).by(1)
+          end
           
           
         end
