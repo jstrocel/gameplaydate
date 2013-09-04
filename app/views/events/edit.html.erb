@@ -1,8 +1,9 @@
 <h1>Editing Event</h1>
 
 <%= render 'shared/events/events_form' %>
-
+<%if @event.organizer == current_user or current_user.role == "admin"%>
 <%= link_to "Delete Event", @event, method: :delete,
-                              data: { confirm: "You sure?" } %>
+                              data: { confirm: "You sure?" }, class: "btn btn-danger"%>
+<%end%>
 
 <%= link_to 'Back', my_events_path %>

@@ -25,6 +25,9 @@
 </ol>
 <%end%>
 
-
+<%if @event.organizer == current_user or current_user.role == "admin"%>
+<%= link_to "Delete Event", @event, method: :delete,
+                              data: { confirm: "You sure?" }, class: "btn btn-danger"%>
+<%end%>
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
