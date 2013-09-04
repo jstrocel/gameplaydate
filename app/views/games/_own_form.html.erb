@@ -1,5 +1,5 @@
 
-  <div id="own_form">
+  <div id="own_form<%=@game.id%>">
   <% if current_user.own_game?(@game) %>
     <%= render 'unclaim' %>
   <% else %>
