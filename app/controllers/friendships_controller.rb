@@ -4,6 +4,11 @@ class FriendshipsController < ApplicationController
   def create
     @user = User.find(params[:friendship][:followed_id])
     current_user.follow!(@user)
+    if @user.following?(current_user)
+      FriendNotify.accept_friend_request(current_user, @user).deliver
+    else
+      FriendNotify.friend_request(current_user, @user).deliver
+    end
     track_activity @user
     respond_to do |format|
       format.html { redirect_to @user }

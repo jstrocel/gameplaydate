@@ -166,32 +166,8 @@ describe "User pages", :focus => :true do
           it { should have_selector('div.alert.alert-success', text: 'Welcome') }
           it { should have_link('Sign out') }
         end
-      end
-
-      
-    
-
-   
+      end   
   end
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   describe "profile page" do
@@ -235,11 +211,6 @@ describe "User pages", :focus => :true do
       
     end
 
-  /  describe "invites" do
-      it { should have_content(invite1.content) }
-      it { should have_content(invite2.content) }
-      it { should have_content(user.invitees.count) }
-    end/
 
     it { should have_selector('h1',    text: user.name) }
     it { should have_title(user.name) }
@@ -269,6 +240,15 @@ describe "User pages", :focus => :true do
             before { click_button "Add Friend" }
             it { should have_xpath("//input[@value='Friendship Requested']") }
           end
+          
+             it "should generate a user activity" do
+                     expect do
+                          click_button "Add Friend"
+                        end.to change(Activity, :count).by(1)
+              end
+              it "should send an e-mail" do
+                  expect { click_button "Add Friend" }.to change(ActionMailer::Base.deliveries,:size).by(1)
+                end
         end
         
         
@@ -307,6 +287,9 @@ describe "User pages", :focus => :true do
                       click_button "Accept"
                     end.to change(Activity, :count).by(1)
           end
+           it "should send an e-mail" do
+              expect { click_button "Accept" }.to change(ActionMailer::Base.deliveries,:size).by(1)
+            end
           
           
         end
