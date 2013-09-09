@@ -1,6 +1,7 @@
 require 'spec_helper'
 
-describe "User pages", :focus => :true do
+describe "User pages", :focus =>true do
+
 
   subject { page }
  
@@ -241,14 +242,22 @@ describe "User pages", :focus => :true do
             it { should have_xpath("//input[@value='Friendship Requested']") }
           end
           
-             it "should generate a user activity" do
-                     expect do
-                          click_button "Add Friend"
-                        end.to change(Activity, :count).by(1)
-              end
-              it "should send an e-mail" do
-                  expect { click_button "Add Friend" }.to change(ActionMailer::Base.deliveries,:size).by(1)
-                end
+          it "should generate a user activity" do
+                 expect do
+                      click_button "Add Friend"
+                    end.to change(Activity, :count).by(1)
+          end
+          describe "should send an e-mail" do
+            before do
+              ResqueSpec.reset!  
+              click_button "Add Friend"
+            end
+            
+              subject { FriendNotify }
+              it { should have_queue_size_of(1) }
+              it { should have_queued(:friend_request, user.id, other_user.id) }
+            
+          end
         end
         
         
@@ -287,9 +296,20 @@ describe "User pages", :focus => :true do
                       click_button "Accept"
                     end.to change(Activity, :count).by(1)
           end
-           it "should send an e-mail" do
-              expect { click_button "Accept" }.to change(ActionMailer::Base.deliveries,:size).by(1)
-            end
+   
+         describe "should send an e-mail" do
+          before do
+            ResqueSpec.reset!  
+            click_button "Accept"
+            
+          end
+
+            subject { FriendNotify }
+            it { should have_queue_size_of(1) }
+            
+            it { should have_queued(:accept_friend_request, user.id, other_user.id) }
+
+         end
           
           
         end

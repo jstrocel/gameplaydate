@@ -5,9 +5,9 @@ class FriendshipsController < ApplicationController
     @user = User.find(params[:friendship][:followed_id])
     current_user.follow!(@user)
     if @user.following?(current_user)
-      FriendNotify.accept_friend_request(current_user, @user).deliver
+      FriendNotify.accept_friend_request(@user.id, current_user.id ).deliver
     else
-      FriendNotify.friend_request(current_user, @user).deliver
+      FriendNotify.friend_request(current_user.id, @user.id).deliver
     end
     track_activity @user
     respond_to do |format|

@@ -22,7 +22,8 @@ gem 'less', '2.3.2'
 gem 'less-rails', '2.3.3'
 gem 'jbuilder', '1.0.2'
 
-
+gem 'resque'
+gem 'resque_mailer'
 
 gem 'debugger'
 
@@ -44,6 +45,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'resque_spec'
   gem 'capybara', '2.1.0'
   gem 'capybara-webkit'
   gem 'selenium-webdriver'

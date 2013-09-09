@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Activity Feed pages", :focus => true do
+describe "Activity Feed pages" do
   let (:admin_user) {FactoryGirl.create(:admin)}
   let (:friend_requester) {FactoryGirl.create(:user)}
   let (:friend_accepter) {FactoryGirl.create(:user)}
