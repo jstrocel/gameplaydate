@@ -3,7 +3,8 @@ class Notifier < AsyncMailer
   default :from => 'GamePlayDate.com <no-reply@gameplaydate.com>'
   
  
-  def registration_confirmation(user)
+  def registration_confirmation(user_id)
+    user = User.find(user_id)
     @user = user
     mail(:to => "#{user.name} <#{user.email}>", :subject => "Welcome to GamePlayDate!")
   end
