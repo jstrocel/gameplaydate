@@ -53,7 +53,7 @@ class UsersController < ApplicationController
         sign_in @user
         track_activity @user
         #Notifier.registration_confirmation(@user).deliver
-        Notifier.registration_confirmation(@user.name, @user.email).deliver
+        Notifier.registration_confirmation(@user).deliver
         flash[:success] = "Welcome to GamePlayDate!"
         redirect_to root_path
       else
