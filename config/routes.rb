@@ -23,6 +23,7 @@ Gameplaydate::Application.routes.draw do
      post :accept, :cancel
     end
   end
+  mount Resque::Server, :at => "/resque"
   resources :sessions, only: [:new, :create, :destroy]
   resources :friendships, only: [:create, :destroy]
   resources :game_ownerships, only: [:create, :destroy]

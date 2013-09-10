@@ -22,7 +22,7 @@ gem 'less', '2.3.2'
 gem 'less-rails', '2.3.3'
 gem 'jbuilder', '1.0.2'
 
-gem 'resque', "~> 1.22.0"
+gem 'resque', "~> 1.22.0", :require => 'resque/server'
 gem 'resque_mailer'
 
 gem 'debugger'
