@@ -3,7 +3,7 @@ require File.expand_path('../application', __FILE__)
 
 # Initialize the rails application
 Gameplaydate::Application.initialize!
-
+/
 ActionMailer::Base.smtp_settings = {
   :address              => "mail.gameplaydate.com",
   :port                 => 587,
@@ -23,4 +23,3 @@ ActionMailer::Base.smtp_settings = {
   :domain         => 'heroku.com',
   :enable_starttls_auto => true
 }
-/
