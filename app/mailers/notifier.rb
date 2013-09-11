@@ -6,7 +6,7 @@ class Notifier < AsyncMailer
   def registration_confirmation(user_id)
     user = User.find(user_id)
     @user = user
-    Rails.logger.info "sending registration mail"
+    puts "sending registration mail"
     mail(:to => "#{user.name} <#{user.email}>", :subject => "Welcome to GamePlayDate!")
   end
   
