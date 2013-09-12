@@ -4,6 +4,8 @@ ruby '2.0.0'
 
 gem 'rails', '4.0.0.rc1'
 
+gem 'unicorn'
+
 gem 'bcrypt-ruby', '3.0.1'
 gem 'bootstrap-sass', '2.3.1.0'
 gem 'will_paginate', '3.0.4'
@@ -24,6 +26,11 @@ gem 'jbuilder', '1.0.2'
 
 gem 'resque', "~> 1.22.0", :require => 'resque/server'
 gem 'resque_mailer'
+gem 'sidekiq'
+
+gem 'sinatra', require: false
+gem 'slim'
+
 
 gem 'debugger'
 
@@ -45,6 +52,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'rspec-sidekiq'
   gem 'resque_spec'
   gem 'capybara', '2.1.0'
   gem 'capybara-webkit'

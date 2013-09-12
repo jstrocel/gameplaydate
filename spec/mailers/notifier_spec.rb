@@ -1,18 +1,10 @@
 require 'spec_helper'
  
-describe Notifier, :focus=> true do
+describe Notifier do
   describe 'registration_confirmation' do
     let(:user) { FactoryGirl.create(:user) }
     let(:mail) { Notifier.registration_confirmation(user.id) }
     
-    before do
-      ResqueSpec.reset!
-      mail.deliver
-    end
-    subject { described_class }
-    it { should have_queue_size_of(1) }
-    it { should have_queued(:registration_confirmation, user.id) }
- 
     it 'renders the subject' do
      mail.subject.should == 'Welcome to GamePlayDate!'
     end
@@ -28,26 +20,16 @@ describe Notifier, :focus=> true do
     it 'assigns @name' do
       mail.body.encoded.should match(user.name)
     end
+    
+    
+    
   end
   
   describe 'password_reset' do
     let(:user) { FactoryGirl.create(:user) }
     let(:mail) { Notifier.password_reset(user.id) }
-    
-    before do
-      ResqueSpec.reset!
-      mail.deliver
-    end
-    subject { described_class }
-    it { should have_queue_size_of(1) }
-    it { should have_queued(:password_reset, user.id) }      
+         
   end
-  
-  
-  
-  
-  
-  
   
   describe 'send_beta_invite' do
     let (:host) {FactoryGirl.create(:user)}
@@ -55,14 +37,7 @@ describe Notifier, :focus=> true do
     let (:beta_invitation) {FactoryGirl.create(:beta_invitation, :sender=>host, :recipient_email=>beta_invitee_email)}
     let(:mail) { Notifier.send_beta_invite(beta_invitation.id) }
     
-    before do
-      ResqueSpec.reset!
-      mail.deliver
-    end
-    subject { described_class }
-    it { should have_queue_size_of(1) }
-    it { should have_queued(:send_beta_invite, beta_invitation.id) }
-    
+   
     
       it 'renders the subject' do
        mail.subject.should include('has invited you to GamePlayDate')
@@ -97,15 +72,7 @@ describe Notifier, :focus=> true do
     let (:event) {host.hosted_events.create(game: game, fromtime: 2.hours.from_now, totime: 3.hours.from_now)}
     let(:mail) { Notifier.send_invite(invitee1.id, event.id) }
     
-    before do
-      ResqueSpec.reset!
-      mail.deliver
-    end
-    
-    subject { described_class }
-    it { should have_queue_size_of(1) }
-    it { should have_queued(:send_invite, invitee1.id, event.id) }
-    
+ 
     it 'renders the subject' do
      mail.subject.should include('You have been invited to play')
      mail.subject.should include(event.game.name)

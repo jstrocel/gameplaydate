@@ -1,7 +1,9 @@
+require 'sidekiq/web'
+
 Gameplaydate::Application.routes.draw do
-
+  
   resources :activities
-
+  mount Sidekiq::Web, at: "/sidekiq"
   get "game_ownerships/create"
   get "game_ownerships/destroy"
   resources :games

@@ -19,7 +19,7 @@ class Invite < ActiveRecord::Base
   
   def send_email
     if self.user && self.event
-     Notifier.send_invite(self.user, self.event).deliver
+     Notifier.delay.send_invite(self.user, self.event)
    end
   end
   

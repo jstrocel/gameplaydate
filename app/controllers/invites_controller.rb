@@ -4,7 +4,7 @@ class InvitesController < ApplicationController
   def accept
       @invite = Invite.find_by(id: params[:id])
       if @invite.update_attributes(:status => 'accepted')
-      Notifier.accept_email(@invite).deliver
+      Notifier.delay.accept_email(@invite)
         flash[:success] = "Invite Accepted"
         respond_to do |format|
           format.html { redirect_to :back }
@@ -18,7 +18,7 @@ class InvitesController < ApplicationController
   def cancel
        @invite = Invite.find_by(id: params[:id])
         @invite.update_attributes(:status => 'cancelled')
-        Notifier.cancel_email(@invite).deliver
+        Notifier.delay.cancel_email(@invite)
           flash[:success] = "Invite Cancelled"
           respond_to do |format|
             format.html { redirect_to :back }

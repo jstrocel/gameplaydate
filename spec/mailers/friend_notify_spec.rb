@@ -1,6 +1,6 @@
 require 'spec_helper'
  
-describe FriendNotify, :focus =>true do
+describe FriendNotify do
   
     let(:sender) { FactoryGirl.create(:user) }
      let(:accepter) { FactoryGirl.create(:user) }
@@ -8,14 +8,8 @@ describe FriendNotify, :focus =>true do
   
   describe "#friend_request" do
      let(:mail) { FriendNotify.friend_request(sender.id, accepter.id) }
-    before do
-      ResqueSpec.reset!
-      mail.deliver
-    end
+  
 
-    subject { described_class }
-    it { should have_queue_size_of(1) }
-    it { should have_queued(:friend_request, sender.id, accepter.id) }
        it 'renders the subject' do
          mail.subject.should include('has requested to be your friend on GamePlayDate!')
          mail.subject.should include(sender.name)
@@ -39,17 +33,15 @@ describe FriendNotify, :focus =>true do
     
   end
   
+
+  
+
+  
+  
+  
   describe 'accept_friend_request' do
     let(:mail) { FriendNotify.accept_friend_request(sender.id, accepter.id) }
-      before do
-        ResqueSpec.reset!
-        mail.deliver
-      end
-  
-      subject { described_class }
-      it { should have_queue_size_of(1) }
-      it { should have_queued(:accept_friend_request, sender.id, accepter.id) }
- 
+
  
     it 'renders the subject' do
        mail.subject.should include('has accepted your friend request on GamePlaydate!')

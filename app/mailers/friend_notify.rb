@@ -1,4 +1,4 @@
-class FriendNotify < AsyncMailer
+class FriendNotify < ActionMailer::Base
   layout 'email'
   default :from => 'GamePlayDate.com <no-reply@gameplaydate.com>'
   
