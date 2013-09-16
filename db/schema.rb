@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130821165955) do
+ActiveRecord::Schema.define(version: 20130913205457) do
 
   create_table "activities", force: true do |t|
     t.integer  "user_id"
@@ -102,6 +102,13 @@ ActiveRecord::Schema.define(version: 20130821165955) do
   add_index "personas", ["game_id"], name: "index_personas_on_game_id"
   add_index "personas", ["user_id", "game_id"], name: "index_personas_on_user_id_and_game_id"
   add_index "personas", ["user_id"], name: "index_personas_on_user_id"
+
+  create_table "reminders", force: true do |t|
+    t.integer  "event_id"
+    t.datetime "send_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"
