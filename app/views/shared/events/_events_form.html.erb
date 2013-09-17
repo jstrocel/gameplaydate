@@ -7,11 +7,21 @@
     <%= events_form.collection_select :game_id, @games, :id, :name, :prompt => "Select A Game"  %>
   </div>
   <div id= "invite-fields" class="control-group">
+  <%= events_form.label "Invitees:"  %>
   <%= events_form.fields_for :invites do |builder| %>
        
        <%= render '/events/invite_fields', :f => builder %>
   <% end %>
-     <%= link_to_add_fields "Add Invite", events_form, :invites, "btn btn-large btn-primary" %>
+     <%= link_to_add_fields "Add Invite", events_form, :invites, "btn btn-primary" %>
+ </div>
+ 
+  <div id= "reminder-fields" class="control-group">
+     <%= events_form.label "Reminders:"  %>
+  <%= events_form.fields_for :reminders do |builder| %>
+       
+       <%= render '/events/reminder_fields', :f => builder %>
+  <% end %>
+     <%= link_to_add_fields "Add Reminder", events_form, :reminders, "btn btn-primary" %>
  </div>
 
   <div class="control-group">

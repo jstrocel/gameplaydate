@@ -33,7 +33,8 @@ class EventsController < ApplicationController
     @event = current_user.hosted_events.new()
     @games = current_user.games
     @friends = current_user.followers 
-   
+    @invite = @event.invites.new()
+    @reminder = @event.reminders.new()
   end
 
   def create
@@ -91,7 +92,8 @@ class EventsController < ApplicationController
       allowed_attributes = [ :organizer, :game_name, :game, :game_id, :maximum_players, :fromtime, 
         :"fromtime(1i)", :"fromtime(2i)", :"fromtime(3i)", :"fromtime(4i)", :"fromtime(5i)", :"totime(1i)", 
         :"totime(2i)", :"totime(3i)", :"totime(4i)", :"totime(5i)", :totime, :content, 
-        invites_attributes: [:id, :user_id, :user, :status, :_destroy, :event_id, :event]]
+        invites_attributes: [:id, :user_id, :user, :status, :_destroy, :event_id, :event],
+        reminders_attributes: [:id, :event_id, :_destroy, :event, :time_number, :time_unit]]
       params.require(:event).permit(allowed_attributes)
     end
   

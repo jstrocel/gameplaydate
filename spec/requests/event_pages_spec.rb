@@ -63,7 +63,7 @@ describe "events", :js => true do
        
         before do
          
-          click_link "Add Invite"
+          #click_link "Add Invite"
           
           @invitebox1 = page.find('#invite-fields').first(".invitee")[:id]
           select invitee1.name, :from=> @invitebox1
@@ -82,6 +82,14 @@ describe "events", :js => true do
               click_button "Create Event"
             end.to change(Invite, :count).by(1)
         end
+        
+        it "should create an Reminder" do
+           expect do
+              click_button "Create Event"
+            end.to change(Reminder, :count).by(1)
+        end
+        
+        
         
         it "should send an email" do
            expect do

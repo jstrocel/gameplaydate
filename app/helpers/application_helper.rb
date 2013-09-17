@@ -8,6 +8,15 @@ module ApplicationHelper
      end
      link_to(name, '#', class: "add_fields #{linkclass}", data: {id: id, fields: fields.gsub("\n", "")})
    end
+   
+  def select_time_units
+    [
+         ['minutes', 'minutes'],
+         ['hours', 'hours'],
+         ['days', 'days'],
+         ['weeks', 'weeks']
+    ]
+  end
 
   # Returns the full title on a per-page basis.
   def full_title(page_title)
