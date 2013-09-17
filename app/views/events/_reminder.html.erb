@@ -1,0 +1,3 @@
+<li id="<%=reminder.id%>">
+ There will be an e-mail reminder <%= distance_of_time_in_words(reminder.send_time, reminder.event.fromtime) %> before the event.
+</li>
