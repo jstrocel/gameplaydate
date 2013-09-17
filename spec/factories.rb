@@ -16,6 +16,7 @@ FactoryGirl.define do
    password "foobar"
    password_confirmation "foobar"
    beta_invitation_limit 5
+   time_zone 'Pacific Time (US & Canada)'
    factory :admin do
      admin true
      role "admin"

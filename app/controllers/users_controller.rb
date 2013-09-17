@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_filter :correct_user,   only: [:edit, :update, :friend_requests]
   before_filter :admin_user,     only: :destroy
   before_filter :skip_password_attribute, only: :update
+  around_filter :user_time_zone, if: :current_user
   
   def index
     @users = User.paginate(page: params[:page])
@@ -108,7 +109,7 @@ class UsersController < ApplicationController
   
       def user_params
       
-          allowed_attributes = [ :name, :email, :friend_ids, :pending_friend_ids, :password, :password_confirmation, :user, :beta_invitation_token]
+          allowed_attributes = [ :name, :email, :friend_ids, :pending_friend_ids, :password, :password_confirmation, :user, :beta_invitation_token, :time_zone]
         params.require(:user).permit(allowed_attributes)
       end
       
@@ -128,4 +129,8 @@ class UsersController < ApplicationController
      def admin_user
        redirect_to(root_url) unless current_user.admin?
      end
+     
+     def user_time_zone(&block)
+        Time.use_zone(current_user.time_zone, &block)
+      end
 end

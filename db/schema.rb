@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130913205457) do
+ActiveRecord::Schema.define(version: 20130917221253) do
 
   create_table "activities", force: true do |t|
     t.integer  "user_id"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 20130913205457) do
     t.datetime "password_reset_sent_at"
     t.integer  "beta_invitation_id"
     t.integer  "beta_invitation_limit",  default: 0
+    t.string   "time_zone"
   end
 
 end

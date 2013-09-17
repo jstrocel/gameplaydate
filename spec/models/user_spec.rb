@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'pp'
 
 describe User do
-  before { @user = User.new(name: "Example User", email: "user@example.com", password: "foobar", password_confirmation: "foobar") }
+  before { @user = User.new(name: "Example User", email: "user@example.com", password: "foobar", password_confirmation: "foobar", time_zone:'Pacific Time (US & Canada)') }
 
     subject { @user }
 
@@ -21,6 +21,7 @@ describe User do
     it { should respond_to(:hosted_events)}
     it { should respond_to(:events)}
     it { should respond_to(:role)}
+    it { should respond_to(:time_zone)}
     it { should respond_to (:beta_invitation_id)}
     it { should respond_to (:beta_invitation_limit)}
     it { should respond_to(:activities) }

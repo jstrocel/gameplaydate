@@ -19,6 +19,9 @@
 
       <%= f.label :password_confirmation, "Confirmation" %>
       <%= f.password_field :password_confirmation %>
+      
+      <%= f.label :time_zone %><br />
+      <%= f.time_zone_select :time_zone %>
 
       <%= f.submit "Create my account", class: "btn btn-large btn-primary" %>
     <% end %>

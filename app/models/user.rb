@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
       validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
                         uniqueness: { case_sensitive: false }
                         
+      validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.zones_map(&:name)
   def is_beta_user?
     self.role == 'beta_user'
   end

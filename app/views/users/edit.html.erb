@@ -18,9 +18,11 @@
 
       <%= f.label :password_confirmation, "Confirm Password" %>
       <%= f.password_field :password_confirmation %>
-      
+      <%= f.label :time_zone %><br />
+       <%= f.time_zone_select :time_zone %>
+      <% if current_user.role == "admin"%>
       <%= f.collection_select :role, User::ROLES, :to_s, :humanize %>
-
+      <%end%>
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
     <% end %>
 
