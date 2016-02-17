@@ -9,7 +9,7 @@ ActionMailer::Base.smtp_settings = {
   :port                 => 587,
   :domain               => "gameplaydate.com",
   :user_name            => "no-reply@gameplaydate.com",
-  :password             => "wo4ghu4luru5to",
+  :password             => "",
   :authentication       => :login,
   :enable_starttls_auto => false
 }
@@ -19,7 +19,7 @@ ActionMailer::Base.smtp_settings = {
   :port           => '587',
   :authentication => :plain,
   :user_name      => 'jtstrocel',
-  :password       => 'sha0roth6tu8gi',
+  :password       => '',
   :domain         => 'heroku.com',
   :enable_starttls_auto => true
 }
